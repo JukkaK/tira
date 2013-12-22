@@ -11,10 +11,7 @@ package fi.tiralabra.astar;
  * @author Jukka Koskelin
  */
 public class Noodi {
-    
-    /* Liikkumisen kustannus */
-    protected static final int LIIKKUMINEN = 10;
-    
+        
     private int xPositio;
     private int yPositio;
     
@@ -35,11 +32,11 @@ public class Noodi {
      * @param xPositio
      * @param yPositio 
      */
-<span class="fc" id="L38">    public Noodi(int xPositio, int yPositio){</span>
-<span class="fc" id="L39">        this.xPositio = xPositio;</span>
-<span class="fc" id="L40">        this.yPositio = yPositio;</span>
-<span class="fc" id="L41">        this.kuljettava = true;</span>
-<span class="fc" id="L42">    }</span>
+<span class="fc" id="L35">    public Noodi(int xPositio, int yPositio){</span>
+<span class="fc" id="L36">        this.xPositio = xPositio;</span>
+<span class="fc" id="L37">        this.yPositio = yPositio;</span>
+<span class="fc" id="L38">        this.kuljettava = true;</span>
+<span class="fc" id="L39">    }</span>
     
     /**
      * Asettaa Noodille annetut koordinaatit.
@@ -47,16 +44,16 @@ public class Noodi {
      * @param yPositio 
      */
     public void AsetaKoordinaatit(int xPositio, int yPositio){
-<span class="nc" id="L50">        this.xPositio = xPositio;</span>
-<span class="nc" id="L51">        this.yPositio = yPositio;</span>
-<span class="nc" id="L52">    }</span>
+<span class="nc" id="L47">        this.xPositio = xPositio;</span>
+<span class="nc" id="L48">        this.yPositio = yPositio;</span>
+<span class="nc" id="L49">    }</span>
     
     /**
      * 
      * @return xPositio
      */
     public int getxPositio(){
-<span class="fc" id="L59">        return this.xPositio;</span>
+<span class="fc" id="L56">        return this.xPositio;</span>
     }
     
     /**
@@ -64,7 +61,7 @@ public class Noodi {
      * @return yPositio
      */
     public int getyPositio(){
-<span class="fc" id="L67">        return this.yPositio;</span>
+<span class="fc" id="L64">        return this.yPositio;</span>
     }
     
     /**
@@ -72,7 +69,7 @@ public class Noodi {
      * @return Jos Noodi on kuljettava, palauttaa true
      */
     public boolean getKuljettava(){
-<span class="fc" id="L75">        return this.kuljettava;</span>
+<span class="fc" id="L72">        return this.kuljettava;</span>
     }
     
     /**
@@ -80,15 +77,15 @@ public class Noodi {
      * @param kuljettava 
      */
     public void setKuljettava(boolean kuljettava){
-<span class="fc" id="L83">        this.kuljettava = kuljettava;</span>
-<span class="fc" id="L84">    }</span>
+<span class="fc" id="L80">        this.kuljettava = kuljettava;</span>
+<span class="fc" id="L81">    }</span>
     
     /**
      * 
      * @return edellinen Noodi
      */
     public Noodi getEdellinenNoodi(){
-<span class="fc" id="L91">        return this.edellinenNoodi;</span>
+<span class="fc" id="L88">        return this.edellinenNoodi;</span>
     }
     
     /**
@@ -96,15 +93,15 @@ public class Noodi {
      * @param noodi 
      */
     public void setEdellinenNoodi(Noodi noodi){
-<span class="fc" id="L99">        this.edellinenNoodi = noodi;</span>
-<span class="fc" id="L100">    }</span>
+<span class="fc" id="L96">        this.edellinenNoodi = noodi;</span>
+<span class="fc" id="L97">    }</span>
     
     /**
      * 
      * @return tehdyn matkan ja jäljellä olevan matkan arvioitu summa
      */
     public int getKokoMatka () {
-<span class="nc" id="L107">        return this.matkaJaljella + this.matkaTehty;</span>
+<span class="nc" id="L104">        return this.matkaJaljella + this.matkaTehty;</span>
     }
     
     /**
@@ -112,7 +109,7 @@ public class Noodi {
      * @return matkaTehty
      */
     public int getTehtyMatka () {
-<span class="fc" id="L115">        return this.matkaTehty;</span>
+<span class="fc" id="L112">        return this.matkaTehty;</span>
     }
     
     /**
@@ -120,7 +117,7 @@ public class Noodi {
      * @return matkaJaljella
      */
     public int getMatkaaJaljella() {
-<span class="fc" id="L123">        return this.matkaJaljella;</span>
+<span class="fc" id="L120">        return this.matkaJaljella;</span>
     }
     
     /**
@@ -128,8 +125,8 @@ public class Noodi {
      * @param matka 
      */
     public void setTehtyMatka (int matka) {
-<span class="fc" id="L131">        this.matkaTehty = matka;</span>
-<span class="fc" id="L132">    }</span>
+<span class="fc" id="L128">        this.matkaTehty = matka;</span>
+<span class="fc" id="L129">    }</span>
     
     /**
      * Asettaa jäljellä olevan matkan
@@ -137,8 +134,8 @@ public class Noodi {
      * @param matka joka asetetaan
      */
     protected void setMatkaJaljella(int matka) {
-<span class="fc" id="L140">        this.matkaJaljella = matka;</span>
-<span class="fc" id="L141">    }    </span>
+<span class="fc" id="L137">        this.matkaJaljella = matka;</span>
+<span class="fc" id="L138">    }    </span>
     
     /**
      * Laskee jäljellä olevan matkan annettuun Noodiin ns. Manhattanin metodilla:
@@ -146,10 +143,10 @@ public class Noodi {
      * @param viimeinenNoodi 
      */
     public void setMatkaJaljella(Noodi viimeinenNoodi) {
-<span class="fc" id="L149">        this.setMatkaJaljella((absolute(this.getxPositio() - viimeinenNoodi.getxPositio())</span>
+<span class="fc" id="L146">        this.setMatkaJaljella((absolute(this.getxPositio() - viimeinenNoodi.getxPositio())</span>
                 + absolute(this.getyPositio() - viimeinenNoodi.getyPositio()))
-                * LIIKKUMINEN);
-<span class="fc" id="L152">        }</span>
+                * 10);
+<span class="fc" id="L149">        }</span>
 
     /**
      * Palauttaa positiivisen luvun jos a on suurempi kuin nolla, negatiivisen jos ei
@@ -157,50 +154,52 @@ public class Noodi {
      * @return 
      */
     private int absolute(int a) {
-<span class="fc bfc" id="L160" title="All 2 branches covered.">        return a &gt; 0 ? a : -a;</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">        return a &gt; 0 ? a : -a;</span>
     }   
                 
     /**
-     * 
+     * Asettaa Noodin tehdyksi matkaksi edellisen Noodin tehdyn matkan lisättynä 
+     * kymmenellä.
      * @param edellinenNoodi
      */
     public void setTehtyMatka(Noodi edellinenNoodi) {
 
-<span class="fc" id="L169">        setTehtyMatka(edellinenNoodi.getTehtyMatka() + LIIKKUMINEN);</span>
-<span class="fc" id="L170">    }     </span>
+<span class="fc" id="L167">        setTehtyMatka(edellinenNoodi.getTehtyMatka() + 10);</span>
+<span class="fc" id="L168">    }     </span>
     
     /**
      * Laskee tehdyn matkan annettuun Noodiin asti
-     * @param previousAbstractNode
+     * @param edellinenNoodi
      * @return 
      */
-    public int laskeTehtyMatka(Noodi previousAbstractNode) {        
-<span class="fc" id="L178">            return (previousAbstractNode.getTehtyMatka()</span>
-                    + LIIKKUMINEN);        
+    public int laskeTehtyMatka(Noodi edellinenNoodi) {        
+<span class="fc" id="L176">            return (edellinenNoodi.getTehtyMatka()</span>
+                    + 10);        
     }    
         
      /**
-     * palauttaa true mikä tällä ja annetulla Noodilla ovat samat koordinaatit
+     * palauttaa true mikä tällä ja annetulla Noodilla ovat samat koordinaatit.
+     * Ylikirjoittaa alkuperäisen equals:in.
      *
      * @param obj
      * @return
      */
     @Override
     public boolean equals(Object obj) {
-<span class="pc bpc" id="L190" title="1 of 2 branches missed.">        if (obj == null) {</span>
-<span class="nc" id="L191">            return false;</span>
+<span class="pc bpc" id="L189" title="1 of 2 branches missed.">        if (obj == null) {</span>
+<span class="nc" id="L190">            return false;</span>
         }
-<span class="pc bpc" id="L193" title="1 of 2 branches missed.">        if (getClass() != obj.getClass()) {</span>
-<span class="nc" id="L194">            return false;</span>
+<span class="pc bpc" id="L192" title="1 of 2 branches missed.">        if (getClass() != obj.getClass()) {</span>
+<span class="nc" id="L193">            return false;</span>
         }
-<span class="fc" id="L196">        final Noodi other = (Noodi) obj;</span>
-<span class="fc bfc" id="L197" title="All 2 branches covered.">        if (this.xPositio != other.xPositio) {</span>
-<span class="fc" id="L198">            return false;</span>
+<span class="fc" id="L195">        final Noodi other = (Noodi) obj;</span>
+<span class="fc bfc" id="L196" title="All 2 branches covered.">        if (this.xPositio != other.xPositio) {</span>
+<span class="fc" id="L197">            return false;</span>
         }
-<span class="fc bfc" id="L200" title="All 2 branches covered.">        if (this.yPositio != other.yPositio) {</span>
-<span class="fc" id="L201">            return false;</span>
+<span class="fc bfc" id="L199" title="All 2 branches covered.">        if (this.yPositio != other.yPositio) {</span>
+<span class="fc" id="L200">            return false;</span>
         }
-<span class="fc" id="L203">        return true;</span>
+<span class="fc" id="L202">        return true;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.201312101107</span></div></body></html>

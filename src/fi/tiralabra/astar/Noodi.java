@@ -11,10 +11,7 @@ package fi.tiralabra.astar;
  * @author Jukka Koskelin
  */
 public class Noodi {
-    
-    /* Liikkumisen kustannus */
-    protected static final int LIIKKUMINEN = 10;
-    
+        
     private int xPositio;
     private int yPositio;
     
@@ -148,7 +145,7 @@ public class Noodi {
     public void setMatkaJaljella(Noodi viimeinenNoodi) {
         this.setMatkaJaljella((absolute(this.getxPositio() - viimeinenNoodi.getxPositio())
                 + absolute(this.getyPositio() - viimeinenNoodi.getyPositio()))
-                * LIIKKUMINEN);
+                * 10);
         }
 
     /**
@@ -161,26 +158,28 @@ public class Noodi {
     }   
                 
     /**
-     * 
+     * Asettaa Noodin tehdyksi matkaksi edellisen Noodin tehdyn matkan lisättynä 
+     * kymmenellä.
      * @param edellinenNoodi
      */
     public void setTehtyMatka(Noodi edellinenNoodi) {
 
-        setTehtyMatka(edellinenNoodi.getTehtyMatka() + LIIKKUMINEN);
+        setTehtyMatka(edellinenNoodi.getTehtyMatka() + 10);
     }     
     
     /**
      * Laskee tehdyn matkan annettuun Noodiin asti
-     * @param previousAbstractNode
+     * @param edellinenNoodi
      * @return 
      */
-    public int laskeTehtyMatka(Noodi previousAbstractNode) {        
-            return (previousAbstractNode.getTehtyMatka()
-                    + LIIKKUMINEN);        
+    public int laskeTehtyMatka(Noodi edellinenNoodi) {        
+            return (edellinenNoodi.getTehtyMatka()
+                    + 10);        
     }    
         
      /**
-     * palauttaa true mikä tällä ja annetulla Noodilla ovat samat koordinaatit
+     * palauttaa true mikä tällä ja annetulla Noodilla ovat samat koordinaatit.
+     * Ylikirjoittaa alkuperäisen equals:in.
      *
      * @param obj
      * @return
