@@ -128,7 +128,7 @@ public class Kartta<T extends Noodi> {
               T valittuViereinen = viereisetNoodit.get(i);
               /** Noodi ei ole läpikäymättömissä, asetetaan käsittelyssä oleva Noodi tämän edeltäjäksi ja lasketaan matka-arvot, sekä
               lisätään Noodi läpikäymättömiin*/
-              if (!kaymattomatNoodit.contains(valittuViereinen)) { // node is not in openList
+              if (!kaymattomatNoodit.contains(valittuViereinen)) {
                   valittuViereinen.setEdellinenNoodi(valittu); 
                   valittuViereinen.setMatkaJaljella(noodit[loppuX][loppuY]); 
                   valittuViereinen.setTehtyMatka(valittu); 
