@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Noodi.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;TiraLabraAStar&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">fi.tiralabra.astar</a> &gt; <span class="el_source">Noodi.java</span></div><h1>Noodi.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package fi.tiralabra.astar;
+
+/**
+ *
+ * @author Jukka Koskelin
+ */
+public class Noodi {
+    
+    /* Liikkumisen kustannus */
+    protected static final int LIIKKUMINEN = 10;
+    
+    private int xPositio;
+    private int yPositio;
+    
+    //Voidaanko tämän Noodin läpi kulkea?
+    private boolean kuljettava;
+    
+    //Mistä Noodista tähän on tultu.
+    private Noodi edellinenNoodi;
+    
+    //Minkä verran on matkattu aloitusnoodista tähän Noodiin.
+    private int matkaTehty;
+
+    //Arvioitu matkan määrä tästä Noodista lopetusnoodiin.
+    private int matkaJaljella;
+    
+    /**
+     * Luo Noodin annetuilla koordinaateilla ja asettaa sen kuljettavaksi.
+     * @param xPositio
+     * @param yPositio 
+     */
+<span class="fc" id="L38">    public Noodi(int xPositio, int yPositio){</span>
+<span class="fc" id="L39">        this.xPositio = xPositio;</span>
+<span class="fc" id="L40">        this.yPositio = yPositio;</span>
+<span class="fc" id="L41">        this.kuljettava = true;</span>
+<span class="fc" id="L42">    }</span>
+    
+    /**
+     * Asettaa Noodille annetut koordinaatit.
+     * @param xPositio
+     * @param yPositio 
+     */
+    public void AsetaKoordinaatit(int xPositio, int yPositio){
+<span class="nc" id="L50">        this.xPositio = xPositio;</span>
+<span class="nc" id="L51">        this.yPositio = yPositio;</span>
+<span class="nc" id="L52">    }</span>
+    
+    /**
+     * 
+     * @return xPositio
+     */
+    public int getxPositio(){
+<span class="fc" id="L59">        return this.xPositio;</span>
+    }
+    
+    /**
+     * 
+     * @return yPositio
+     */
+    public int getyPositio(){
+<span class="fc" id="L67">        return this.yPositio;</span>
+    }
+    
+    /**
+     * 
+     * @return Jos Noodi on kuljettava, palauttaa true
+     */
+    public boolean getKuljettava(){
+<span class="fc" id="L75">        return this.kuljettava;</span>
+    }
+    
+    /**
+     * Asettaa Noodin kuljettavaksi tai ei-kuljettavaksi
+     * @param kuljettava 
+     */
+    public void setKuljettava(boolean kuljettava){
+<span class="fc" id="L83">        this.kuljettava = kuljettava;</span>
+<span class="fc" id="L84">    }</span>
+    
+    /**
+     * 
+     * @return edellinen Noodi
+     */
+    public Noodi getEdellinenNoodi(){
+<span class="fc" id="L91">        return this.edellinenNoodi;</span>
+    }
+    
+    /**
+     * Asettaa edelliseksi Noodiksi annetun Noodin
+     * @param noodi 
+     */
+    public void setEdellinenNoodi(Noodi noodi){
+<span class="fc" id="L99">        this.edellinenNoodi = noodi;</span>
+<span class="fc" id="L100">    }</span>
+    
+    /**
+     * 
+     * @return tehdyn matkan ja jäljellä olevan matkan arvioitu summa
+     */
+    public int getKokoMatka () {
+<span class="nc" id="L107">        return this.matkaJaljella + this.matkaTehty;</span>
+    }
+    
+    /**
+     * 
+     * @return matkaTehty
+     */
+    public int getTehtyMatka () {
+<span class="fc" id="L115">        return this.matkaTehty;</span>
+    }
+    
+    /**
+     * 
+     * @return matkaJaljella
+     */
+    public int getMatkaaJaljella() {
+<span class="fc" id="L123">        return this.matkaJaljella;</span>
+    }
+    
+    /**
+     * Asettaa tehdyn matkan.
+     * @param matka 
+     */
+    public void setTehtyMatka (int matka) {
+<span class="fc" id="L131">        this.matkaTehty = matka;</span>
+<span class="fc" id="L132">    }</span>
+    
+    /**
+     * Asettaa jäljellä olevan matkan
+     *
+     * @param matka joka asetetaan
+     */
+    protected void setMatkaJaljella(int matka) {
+<span class="fc" id="L140">        this.matkaJaljella = matka;</span>
+<span class="fc" id="L141">    }    </span>
+    
+    /**
+     * Laskee jäljellä olevan matkan annettuun Noodiin ns. Manhattanin metodilla:
+     * H = 10*(abs(currentX-targetX) + abs(currentY-targetY))
+     * @param viimeinenNoodi 
+     */
+    public void setMatkaJaljella(Noodi viimeinenNoodi) {
+<span class="fc" id="L149">        this.setMatkaJaljella((absolute(this.getxPositio() - viimeinenNoodi.getxPositio())</span>
+                + absolute(this.getyPositio() - viimeinenNoodi.getyPositio()))
+                * LIIKKUMINEN);
+<span class="fc" id="L152">        }</span>
+
+    /**
+     * Palauttaa positiivisen luvun jos a on suurempi kuin nolla, negatiivisen jos ei
+     * @param a
+     * @return 
+     */
+    private int absolute(int a) {
+<span class="fc bfc" id="L160" title="All 2 branches covered.">        return a &gt; 0 ? a : -a;</span>
+    }   
+                
+    /**
+     * 
+     * @param edellinenNoodi
+     */
+    public void setTehtyMatka(Noodi edellinenNoodi) {
+
+<span class="fc" id="L169">        setTehtyMatka(edellinenNoodi.getTehtyMatka() + LIIKKUMINEN);</span>
+<span class="fc" id="L170">    }     </span>
+    
+    /**
+     * Laskee tehdyn matkan annettuun Noodiin asti
+     * @param previousAbstractNode
+     * @return 
+     */
+    public int laskeTehtyMatka(Noodi previousAbstractNode) {        
+<span class="fc" id="L178">            return (previousAbstractNode.getTehtyMatka()</span>
+                    + LIIKKUMINEN);        
+    }    
+        
+     /**
+     * palauttaa true mikä tällä ja annetulla Noodilla ovat samat koordinaatit
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+<span class="pc bpc" id="L190" title="1 of 2 branches missed.">        if (obj == null) {</span>
+<span class="nc" id="L191">            return false;</span>
+        }
+<span class="pc bpc" id="L193" title="1 of 2 branches missed.">        if (getClass() != obj.getClass()) {</span>
+<span class="nc" id="L194">            return false;</span>
+        }
+<span class="fc" id="L196">        final Noodi other = (Noodi) obj;</span>
+<span class="fc bfc" id="L197" title="All 2 branches covered.">        if (this.xPositio != other.xPositio) {</span>
+<span class="fc" id="L198">            return false;</span>
+        }
+<span class="fc bfc" id="L200" title="All 2 branches covered.">        if (this.yPositio != other.yPositio) {</span>
+<span class="fc" id="L201">            return false;</span>
+        }
+<span class="fc" id="L203">        return true;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.201312101107</span></div></body></html>
