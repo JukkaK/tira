@@ -8,6 +8,9 @@ package fi.tiralabra.astar;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Comparator;
+
 
 /**
  *
@@ -86,7 +89,7 @@ public class Kartta<T extends Noodi> {
     }
     
     /** Lista jossa läpikäymättömät viereiset Noodit */
-    private List<T> kaymattomatNoodit;
+    private PriorityQueue<Noodi> kaymattomatNoodit;
     /** Läpikäydyt Noodit */
     private List<T> kaydytNoodit;
     /** Onko polku löytynyt? */
@@ -101,20 +104,19 @@ public class Kartta<T extends Noodi> {
      * @return 
      */
     public final List<T> etsiPolku(int alkuX, int alkuY, int loppuX, int loppuY) {
-      // TODO: Tarkistukset?
-      // TODO: PriorityQueue käyttöön
-      kaymattomatNoodit = new LinkedList<T>();
+      // TODO: Tarkistukset?      
+      kaymattomatNoodit = new PriorityQueue<Noodi>(11, noodiVertailija);
       kaydytNoodit = new LinkedList<T>();
-      kaymattomatNoodit.add(noodit[alkuX][alkuY]); 
+      kaymattomatNoodit.add(noodit[alkuX][alkuY]);
 
       valmis = false;
       T valittu;
       while (!valmis) {
           /** Haetaan läpikäymättömistä noodeista lyhimmän matka-arvion omaava */
-          valittu = lyhinMatkaLapikaymattomissa(); 
+          valittu = (T)lyhinMatkaLapikaymattomissa(); 
           /** Lisätään noodi läpikäytyihin ja poistetaan -käymättömistä */
           kaydytNoodit.add(valittu); 
-          kaymattomatNoodit.remove(valittu); 
+          kaymattomatNoodit.remove(valittu);
 
           /** Onko piste loppupiste? */
           if ((valittu.getxPositio() == loppuX)
@@ -181,15 +183,11 @@ public class Kartta<T extends Noodi> {
      *
      * @return
      */
-    private T lyhinMatkaLapikaymattomissa() {
-        // TODO Tähän priorityqueue?
-        T halvin = kaymattomatNoodit.get(0);
-        for (int i = 0; i < kaymattomatNoodit.size(); i++) {
-            if (kaymattomatNoodit.get(i).getMatkaaJaljella()< halvin.getMatkaaJaljella()) {
-                halvin = kaymattomatNoodit.get(i);
-            }
-        }
-        return halvin;
+    private Noodi lyhinMatkaLapikaymattomissa() {
+        //Palauttaa PriorityQueuen pienemmimmän arvon (haetaan vertailijalla,
+        //joka vertailee Noodien MatkaJaljella -arvoja), mutta ei poista sitä
+        //keosta.
+        return kaymattomatNoodit.poll();
     }    
     
    /**
@@ -232,6 +230,21 @@ public class Kartta<T extends Noodi> {
         }
 
         return viereinen;
-    }          
+    } 
+    
+    /**
+     * Vertailija Noodi -luokalle. 
+     */
+    public static Comparator<Noodi> noodiVertailija = new Comparator<Noodi>(){
+ 
+        @Override
+        /**
+         * Vertailee annettuja Noodeja, palauttaa n1:n ja n2:n erotuksen
+         */
+        public int compare(Noodi n1, Noodi n2) {
+            return (int) (n1.getMatkaaJaljella() - n2.getMatkaaJaljella());
+        }
+    };
+    
     
 }
