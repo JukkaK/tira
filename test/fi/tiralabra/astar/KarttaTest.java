@@ -95,6 +95,39 @@ public class KarttaTest {
     }
     
     /**
+     * Luodaan kartta kuvatiedostosta
+     */
+    @Test
+    public void testLuoKarttaKuvasta(){
+        Kartta instance = new Kartta<Noodi>();
+        assertEquals(false, instance.getNoodi(10, 10).getKuljettava());
+    }
+
+    /**
+     * Testataan kartan luomista kuvatiedostosta, ja polun etsintää
+     */
+    @Test
+    public void testLuoKarttaKuvastaJaEtsiPolku(){
+        Kartta instance = new Kartta<Noodi>();
+        int oldX = 7;
+        int oldY = 0;
+        int newX = 7;
+        int newY = 49;
+        int expResult = 51;
+        List<Noodi> result = instance.etsiPolku(oldX, oldY, newX, newY);
+
+        for (int i = 0; i < result.size(); i++) {
+            System.out.print("(" + result.get(i).getxPositio() + ", " + result.get(i).getyPositio() + ") -> ");
+        }
+        
+        System.out.println("Tuloksessa noodeja yhteensä: " + result.size());
+        
+        assertEquals(expResult, result.size());
+                
+    }
+
+    
+    /**
      * Testataan ettei Kartta-luokkaa voida luoda negatiivisilla parametreillä.
      */
     @Test

@@ -10,6 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Comparator;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
 
 
 /**
@@ -27,6 +30,12 @@ public class Kartta<T extends Noodi> {
     /** Kartan korkeus (y-akseli) */
     protected int korkeus;
     
+    protected int VIHREA = -16711936;
+    
+    protected int VALKOINEN = -1;
+    
+    protected BufferedImage kuva;
+    
     
     /**
      * Luo uuden kartan annetulla leveydellä ja pituudella
@@ -34,24 +43,76 @@ public class Kartta<T extends Noodi> {
      * @param pituus 
      */
     public Kartta(int leveys, int korkeus) {
+        luoKartta(leveys, korkeus, false);
+    }
+    
+    /**
+     * Luo Kartan kovakoodatusta kuvatiedostosta
+     */
+    public Kartta(){
+        try {
+           kuva = ImageIO.read(new File("testi.png"));
+           
+            int x = 10;
+            int y = 10;
+        
+            int rgb = kuva.getRGB(x, y);
+        
+            //vihreä -16711936
+            System.out.println("Kuvan leveys: " + kuva.getWidth());
+            System.out.println("Kuvan korkeus: " + kuva.getHeight());
+            System.out.println("Pikseli pisteessä [" + x + "," + y + "] RGB : " + rgb);
+            
+            x = 1;
+            y = 1;
+            rgb = kuva.getRGB(x, y);
+            //valkoinen -1
+            System.out.println("Pikseli pisteessä [" + x + "," + y + "] RGB : " + rgb);
+
+           
+       } catch (Exception ex) {
+           System.out.println("Kuvan lataaminen epäonnistui: " + ex.getMessage());
+       }  
+        
+       this.kuva = kuva;
+       luoKartta(kuva.getWidth(), kuva.getHeight(), true);
+    }
+    
+    /**
+     * 
+     * @param leveys
+     * @param korkeus 
+     */
+    private void luoKartta(int leveys, int korkeus, boolean onkoKuva){
         if (leveys > 0 && korkeus > 0){
             noodit = (T[][]) new Noodi[leveys][korkeus];
             this.leveys = leveys - 1; //-1, koska indeksit lähtee nollasta
             this.korkeus = korkeus - 1; //-1, koska indeksit lähtee nollasta
-            AlustaNoodit();        
+            AlustaNoodit(onkoKuva);                    
         } else {
             throw new IllegalArgumentException("Arvot eivät voi olla pienempiä kuin yksi");
-        }       
-    }
+        }               
+    }    
     
     /**
      * Alustaa Kartalle tyhjiä Noodeja
      */
-    private void AlustaNoodit() {
+    private void AlustaNoodit(boolean onkoKuva) {
         //Kaksinkertainen looppi, eli täytetään kolumni kerrallaan
         for (int i = 0; i <= leveys; i++) {
             for (int j = 0; j <= korkeus; j++) {
                 noodit[i][j] = (T) new Noodi(i,j);
+                if (onkoKuva) {
+                    int rgb = this.kuva.getRGB(i, j);
+                        if (rgb == VALKOINEN){
+                        //System.out.println("x:" + i + " y: " + j + " väri on: " + rgb);
+                    }
+                    if (rgb == VIHREA) {
+                        System.out.println("x:" + i + " y: " + j + " väri on: " + rgb);
+                        noodit[i][j].setKuljettava(false);
+                    }
+
+                }
             }
         }
     }
@@ -130,6 +191,7 @@ public class Kartta<T extends Noodi> {
               T valittuViereinen = viereisetNoodit.get(i);
               /** Noodi ei ole läpikäymättömissä, asetetaan käsittelyssä oleva Noodi tämän edeltäjäksi ja lasketaan matka-arvot, sekä
               lisätään Noodi läpikäymättömiin*/
+              //TODO: varsinainen logiikka privaattiin metodiin
               if (!kaymattomatNoodit.contains(valittuViereinen)) {
                   valittuViereinen.setEdellinenNoodi(valittu); 
                   valittuViereinen.setMatkaJaljella(noodit[loppuX][loppuY]); 
@@ -230,7 +292,7 @@ public class Kartta<T extends Noodi> {
         }
 
         return viereinen;
-    } 
+    }            
     
     /**
      * Vertailija Noodi -luokalle. 

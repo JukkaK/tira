@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Keko.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;TiraLabraAStar&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.html" class="el_package">fi.tiralabra.astar</a> &gt; <span class="el_source">Keko.java</span></div><h1>Keko.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package fi.tiralabra.astar;
+
+/**
+ *
+ * @author Jukka Koskelin
+ */
+public class Keko {
+    
+    private int[] Taulu;
+    private int maxKoko;
+    private int koko;
+    
+    /**
+     * Konstruktori luokalle joka toteuttaa minimikeon.
+     * @param maxKoko Keon suurin koko aloitettaessa
+     */
+<span class="fc" id="L23">    public Keko (int maxKoko){</span>
+        
+<span class="fc" id="L25">        this.maxKoko = maxKoko;</span>
+<span class="fc" id="L26">        koko = 0;</span>
+<span class="fc" id="L27">        Taulu = new int[maxKoko];        </span>
+<span class="fc" id="L28">    }</span>
+    
+    /**
+     * Lisää kekoon annetun arvon ja järjestää keon
+     * @param arvo 
+     */
+    public void lisaa(int arvo){
+        //TODO: Taulun maksimiarvon ylitys: luo uusi taulukko joka on
+        //tuplasti suurempi kuin alkuperäinen. Kopioi alkuperäisen taulukon
+        //sisältö uuteen taulukkoon.
+        
+        //append(heap.array, element)
+        
+        /*if (arvo != 0 &amp;&amp; Taulu[0] == 0) {
+            for (int i = 0; i &lt; koko; i++) {
+                vaihda(i-1, i);
+            }
+            koko--;
+        }*/
+        
+        //Kasvatetaan kokoa ennen lisäystä, eli käytännössä taulun iteraattori
+        //alkaa arvosta 1. Tämä pitää ottaa huomioon kaikissa metodeissa, eli
+        //unohdetaan &quot;oikea&quot; ensimmäinen alkio kokonaan, sitä ei edes alusteta.
+<span class="fc" id="L51">        koko++;</span>
+<span class="fc" id="L52">        Taulu[koko] = arvo;</span>
+<span class="fc" id="L53">        int nykyinen = koko;</span>
+        //koko++;
+        //   i = heap.array.length
+        /*int i = koko;
+       while (i &gt; 1)
+         {
+            if (Taulu[i/2] &lt;= Taulu[i]){
+                break;
+            } else {
+                vaihda(Taulu[i/2], Taulu[i]);
+                i = i/2;
+            }                
+         }*/
+        
+        
+        
+        //Niin kauan kuin lisätty arvo on pienempi kuin vanhempansa,
+        //siirretään lisättyä arvoa kohti puun juurta (jossa on siis pienin
+        //arvo). Lopetetaan kun vanhempi on pienempi kuin lisätty arvo, jolloin
+        //puu toteuttaa minimikeon ehdon.
+        
+        //TODO: Tämä privaattimetodiin tyonnaYlos
+<span class="fc bfc" id="L75" title="All 2 branches covered.">       while(Taulu[nykyinen] &lt; Taulu[vanhempi(nykyinen)]){</span>
+<span class="fc" id="L76">            vaihda(nykyinen, vanhempi(nykyinen));</span>
+<span class="fc" id="L77">            nykyinen = vanhempi(nykyinen);</span>
+        }
+                
+<span class="fc" id="L80">    }</span>
+    
+    /**
+     * Onko keko tyhjä?
+     * @return tosi, jos keko on tyhjä
+     */
+    public boolean onkoTyhja(){
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">        return koko == 0;</span>
+    }
+    
+   /**
+     * Returns a String representation of BinaryHeap with values stored with 
+     * heap structure and order properties.
+     */
+    public String toString() {
+<span class="fc" id="L95">        StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">        for (int i = 1; i &lt; koko; i++) {</span>
+<span class="fc" id="L97">            sb.append(&quot; &quot;);</span>
+<span class="fc" id="L98">            sb.append(Taulu[i]);</span>
+        }                      
+<span class="fc" id="L100">        return sb.toString();</span>
+    }    
+    
+    /**
+     * palauttaa annetun pointterin vanhemman paikan (i/2)
+     * @param paikka
+     * @return 
+     */
+    private int vanhempi(int paikka){
+<span class="fc" id="L109">        return paikka / 2;</span>
+    }
+    
+    /**
+     * Palauttaa annetun pointterin vasemman lapsen, eli taulukossa 2i.
+     * @param paikka
+     * @return 
+     */
+    private int vasenLapsi(int paikka){
+<span class="fc" id="L118">        return 2 * paikka;</span>
+    }
+    
+    /**
+     * Palauttaa annetun pointterin oikean lapsen, eli tauluossa 2i+1.
+     * @param paikka
+     * @return 
+     */
+    private int oikeaLapsi(int paikka){
+<span class="nc" id="L127">        return 2* paikka +1;</span>
+    }    
+    
+    /**
+     * Tutkii onko annettu paikka lehti. Palauttaa tosi, jos annettu paikka sijaitsee
+     * taulun puolen välin alapuolella.
+     * @param paikka
+     * @return 
+     */
+    private boolean onkoLehti(int paikka){
+<span class="pc bpc" id="L137" title="1 of 4 branches missed.">        if ((paikka &gt; koko/2) &amp;&amp; (paikka &lt;= koko)) {         </span>
+<span class="fc" id="L138">            return true;</span>
+        } else {
+<span class="fc" id="L140">            return false;</span>
+        }
+    }
+    
+    /**
+     * Vaihtaa kahden annetun kohdan (ts. parametrit ovat pointtereita keon 
+     * toteuttavaan taulukkoon) paikkaa.
+     * @param eka
+     * @param toka 
+     */
+    private void vaihda(int eka, int toka){
+        int temp;
+<span class="fc" id="L152">        temp = Taulu[eka];</span>
+<span class="fc" id="L153">        Taulu[eka] = Taulu[toka];</span>
+<span class="fc" id="L154">        Taulu[toka] = temp;</span>
+        
+<span class="fc" id="L156">    }</span>
+    
+    /**
+     * 
+     * @param paikka 
+     */
+    private void painaAlas(int paikka) {
+    int pieninLapsi;
+    //Käydään läpi niin kauan kun ei olla puun lehtitasolla
+<span class="fc bfc" id="L165" title="All 2 branches covered.">        while (!onkoLehti(paikka)) {</span>
+            //Vasemmalla on aina pienempi lapsi
+<span class="fc" id="L167">            pieninLapsi = vasenLapsi(paikka);</span>
+            //
+<span class="pc bpc" id="L169" title="1 of 4 branches missed.">            if ((pieninLapsi &lt; koko) &amp;&amp; (Taulu[pieninLapsi] &gt; Taulu[pieninLapsi+1]))</span>
+<span class="fc" id="L170">                pieninLapsi = pieninLapsi + 1;</span>
+            //
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">            if (Taulu[paikka] &lt;= Taulu[pieninLapsi]) return;</span>
+            //
+<span class="fc" id="L174">            vaihda(paikka,pieninLapsi);</span>
+<span class="fc" id="L175">            paikka = pieninLapsi;</span>
+        }        
+<span class="fc" id="L177">    }</span>
+    
+    /**
+     * Palauttaa keon pieinimmän arvon poistamatta sitä keosta.
+     * @return 
+     */
+    public int naytaPienin(){
+<span class="fc" id="L184">        return Taulu[1];    </span>
+    }
+    
+    /**
+     * Poistaa pienimmän alkion keosta
+     * @return 
+     */
+    public int poistaPienin() {        
+<span class="fc" id="L192">        vaihda(1,koko);</span>
+<span class="fc" id="L193">        koko--;</span>
+<span class="fc bfc" id="L194" title="All 2 branches covered.">        if (koko != 0)</span>
+<span class="fc" id="L195">            painaAlas(1);</span>
+<span class="fc" id="L196">        return Taulu[koko+1];</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.3.201306030806</span></div></body></html>

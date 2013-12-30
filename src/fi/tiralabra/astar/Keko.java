@@ -32,6 +32,10 @@ public class Keko {
      * @param arvo 
      */
     public void lisaa(int arvo){
+        //TODO: Taulun maksimiarvon ylitys: luo uusi taulukko joka on
+        //tuplasti suurempi kuin alkuperäinen. Kopioi alkuperäisen taulukon
+        //sisältö uuteen taulukkoon.
+        
         //append(heap.array, element)
         
         /*if (arvo != 0 && Taulu[0] == 0) {
@@ -66,6 +70,8 @@ public class Keko {
         //siirretään lisättyä arvoa kohti puun juurta (jossa on siis pienin
         //arvo). Lopetetaan kun vanhempi on pienempi kuin lisätty arvo, jolloin
         //puu toteuttaa minimikeon ehdon.
+        
+        //TODO: Tämä privaattimetodiin tyonnaYlos
        while(Taulu[nykyinen] < Taulu[vanhempi(nykyinen)]){
             vaihda(nykyinen, vanhempi(nykyinen));
             nykyinen = vanhempi(nykyinen);
