@@ -99,16 +99,29 @@ public class KarttaTest {
      */
     @Test
     public void testLuoKarttaKuvasta(){
-        Kartta instance = new Kartta<Noodi>();
+        Kartta instance = new Kartta<Noodi>("testi.png");
         assertEquals(false, instance.getNoodi(10, 10).getKuljettava());
     }
 
+    /**
+     * Luodaan kartta kuvatiedostosta
+     */
+    @Test
+    public void testLuoKarttaKuvastaVirhe(){
+        try{
+            Kartta instance = new Kartta<Noodi>("foo.png");
+        } catch (IllegalArgumentException ex){
+            assertEquals(ex.getMessage(), "Kuvaa: foo.png ei löydy");
+        }                        
+    }
+    
+    
     /**
      * Testataan kartan luomista kuvatiedostosta, ja polun etsintää
      */
     @Test
     public void testLuoKarttaKuvastaJaEtsiPolku(){
-        Kartta instance = new Kartta<Noodi>();
+        Kartta instance = new Kartta<Noodi>("testi.png");
         int oldX = 7;
         int oldY = 0;
         int newX = 7;
