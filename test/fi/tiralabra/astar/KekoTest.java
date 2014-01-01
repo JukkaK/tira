@@ -43,29 +43,33 @@ public class KekoTest {
      */
     @Test
     public void testLisaa() {
-        //TODO: Pitäisikö lisaa-metodin kasvattaa myös taulun maksimikokoa? 
-        //Nyt tulee out of bounds jos lisää yli 4 lukua, koska ekaan alkioon
-        //on alustettu jo nolla.        
-        
         System.out.println("lisaa");
         Keko instance = new Keko(5);
         instance.lisaa(6);
         instance.lisaa(2);
         instance.lisaa(8);
         instance.lisaa(4);
+        instance.lisaa(12);
+        instance.lisaa(3);
+        instance.lisaa(7);
         int paluu = instance.poistaPienin();
         assertEquals(2, paluu);        
+        instance.lisaa(11);
+        instance.lisaa(9);
+        paluu = instance.poistaPienin();
+        assertEquals(3, paluu);
+        instance.lisaa(2);
+        paluu = instance.poistaPienin();
+        assertEquals(2, paluu);        
+        
+        
     }
     
     /**
      * Test of lisaa method, of class Keko.
      */
     @Test
-    public void testLisaa2() {
-        //TODO: Pitäisikö lisaa-metodin kasvattaa myös taulun maksimikokoa? 
-        //Nyt tulee out of bounds jos lisää yli 4 lukua, koska ekaan alkioon
-        //on alustettu jo nolla.        
-        
+    public void testLisaa2() {        
         System.out.println("lisaa2");
         Keko instance = new Keko(100);
         instance.lisaa(6);
@@ -86,10 +90,6 @@ public class KekoTest {
      */
     @Test
     public void testOnkoTyhja2() {
-        //TODO: Pitäisikö lisaa-metodin kasvattaa myös taulun maksimikokoa? 
-        //Nyt tulee out of bounds jos lisää yli 4 lukua, koska ekaan alkioon
-        //on alustettu jo nolla.        
-        
         System.out.println("onkoTyhja");
         Keko instance = new Keko(100);
         instance.lisaa(6);
@@ -131,21 +131,5 @@ public class KekoTest {
         int paluu = instance.naytaPienin();
         assertEquals(3, paluu);        
 
-    }
-
-    /**
-     * Test of poistaPienin method, of class Keko.
-     */
-  /*  @Test
-    public void testPoistaPienin() {
-        System.out.println("poistaPienin");
-        Keko instance = new Keko(5);
-        instance.lisaa(6);
-        instance.lisaa(2);
-        instance.lisaa(4);
-        instance.lisaa(8);
-        int paluu = instance.poistaPienin();
-        assertEquals(2, paluu);  
-    }*/
-    
+    }    
 }
