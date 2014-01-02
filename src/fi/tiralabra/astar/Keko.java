@@ -32,10 +32,9 @@ public class Keko {
      * @param arvo 
      */
     public void lisaa(int arvo){
-        //TODO: Taulun maksimiarvon ylitys: luo uusi taulukko joka on
+        //Taulun maksimiarvon ylitys: luo uusi taulukko joka on
         //tuplasti suurempi kuin alkuperäinen. Kopioi alkuperäisen taulukon
-        //sisältö uuteen taulukkoon.
-        
+        //sisältö uuteen taulukkoon.        
         if (koko+1 == this.maxKoko) {
             int[] tempTaulu = this.Taulu.clone();
             this.maxKoko = this.maxKoko*2;
