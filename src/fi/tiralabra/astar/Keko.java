@@ -92,6 +92,23 @@ public class Keko {
             sb.append(Taulu[i]);
         }                      
         return sb.toString();
+    } 
+    
+    /**
+     * Tarkastetaan löytyykö keosta annettua Noodia vastaavaa Noodia
+     * @param noodi
+     * @return 
+     */
+    public boolean sisaltaakoSaman(Noodi noodi){
+        for (int i = 1; i < koko; i++) {
+            if (noodi.getxPositio() == Taulu[i].getxPositio() &&
+                    noodi.getyPositio() == Taulu[i].getyPositio() &&
+                    noodi.getKuljettava() == Taulu[i].getKuljettava() &&
+                    noodi.getMatkaaJaljella() == Taulu[i].getMatkaaJaljella()) {
+                return true;
+            }
+        }
+        return false;
     }    
     
     /**

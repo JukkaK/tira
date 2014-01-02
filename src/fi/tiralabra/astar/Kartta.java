@@ -155,7 +155,8 @@ public class Kartta<T extends Noodi> {
     }
     
     /** Lista jossa läpikäymättömät viereiset Noodit */
-    private PriorityQueue<Noodi> kaymattomatNoodit;
+    //private PriorityQueue<Noodi> kaymattomatNoodit;
+    private Keko kaymattomatNoodit;
     /** Läpikäydyt Noodit */
     private List<T> kaydytNoodit;
     /** Onko polku löytynyt? */
@@ -171,9 +172,11 @@ public class Kartta<T extends Noodi> {
      */
     public final List<T> etsiPolku(int alkuX, int alkuY, int loppuX, int loppuY) {
       // TODO: Tarkistukset?      
-      kaymattomatNoodit = new PriorityQueue<Noodi>(11, noodiVertailija);
+      //kaymattomatNoodit = new PriorityQueue<Noodi>(11, noodiVertailija);
+        kaymattomatNoodit = new Keko(11);
       kaydytNoodit = new LinkedList<T>();
-      kaymattomatNoodit.add(noodit[alkuX][alkuY]);
+      //kaymattomatNoodit.add(noodit[alkuX][alkuY]);
+      kaymattomatNoodit.lisaa(noodit[alkuX][alkuY]);
 
       valmis = false;
       T valittu;
@@ -182,7 +185,8 @@ public class Kartta<T extends Noodi> {
           valittu = (T)lyhinMatkaLapikaymattomissa(); 
           /** Lisätään noodi läpikäytyihin ja poistetaan -käymättömistä */
           kaydytNoodit.add(valittu); 
-          kaymattomatNoodit.remove(valittu);
+          //kaymattomatNoodit.remove(valittu);
+          kaymattomatNoodit.poistaPienin();
 
           /** Onko piste loppupiste? */
           if ((valittu.getxPositio() == loppuX)
@@ -194,7 +198,7 @@ public class Kartta<T extends Noodi> {
           List<T> viereisetNoodit = getViereinen(valittu);
           for (int i = 0; i < viereisetNoodit.size(); i++) {
               T valittuViereinen = viereisetNoodit.get(i);
-              if (!kaymattomatNoodit.contains(valittuViereinen)) {
+              if (!kaymattomatNoodit.sisaltaakoSaman(valittuViereinen)) {
                   asetaKaymatonNoodi(kaymattomatNoodit, valittuViereinen, valittu, loppuX, loppuY);
               } else {
                   /** Jos matka käsittelyssä olevan Noodin kautta on lyhyempi kuin Noodiin aiemmin tallennettu matka,
@@ -203,7 +207,8 @@ public class Kartta<T extends Noodi> {
               }
           }
 
-          if (kaymattomatNoodit.isEmpty()) { 
+          //if (kaymattomatNoodit.isEmpty()) { 
+          if (kaymattomatNoodit.onkoTyhja()) { 
               return new LinkedList<T>(); 
           }
       }
@@ -299,12 +304,16 @@ public class Kartta<T extends Noodi> {
      * @param loppuX
      * @param loppuY 
      */
-    private void asetaKaymatonNoodi(PriorityQueue<Noodi> kaymattomatNoodit, 
+//    private void asetaKaymatonNoodi(PriorityQueue<Noodi> kaymattomatNoodit, 
+//        Noodi valittuViereinen, Noodi valittu, int loppuX, int loppuY){        
+    private void asetaKaymatonNoodi(Keko kaymattomatNoodit, 
         Noodi valittuViereinen, Noodi valittu, int loppuX, int loppuY){        
+    
         valittuViereinen.setEdellinenNoodi(valittu); 
         valittuViereinen.setMatkaJaljella(noodit[loppuX][loppuY]); 
         valittuViereinen.setTehtyMatka(valittu); 
-        kaymattomatNoodit.add(valittuViereinen);
+        //kaymattomatNoodit.add(valittuViereinen);
+        kaymattomatNoodit.lisaa(valittuViereinen);
     }
     
     /**
@@ -331,6 +340,7 @@ public class Kartta<T extends Noodi> {
         //Palauttaa PriorityQueuen pienemmimmän arvon (haetaan vertailijalla,
         //joka vertailee Noodien MatkaJaljella -arvoja), mutta ei poista sitä
         //keosta.
-        return kaymattomatNoodit.poll();
+        //return kaymattomatNoodit.poll();
+        return kaymattomatNoodit.naytaPienin();
     }                       
 }
