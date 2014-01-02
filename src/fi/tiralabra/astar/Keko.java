@@ -36,47 +36,37 @@ public class Keko {
         //tuplasti suurempi kuin alkuperäinen. Kopioi alkuperäisen taulukon
         //sisältö uuteen taulukkoon.
         
-        //append(heap.array, element)
-        
-        /*if (arvo != 0 && Taulu[0] == 0) {
-            for (int i = 0; i < koko; i++) {
-                vaihda(i-1, i);
+        if (koko+1 == this.maxKoko) {
+            int[] tempTaulu = this.Taulu.clone();
+            this.maxKoko = this.maxKoko*2;
+            this.Taulu = new int[this.maxKoko];
+            for (int i = 0; i < tempTaulu.length; i++) {
+                this.Taulu[i] = tempTaulu[i];
             }
-            koko--;
-        }*/
+        }
         
         //Kasvatetaan kokoa ennen lisäystä, eli käytännössä taulun iteraattori
         //alkaa arvosta 1. Tämä pitää ottaa huomioon kaikissa metodeissa, eli
         //unohdetaan "oikea" ensimmäinen alkio kokonaan, sitä ei edes alusteta.
         koko++;
-        Taulu[koko] = arvo;
-        int nykyinen = koko;
-        //koko++;
-        //   i = heap.array.length
-        /*int i = koko;
-       while (i > 1)
-         {
-            if (Taulu[i/2] <= Taulu[i]){
-                break;
-            } else {
-                vaihda(Taulu[i/2], Taulu[i]);
-                i = i/2;
-            }                
-         }*/
-        
-        
-        
-        //Niin kauan kuin lisätty arvo on pienempi kuin vanhempansa,
-        //siirretään lisättyä arvoa kohti puun juurta (jossa on siis pienin
-        //arvo). Lopetetaan kun vanhempi on pienempi kuin lisätty arvo, jolloin
-        //puu toteuttaa minimikeon ehdon.
-        
-        //TODO: Tämä privaattimetodiin tyonnaYlos
-       while(Taulu[nykyinen] < Taulu[vanhempi(nykyinen)]){
+        this.Taulu[koko] = arvo;
+        tyonnaYlos(koko);                
+    }
+    
+    /**
+     * Suorittaa keon järjestämisen alkaen annetusta pisteestä. Niin kauan kuin 
+     * lisätty arvo on pienempi kuin vanhempansa, siirretään lisättyä arvoa 
+     * kohti puun juurta (jossa on siis pienin arvo). Lopetetaan kun vanhempi 
+     * on pienempi kuin lisätty arvo, jolloin 
+     * puu toteuttaa minimikeon ehdon.
+     * @param nykyinen 
+     */
+    private void tyonnaYlos(int nykyinen){
+        while(Taulu[nykyinen] < Taulu[vanhempi(nykyinen)]){
             vaihda(nykyinen, vanhempi(nykyinen));
             nykyinen = vanhempi(nykyinen);
         }
-                
+        
     }
     
     /**
