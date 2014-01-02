@@ -12,7 +12,7 @@ package fi.tiralabra.astar;
  */
 public class Keko {
     
-    private int[] Taulu;
+    private Noodi[] Taulu;
     private int maxKoko;
     private int koko;
     
@@ -24,21 +24,21 @@ public class Keko {
         
         this.maxKoko = maxKoko;
         koko = 0;
-        Taulu = new int[maxKoko];        
+        Taulu = new Noodi[maxKoko];        
     }
     
     /**
      * Lisää kekoon annetun arvon ja järjestää keon
      * @param arvo 
      */
-    public void lisaa(int arvo){
+    public void lisaa(Noodi arvo){
         //Taulun maksimiarvon ylitys: luo uusi taulukko joka on
         //tuplasti suurempi kuin alkuperäinen. Kopioi alkuperäisen taulukon
         //sisältö uuteen taulukkoon.        
         if (koko+1 == this.maxKoko) {
-            int[] tempTaulu = this.Taulu.clone();
+            Noodi[] tempTaulu = this.Taulu.clone();
             this.maxKoko = this.maxKoko*2;
-            this.Taulu = new int[this.maxKoko];
+            this.Taulu = new Noodi[this.maxKoko];
             for (int i = 0; i < tempTaulu.length; i++) {
                 this.Taulu[i] = tempTaulu[i];
             }
@@ -61,11 +61,16 @@ public class Keko {
      * @param nykyinen 
      */
     private void tyonnaYlos(int nykyinen){
-        while(Taulu[nykyinen] < Taulu[vanhempi(nykyinen)]){
-            vaihda(nykyinen, vanhempi(nykyinen));
-            nykyinen = vanhempi(nykyinen);
-        }
         
+        if (nykyinen > 1) {                            
+            while(Taulu[nykyinen].getMatkaaJaljella() < Taulu[vanhempi(nykyinen)].getMatkaaJaljella()){
+                vaihda(nykyinen, vanhempi(nykyinen));
+                nykyinen = vanhempi(nykyinen);
+                if (nykyinen < 2) {
+                    break;
+                }
+            }
+        }        
     }
     
     /**
@@ -137,11 +142,10 @@ public class Keko {
      * @param toka 
      */
     private void vaihda(int eka, int toka){
-        int temp;
+        Noodi temp;
         temp = Taulu[eka];
         Taulu[eka] = Taulu[toka];
-        Taulu[toka] = temp;
-        
+        Taulu[toka] = temp;        
     }
     
     /**
@@ -155,10 +159,11 @@ public class Keko {
             //Vasemmalla on aina pienempi lapsi
             pieninLapsi = vasenLapsi(paikka);
             //
-            if ((pieninLapsi < koko) && (Taulu[pieninLapsi] > Taulu[pieninLapsi+1]))
+            if ((pieninLapsi < koko) && (Taulu[pieninLapsi].getMatkaaJaljella() > Taulu[pieninLapsi+1].getMatkaaJaljella()))
                 pieninLapsi = pieninLapsi + 1;
             //
-            if (Taulu[paikka] <= Taulu[pieninLapsi]) return;
+            if (Taulu[paikka].getMatkaaJaljella() <= Taulu[pieninLapsi].getMatkaaJaljella()) 
+                return;
             //
             vaihda(paikka,pieninLapsi);
             paikka = pieninLapsi;
@@ -169,7 +174,7 @@ public class Keko {
      * Palauttaa keon pieinimmän arvon poistamatta sitä keosta.
      * @return 
      */
-    public int naytaPienin(){
+    public Noodi naytaPienin(){
         return Taulu[1];    
     }
     
@@ -177,7 +182,7 @@ public class Keko {
      * Poistaa pienimmän alkion keosta
      * @return 
      */
-    public int poistaPienin() {        
+    public Noodi poistaPienin() {        
         vaihda(1,koko);
         koko--;
         if (koko != 0)
