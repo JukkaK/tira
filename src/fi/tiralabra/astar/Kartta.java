@@ -49,9 +49,9 @@ public class Kartta<T extends Noodi> {
     /**
      * Luo Kartan kovakoodatusta kuvatiedostosta
      */
-    public Kartta(){
+    public Kartta(String kuvanNimi){
         try {
-           kuva = ImageIO.read(new File("testi.png"));
+           kuva = ImageIO.read(new File(kuvanNimi));
            
             int x = 10;
             int y = 10;
@@ -72,6 +72,8 @@ public class Kartta<T extends Noodi> {
            
        } catch (Exception ex) {
            System.out.println("Kuvan lataaminen epäonnistui: " + ex.getMessage());
+           throw new IllegalArgumentException("Kuvaa: " + kuvanNimi + " ei löydy");
+           
        }  
         
        this.kuva = kuva;
@@ -83,7 +85,7 @@ public class Kartta<T extends Noodi> {
      * @param leveys
      * @param korkeus 
      */
-    private void luoKartta(int leveys, int korkeus, boolean onkoKuva){
+    protected void luoKartta(int leveys, int korkeus, boolean onkoKuva){
         if (leveys > 0 && korkeus > 0){
             noodit = (T[][]) new Noodi[leveys][korkeus];
             this.leveys = leveys - 1; //-1, koska indeksit lähtee nollasta
@@ -97,18 +99,22 @@ public class Kartta<T extends Noodi> {
     /**
      * Alustaa Kartalle tyhjiä Noodeja
      */
-    private void AlustaNoodit(boolean onkoKuva) {
+    protected void AlustaNoodit(boolean onkoKuva) {
         //Kaksinkertainen looppi, eli täytetään kolumni kerrallaan
         for (int i = 0; i <= leveys; i++) {
             for (int j = 0; j <= korkeus; j++) {
                 noodit[i][j] = (T) new Noodi(i,j);
                 if (onkoKuva) {
+                    //Jos on annettu kuvatiedosto, tulkitaan siitä onko pisteessä (x,y)
+                    //valkoista vai vihreää väriä. Jos vihreäää, asetetaan pisteessä
+                    //sijaitsevaan noodiin este.
                     int rgb = this.kuva.getRGB(i, j);
-                        if (rgb == VALKOINEN){
+                    //TODO: Testausta varten, poistettava lopullisesta versiosta.
+                    //if (rgb == VALKOINEN){
                         //System.out.println("x:" + i + " y: " + j + " väri on: " + rgb);
-                    }
+                    //}
                     if (rgb == VIHREA) {
-                        System.out.println("x:" + i + " y: " + j + " väri on: " + rgb);
+                        //System.out.println("x:" + i + " y: " + j + " väri on: " + rgb);
                         noodit[i][j].setKuljettava(false);
                     }
 
@@ -140,12 +146,11 @@ public class Kartta<T extends Noodi> {
      * @return Noodi
      */
     public final T getNoodi(int x, int y) {
-        //TODO: Korjattava tarkistukset, 0,0 -piste kaatuu näihin tarkistuksiin
-        //if (x > 0 && x <= this.leveys && y > 0 && y <= this.pituus){
+        if (x >= 0 && x <= this.leveys && y >= 0 && y <= this.korkeus){
             return noodit[x][y];
-        //} else {
-            //return null;
-        //}
+        } else {
+            return null;
+        }
         
     }
     
@@ -189,22 +194,12 @@ public class Kartta<T extends Noodi> {
           List<T> viereisetNoodit = getViereinen(valittu);
           for (int i = 0; i < viereisetNoodit.size(); i++) {
               T valittuViereinen = viereisetNoodit.get(i);
-              /** Noodi ei ole läpikäymättömissä, asetetaan käsittelyssä oleva Noodi tämän edeltäjäksi ja lasketaan matka-arvot, sekä
-              lisätään Noodi läpikäymättömiin*/
-              //TODO: varsinainen logiikka privaattiin metodiin
               if (!kaymattomatNoodit.contains(valittuViereinen)) {
-                  valittuViereinen.setEdellinenNoodi(valittu); 
-                  valittuViereinen.setMatkaJaljella(noodit[loppuX][loppuY]); 
-                  valittuViereinen.setTehtyMatka(valittu); 
-                  kaymattomatNoodit.add(valittuViereinen);
-              /** Noodi on läpikäymättömissä*/
+                  asetaKaymatonNoodi(kaymattomatNoodit, valittuViereinen, valittu, loppuX, loppuY);
               } else {
                   /** Jos matka käsittelyssä olevan Noodin kautta on lyhyempi kuin Noodiin aiemmin tallennettu matka,
                    aseta käsittelyssä oleva Noodi edeltäjäksi ja päivitä matkaa */                  
-                  if (valittuViereinen.getTehtyMatka()> valittuViereinen.laskeTehtyMatka(valittu)) { 
-                      valittuViereinen.setEdellinenNoodi(valittu); 
-                      valittuViereinen.setTehtyMatka(valittu);
-                  }
+                  asetaUusiLyhinMatka(valittuViereinen, valittu);
               }
           }
 
@@ -216,13 +211,27 @@ public class Kartta<T extends Noodi> {
   }
     
     /**
+     * Vertailija Noodi -luokalle. 
+     */
+    public static Comparator<Noodi> noodiVertailija = new Comparator<Noodi>(){
+ 
+        @Override
+        /**
+         * Vertailee annettuja Noodeja, palauttaa n1:n ja n2:n erotuksen
+         */
+        public int compare(Noodi n1, Noodi n2) {
+            return (int) (n1.getMatkaaJaljella() - n2.getMatkaaJaljella());
+        }
+    };    
+    
+    /**
      * laskee polun annetun alun ja maalin välillä.
      *
      * @param alku
      * @param maali
      * @return
      */
-    private List<T> laskePolku(T alku, T maali) {
+    protected List<T> laskePolku(T alku, T maali) {
 
         LinkedList<T> polku = new LinkedList<T>();
 
@@ -237,29 +246,16 @@ public class Kartta<T extends Noodi> {
             }
         }
         return polku;
-    }    
-    
-    /**
-     * palauttaa läpikäymättömistä noodeista sen jolla on pienin arvo
-     * lopulle kuljettavalle matkalle
-     *
-     * @return
-     */
-    private Noodi lyhinMatkaLapikaymattomissa() {
-        //Palauttaa PriorityQueuen pienemmimmän arvon (haetaan vertailijalla,
-        //joka vertailee Noodien MatkaJaljella -arvoja), mutta ei poista sitä
-        //keosta.
-        return kaymattomatNoodit.poll();
-    }    
+    }        
     
    /**
      * returns LinkedList jossa annetun noodin viereiset noodin,
      * jos ne ovat kuljettavissa eikä niitä ole vielä läpikäyty.
      */
-    private List<T> getViereinen(T node) {
+    private List<T> getViereinen(T noodi) {
 
-        int x = node.getxPositio();
-        int y = node.getyPositio();
+        int x = noodi.getxPositio();
+        int y = noodi.getyPositio();
         List<T> viereinen = new LinkedList<T>();
 
         T temp;
@@ -295,18 +291,46 @@ public class Kartta<T extends Noodi> {
     }            
     
     /**
-     * Vertailija Noodi -luokalle. 
+     * Noodi ei ole läpikäymättömissä, asetetaan käsittelyssä oleva Noodi tämän 
+     * edeltäjäksi ja lasketaan matka-arvot, sekä lisätään Noodi läpikäymättömiin
+     * @param kaymattomatNoodit
+     * @param valittuViereinen
+     * @param valittu
+     * @param loppuX
+     * @param loppuY 
      */
-    public static Comparator<Noodi> noodiVertailija = new Comparator<Noodi>(){
- 
-        @Override
-        /**
-         * Vertailee annettuja Noodeja, palauttaa n1:n ja n2:n erotuksen
-         */
-        public int compare(Noodi n1, Noodi n2) {
-            return (int) (n1.getMatkaaJaljella() - n2.getMatkaaJaljella());
+    private void asetaKaymatonNoodi(PriorityQueue<Noodi> kaymattomatNoodit, 
+        Noodi valittuViereinen, Noodi valittu, int loppuX, int loppuY){        
+        valittuViereinen.setEdellinenNoodi(valittu); 
+        valittuViereinen.setMatkaJaljella(noodit[loppuX][loppuY]); 
+        valittuViereinen.setTehtyMatka(valittu); 
+        kaymattomatNoodit.add(valittuViereinen);
+    }
+    
+    /**
+     * Jos matka käsittelyssä olevan Noodin kautta on lyhyempi kuin 
+     * Noodiin aiemmin tallennettu matka,
+     * aseta käsittelyssä oleva Noodi edeltäjäksi ja päivitä matkaa
+     * @param valittuViereinen
+     * @param valittu 
+     */
+    private void asetaUusiLyhinMatka(Noodi valittuViereinen, Noodi valittu){
+        if (valittuViereinen.getTehtyMatka()> valittuViereinen.laskeTehtyMatka(valittu)) { 
+            valittuViereinen.setEdellinenNoodi(valittu); 
+            valittuViereinen.setTehtyMatka(valittu);
         }
-    };
+    }                
     
-    
+    /**
+     * palauttaa läpikäymättömistä noodeista sen jolla on pienin arvo
+     * lopulle kuljettavalle matkalle
+     *
+     * @return
+     */
+    private Noodi lyhinMatkaLapikaymattomissa() {
+        //Palauttaa PriorityQueuen pienemmimmän arvon (haetaan vertailijalla,
+        //joka vertailee Noodien MatkaJaljella -arvoja), mutta ei poista sitä
+        //keosta.
+        return kaymattomatNoodit.poll();
+    }                       
 }

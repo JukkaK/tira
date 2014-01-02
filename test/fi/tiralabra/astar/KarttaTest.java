@@ -7,6 +7,7 @@
 package fi.tiralabra.astar;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -40,36 +41,36 @@ public class KarttaTest {
     }
 
     /**
-     * Test of setKuljettava method, of class Kartta.
+     * Testataan getNoodi -metodia.
      */
-  /*  @Test
-    public void testSetKuljettava() {
-        System.out.println("setKuljettava");
-        int x = 0;
-        int y = 0;
-        boolean bool = false;
-        Kartta instance = null;
-        instance.setKuljettava(x, y, bool);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }*/
-
+    @Test
+    public void testGetNoodi(){
+        Kartta instance = new Kartta<Noodi>("testi.png");        
+        Noodi noodi = instance.getNoodi(0, 0);
+        assertNotNull(noodi);
+    }    
+    
     /**
-     * Test of getNoodi method, of class Kartta.
+     * Testataan getNoodi -metodia.
      */
-  /*  @Test
-    public void testGetNoodi() {
-        System.out.println("getNoodi");
-        int x = 0;
-        int y = 0;
-        Kartta instance = null;
-        Noodi expResult = null;
-        Noodi result = instance.getNoodi(x, y);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    } */
+    @Test
+    public void testGetNoodi2(){
+        Kartta instance = new Kartta<Noodi>("testi.png");        
+        Noodi noodi = instance.getNoodi(500, 400);
+        assertNull(noodi);
+    }    
+    
+    /**
+     * Testataan getNoodi -metodia.
+     */
+    @Test
+    public void testGetNoodi3(){
+        Kartta instance = new Kartta<Noodi>("testi.png");        
+        Noodi noodi = instance.getNoodi(-1, -1);
+        assertNull(noodi);
+    }    
 
+    
     /**
      * Testataan etsiPolku -metodia. Oletetaan että palauttaa 80:n askeleen pituisen polun, 
      * eli 0,0 -> 40,40, kulkien suorakulmion muotoisen matkan.
@@ -113,32 +114,7 @@ public class KarttaTest {
         } catch (IllegalArgumentException ex){
             assertEquals(ex.getMessage(), "Kuvaa: foo.png ei löydy");
         }                        
-    }
-    
-    
-    /**
-     * Testataan kartan luomista kuvatiedostosta, ja polun etsintää
-     */
-    @Test
-    public void testLuoKarttaKuvastaJaEtsiPolku(){
-        Kartta instance = new Kartta<Noodi>("testi.png");
-        int oldX = 7;
-        int oldY = 0;
-        int newX = 7;
-        int newY = 49;
-        int expResult = 51;
-        List<Noodi> result = instance.etsiPolku(oldX, oldY, newX, newY);
-
-        for (int i = 0; i < result.size(); i++) {
-            System.out.print("(" + result.get(i).getxPositio() + ", " + result.get(i).getyPositio() + ") -> ");
-        }
-        
-        System.out.println("Tuloksessa noodeja yhteensä: " + result.size());
-        
-        assertEquals(expResult, result.size());
-                
-    }
-
+    }        
     
     /**
      * Testataan ettei Kartta-luokkaa voida luoda negatiivisilla parametreillä.
@@ -184,6 +160,75 @@ public class KarttaTest {
             assertEquals(expected, ex.getMessage());
         }                        
     }    
+
+//Integraatiotestit
+//-----------------
+    
+    /**
+     * Testataan kartan luomista kuvatiedostosta, ja polun etsintää
+     */
+    @Test
+    public void testLuoKarttaKuvastaJaEtsiPolku(){
+        Kartta instance = new Kartta<Noodi>("testi.png");
+        int oldX = 7;
+        int oldY = 0;
+        int newX = 7;
+        int newY = 49;
+        int expResult = 51;
+        List<Noodi> result = instance.etsiPolku(oldX, oldY, newX, newY);
+
+        for (int i = 0; i < result.size(); i++) {
+            System.out.print("(" + result.get(i).getxPositio() + ", " + result.get(i).getyPositio() + ") -> ");
+        }
+        
+        System.out.println("Tuloksessa noodeja yhteensä: " + result.size());
+        
+        assertEquals(expResult, result.size());
+                
+    }
+            
+//Suorituskykytestit    
+//------------------    
+    
+    @Test
+    public void testEtsiPolkuTimer500(){
+        System.out.println("etsiPolkuTimer500");
+        int oldX = 0;
+        int oldY = 0;
+        int newX = 499;
+        int newY = 499;
+        Kartta instance = new Kartta<Noodi>(500, 500);
+        int expResult = 998;
+        long alkuAika = System.nanoTime();
+        List<Noodi> result = instance.etsiPolku(oldX, oldY, newX, newY);
+        long loppuAika = System.nanoTime();
+        long suoritusAika = TimeUnit.NANOSECONDS.toMillis(loppuAika - alkuAika);
+                
+        System.out.println("Suoritusaika: " + suoritusAika + " ms");
+        
+        assertEquals(expResult, result.size());
+    }
+    
+    @Test
+    public void testEtsiPolkuTimer5000(){
+        System.out.println("etsiPolkuTimer1000");
+        int oldX = 0;
+        int oldY = 0;
+        int newX = 999;
+        int newY = 999;
+        Kartta instance = new Kartta<Noodi>(1000, 1000);
+        int expResult = 1998;
+        long alkuAika = System.nanoTime();
+        List<Noodi> result = instance.etsiPolku(oldX, oldY, newX, newY);
+        long loppuAika = System.nanoTime();
+        long suoritusAika = TimeUnit.NANOSECONDS.toMillis(loppuAika - alkuAika);
+                
+        //System.out.println("Suoritusaika: " + TimeUnit.MILLISECONDS.toSeconds(loppuAika - alkuAika));
+        System.out.println("Suoritusaika: " + suoritusAika + " ms");
+        
+        assertEquals(expResult, result.size());
+    }
+    
 
     
 }

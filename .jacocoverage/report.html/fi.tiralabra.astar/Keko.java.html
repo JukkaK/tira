@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Keko.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;TiraLabraAStar&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.html" class="el_package">fi.tiralabra.astar</a> &gt; <span class="el_source">Keko.java</span></div><h1>Keko.java</h1><pre class="source lang-java linenums">/*
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Keko.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;TiraLabraAStar&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">fi.tiralabra.astar</a> &gt; <span class="el_source">Keko.java</span></div><h1>Keko.java</h1><pre class="source lang-java linenums">/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -12,7 +12,7 @@ package fi.tiralabra.astar;
  */
 public class Keko {
     
-    private int[] Taulu;
+    private Noodi[] Taulu;
     private int maxKoko;
     private int koko;
     
@@ -24,67 +24,61 @@ public class Keko {
         
 <span class="fc" id="L25">        this.maxKoko = maxKoko;</span>
 <span class="fc" id="L26">        koko = 0;</span>
-<span class="fc" id="L27">        Taulu = new int[maxKoko];        </span>
+<span class="fc" id="L27">        Taulu = new Noodi[maxKoko];        </span>
 <span class="fc" id="L28">    }</span>
     
     /**
      * Lisää kekoon annetun arvon ja järjestää keon
      * @param arvo 
      */
-    public void lisaa(int arvo){
-        //TODO: Taulun maksimiarvon ylitys: luo uusi taulukko joka on
+    public void lisaa(Noodi arvo){
+        //Taulun maksimiarvon ylitys: luo uusi taulukko joka on
         //tuplasti suurempi kuin alkuperäinen. Kopioi alkuperäisen taulukon
-        //sisältö uuteen taulukkoon.
-        
-        //append(heap.array, element)
-        
-        /*if (arvo != 0 &amp;&amp; Taulu[0] == 0) {
-            for (int i = 0; i &lt; koko; i++) {
-                vaihda(i-1, i);
+        //sisältö uuteen taulukkoon.        
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        if (koko+1 == this.maxKoko) {</span>
+<span class="fc" id="L39">            Noodi[] tempTaulu = this.Taulu.clone();</span>
+<span class="fc" id="L40">            this.maxKoko = this.maxKoko*2;</span>
+<span class="fc" id="L41">            this.Taulu = new Noodi[this.maxKoko];</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">            for (int i = 0; i &lt; tempTaulu.length; i++) {</span>
+<span class="fc" id="L43">                this.Taulu[i] = tempTaulu[i];</span>
             }
-            koko--;
-        }*/
+        }
         
         //Kasvatetaan kokoa ennen lisäystä, eli käytännössä taulun iteraattori
         //alkaa arvosta 1. Tämä pitää ottaa huomioon kaikissa metodeissa, eli
         //unohdetaan &quot;oikea&quot; ensimmäinen alkio kokonaan, sitä ei edes alusteta.
-<span class="fc" id="L51">        koko++;</span>
-<span class="fc" id="L52">        Taulu[koko] = arvo;</span>
-<span class="fc" id="L53">        int nykyinen = koko;</span>
-        //koko++;
-        //   i = heap.array.length
-        /*int i = koko;
-       while (i &gt; 1)
-         {
-            if (Taulu[i/2] &lt;= Taulu[i]){
-                break;
-            } else {
-                vaihda(Taulu[i/2], Taulu[i]);
-                i = i/2;
-            }                
-         }*/
+<span class="fc" id="L50">        koko++;</span>
+<span class="fc" id="L51">        this.Taulu[koko] = arvo;</span>
+<span class="fc" id="L52">        tyonnaYlos(koko);                </span>
+<span class="fc" id="L53">    }</span>
+    
+    /**
+     * Suorittaa keon järjestämisen alkaen annetusta pisteestä. Niin kauan kuin 
+     * lisätty arvo on pienempi kuin vanhempansa, siirretään lisättyä arvoa 
+     * kohti puun juurta (jossa on siis pienin arvo). Lopetetaan kun vanhempi 
+     * on pienempi kuin lisätty arvo, jolloin 
+     * puu toteuttaa minimikeon ehdon.
+     * @param nykyinen 
+     */
+    private void tyonnaYlos(int nykyinen){
         
-        
-        
-        //Niin kauan kuin lisätty arvo on pienempi kuin vanhempansa,
-        //siirretään lisättyä arvoa kohti puun juurta (jossa on siis pienin
-        //arvo). Lopetetaan kun vanhempi on pienempi kuin lisätty arvo, jolloin
-        //puu toteuttaa minimikeon ehdon.
-        
-        //TODO: Tämä privaattimetodiin tyonnaYlos
-<span class="fc bfc" id="L75" title="All 2 branches covered.">       while(Taulu[nykyinen] &lt; Taulu[vanhempi(nykyinen)]){</span>
-<span class="fc" id="L76">            vaihda(nykyinen, vanhempi(nykyinen));</span>
-<span class="fc" id="L77">            nykyinen = vanhempi(nykyinen);</span>
-        }
-                
-<span class="fc" id="L80">    }</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        if (nykyinen &gt; 1) {                            </span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">            while(Taulu[nykyinen].getMatkaaJaljella() &lt; Taulu[vanhempi(nykyinen)].getMatkaaJaljella()){</span>
+<span class="fc" id="L67">                vaihda(nykyinen, vanhempi(nykyinen));</span>
+<span class="fc" id="L68">                nykyinen = vanhempi(nykyinen);</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">                if (nykyinen &lt; 2) {</span>
+<span class="fc" id="L70">                    break;</span>
+                }
+            }
+        }        
+<span class="fc" id="L74">    }</span>
     
     /**
      * Onko keko tyhjä?
      * @return tosi, jos keko on tyhjä
      */
     public boolean onkoTyhja(){
-<span class="pc bpc" id="L87" title="1 of 2 branches missed.">        return koko == 0;</span>
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">        return koko == 0;</span>
     }
     
    /**
@@ -92,12 +86,12 @@ public class Keko {
      * heap structure and order properties.
      */
     public String toString() {
-<span class="fc" id="L95">        StringBuilder sb = new StringBuilder();</span>
-<span class="fc bfc" id="L96" title="All 2 branches covered.">        for (int i = 1; i &lt; koko; i++) {</span>
-<span class="fc" id="L97">            sb.append(&quot; &quot;);</span>
-<span class="fc" id="L98">            sb.append(Taulu[i]);</span>
+<span class="fc" id="L89">        StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        for (int i = 1; i &lt; koko; i++) {</span>
+<span class="fc" id="L91">            sb.append(&quot; &quot;);</span>
+<span class="fc" id="L92">            sb.append(Taulu[i]);</span>
         }                      
-<span class="fc" id="L100">        return sb.toString();</span>
+<span class="fc" id="L94">        return sb.toString();</span>
     }    
     
     /**
@@ -106,7 +100,7 @@ public class Keko {
      * @return 
      */
     private int vanhempi(int paikka){
-<span class="fc" id="L109">        return paikka / 2;</span>
+<span class="fc" id="L103">        return paikka / 2;</span>
     }
     
     /**
@@ -115,7 +109,7 @@ public class Keko {
      * @return 
      */
     private int vasenLapsi(int paikka){
-<span class="fc" id="L118">        return 2 * paikka;</span>
+<span class="fc" id="L112">        return 2 * paikka;</span>
     }
     
     /**
@@ -124,7 +118,7 @@ public class Keko {
      * @return 
      */
     private int oikeaLapsi(int paikka){
-<span class="nc" id="L127">        return 2* paikka +1;</span>
+<span class="nc" id="L121">        return 2* paikka +1;</span>
     }    
     
     /**
@@ -134,10 +128,10 @@ public class Keko {
      * @return 
      */
     private boolean onkoLehti(int paikka){
-<span class="pc bpc" id="L137" title="1 of 4 branches missed.">        if ((paikka &gt; koko/2) &amp;&amp; (paikka &lt;= koko)) {         </span>
-<span class="fc" id="L138">            return true;</span>
+<span class="pc bpc" id="L131" title="1 of 4 branches missed.">        if ((paikka &gt; koko/2) &amp;&amp; (paikka &lt;= koko)) {         </span>
+<span class="fc" id="L132">            return true;</span>
         } else {
-<span class="fc" id="L140">            return false;</span>
+<span class="fc" id="L134">            return false;</span>
         }
     }
     
@@ -148,12 +142,11 @@ public class Keko {
      * @param toka 
      */
     private void vaihda(int eka, int toka){
-        int temp;
-<span class="fc" id="L152">        temp = Taulu[eka];</span>
-<span class="fc" id="L153">        Taulu[eka] = Taulu[toka];</span>
-<span class="fc" id="L154">        Taulu[toka] = temp;</span>
-        
-<span class="fc" id="L156">    }</span>
+        Noodi temp;
+<span class="fc" id="L146">        temp = Taulu[eka];</span>
+<span class="fc" id="L147">        Taulu[eka] = Taulu[toka];</span>
+<span class="fc" id="L148">        Taulu[toka] = temp;        </span>
+<span class="fc" id="L149">    }</span>
     
     /**
      * 
@@ -162,39 +155,40 @@ public class Keko {
     private void painaAlas(int paikka) {
     int pieninLapsi;
     //Käydään läpi niin kauan kun ei olla puun lehtitasolla
-<span class="fc bfc" id="L165" title="All 2 branches covered.">        while (!onkoLehti(paikka)) {</span>
+<span class="fc bfc" id="L158" title="All 2 branches covered.">        while (!onkoLehti(paikka)) {</span>
             //Vasemmalla on aina pienempi lapsi
-<span class="fc" id="L167">            pieninLapsi = vasenLapsi(paikka);</span>
+<span class="fc" id="L160">            pieninLapsi = vasenLapsi(paikka);</span>
             //
-<span class="pc bpc" id="L169" title="1 of 4 branches missed.">            if ((pieninLapsi &lt; koko) &amp;&amp; (Taulu[pieninLapsi] &gt; Taulu[pieninLapsi+1]))</span>
-<span class="fc" id="L170">                pieninLapsi = pieninLapsi + 1;</span>
+<span class="fc bfc" id="L162" title="All 4 branches covered.">            if ((pieninLapsi &lt; koko) &amp;&amp; (Taulu[pieninLapsi].getMatkaaJaljella() &gt; Taulu[pieninLapsi+1].getMatkaaJaljella()))</span>
+<span class="fc" id="L163">                pieninLapsi = pieninLapsi + 1;</span>
             //
-<span class="pc bpc" id="L172" title="1 of 2 branches missed.">            if (Taulu[paikka] &lt;= Taulu[pieninLapsi]) return;</span>
+<span class="fc bfc" id="L165" title="All 2 branches covered.">            if (Taulu[paikka].getMatkaaJaljella() &lt;= Taulu[pieninLapsi].getMatkaaJaljella()) </span>
+<span class="fc" id="L166">                return;</span>
             //
-<span class="fc" id="L174">            vaihda(paikka,pieninLapsi);</span>
-<span class="fc" id="L175">            paikka = pieninLapsi;</span>
+<span class="fc" id="L168">            vaihda(paikka,pieninLapsi);</span>
+<span class="fc" id="L169">            paikka = pieninLapsi;</span>
         }        
-<span class="fc" id="L177">    }</span>
+<span class="fc" id="L171">    }</span>
     
     /**
      * Palauttaa keon pieinimmän arvon poistamatta sitä keosta.
      * @return 
      */
-    public int naytaPienin(){
-<span class="fc" id="L184">        return Taulu[1];    </span>
+    public Noodi naytaPienin(){
+<span class="fc" id="L178">        return Taulu[1];    </span>
     }
     
     /**
      * Poistaa pienimmän alkion keosta
      * @return 
      */
-    public int poistaPienin() {        
-<span class="fc" id="L192">        vaihda(1,koko);</span>
-<span class="fc" id="L193">        koko--;</span>
-<span class="fc bfc" id="L194" title="All 2 branches covered.">        if (koko != 0)</span>
-<span class="fc" id="L195">            painaAlas(1);</span>
-<span class="fc" id="L196">        return Taulu[koko+1];</span>
+    public Noodi poistaPienin() {        
+<span class="fc" id="L186">        vaihda(1,koko);</span>
+<span class="fc" id="L187">        koko--;</span>
+<span class="fc bfc" id="L188" title="All 2 branches covered.">        if (koko != 0)</span>
+<span class="fc" id="L189">            painaAlas(1);</span>
+<span class="fc" id="L190">        return Taulu[koko+1];</span>
     }
     
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.3.201306030806</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.201312101107</span></div></body></html>

@@ -153,7 +153,7 @@ public class Noodi {
      * @param a
      * @return 
      */
-    private int absolute(int a) {
+    protected int absolute(int a) {
         return a > 0 ? a : -a;
     }   
                 
