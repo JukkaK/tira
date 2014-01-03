@@ -78,7 +78,7 @@ public class Keko {
      * @return tosi, jos keko on tyhjä
      */
     public boolean onkoTyhja(){
-<span class="pc bpc" id="L81" title="1 of 2 branches missed.">        return koko == 0;</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        return koko == 0;</span>
     }
     
    /**
@@ -92,6 +92,23 @@ public class Keko {
 <span class="fc" id="L92">            sb.append(Taulu[i]);</span>
         }                      
 <span class="fc" id="L94">        return sb.toString();</span>
+    } 
+    
+    /**
+     * Tarkastetaan löytyykö keosta annettua Noodia vastaavaa Noodia
+     * @param noodi
+     * @return 
+     */
+    public boolean sisaltaakoSaman(Noodi noodi){
+<span class="fc bfc" id="L103" title="All 2 branches covered.">        for (int i = 1; i &lt; koko; i++) {</span>
+<span class="pc bpc" id="L104" title="2 of 8 branches missed.">            if (noodi.getxPositio() == Taulu[i].getxPositio() &amp;&amp;</span>
+                    noodi.getyPositio() == Taulu[i].getyPositio() &amp;&amp;
+                    noodi.getKuljettava() == Taulu[i].getKuljettava() &amp;&amp;
+                    noodi.getMatkaaJaljella() == Taulu[i].getMatkaaJaljella()) {
+<span class="fc" id="L108">                return true;</span>
+            }
+        }
+<span class="fc" id="L111">        return false;</span>
     }    
     
     /**
@@ -100,7 +117,7 @@ public class Keko {
      * @return 
      */
     private int vanhempi(int paikka){
-<span class="fc" id="L103">        return paikka / 2;</span>
+<span class="fc" id="L120">        return paikka / 2;</span>
     }
     
     /**
@@ -109,7 +126,7 @@ public class Keko {
      * @return 
      */
     private int vasenLapsi(int paikka){
-<span class="fc" id="L112">        return 2 * paikka;</span>
+<span class="fc" id="L129">        return 2 * paikka;</span>
     }
     
     /**
@@ -118,7 +135,7 @@ public class Keko {
      * @return 
      */
     private int oikeaLapsi(int paikka){
-<span class="nc" id="L121">        return 2* paikka +1;</span>
+<span class="nc" id="L138">        return 2* paikka +1;</span>
     }    
     
     /**
@@ -128,10 +145,10 @@ public class Keko {
      * @return 
      */
     private boolean onkoLehti(int paikka){
-<span class="pc bpc" id="L131" title="1 of 4 branches missed.">        if ((paikka &gt; koko/2) &amp;&amp; (paikka &lt;= koko)) {         </span>
-<span class="fc" id="L132">            return true;</span>
+<span class="pc bpc" id="L148" title="1 of 4 branches missed.">        if ((paikka &gt; koko/2) &amp;&amp; (paikka &lt;= koko)) {         </span>
+<span class="fc" id="L149">            return true;</span>
         } else {
-<span class="fc" id="L134">            return false;</span>
+<span class="fc" id="L151">            return false;</span>
         }
     }
     
@@ -143,10 +160,10 @@ public class Keko {
      */
     private void vaihda(int eka, int toka){
         Noodi temp;
-<span class="fc" id="L146">        temp = Taulu[eka];</span>
-<span class="fc" id="L147">        Taulu[eka] = Taulu[toka];</span>
-<span class="fc" id="L148">        Taulu[toka] = temp;        </span>
-<span class="fc" id="L149">    }</span>
+<span class="fc" id="L163">        temp = Taulu[eka];</span>
+<span class="fc" id="L164">        Taulu[eka] = Taulu[toka];</span>
+<span class="fc" id="L165">        Taulu[toka] = temp;        </span>
+<span class="fc" id="L166">    }</span>
     
     /**
      * 
@@ -155,27 +172,27 @@ public class Keko {
     private void painaAlas(int paikka) {
     int pieninLapsi;
     //Käydään läpi niin kauan kun ei olla puun lehtitasolla
-<span class="fc bfc" id="L158" title="All 2 branches covered.">        while (!onkoLehti(paikka)) {</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">        while (!onkoLehti(paikka)) {</span>
             //Vasemmalla on aina pienempi lapsi
-<span class="fc" id="L160">            pieninLapsi = vasenLapsi(paikka);</span>
+<span class="fc" id="L177">            pieninLapsi = vasenLapsi(paikka);</span>
             //
-<span class="fc bfc" id="L162" title="All 4 branches covered.">            if ((pieninLapsi &lt; koko) &amp;&amp; (Taulu[pieninLapsi].getMatkaaJaljella() &gt; Taulu[pieninLapsi+1].getMatkaaJaljella()))</span>
-<span class="fc" id="L163">                pieninLapsi = pieninLapsi + 1;</span>
+<span class="fc bfc" id="L179" title="All 4 branches covered.">            if ((pieninLapsi &lt; koko) &amp;&amp; (Taulu[pieninLapsi].getMatkaaJaljella() &gt; Taulu[pieninLapsi+1].getMatkaaJaljella()))</span>
+<span class="fc" id="L180">                pieninLapsi = pieninLapsi + 1;</span>
             //
-<span class="fc bfc" id="L165" title="All 2 branches covered.">            if (Taulu[paikka].getMatkaaJaljella() &lt;= Taulu[pieninLapsi].getMatkaaJaljella()) </span>
-<span class="fc" id="L166">                return;</span>
+<span class="fc bfc" id="L182" title="All 2 branches covered.">            if (Taulu[paikka].getMatkaaJaljella() &lt;= Taulu[pieninLapsi].getMatkaaJaljella()) </span>
+<span class="fc" id="L183">                return;</span>
             //
-<span class="fc" id="L168">            vaihda(paikka,pieninLapsi);</span>
-<span class="fc" id="L169">            paikka = pieninLapsi;</span>
+<span class="fc" id="L185">            vaihda(paikka,pieninLapsi);</span>
+<span class="fc" id="L186">            paikka = pieninLapsi;</span>
         }        
-<span class="fc" id="L171">    }</span>
+<span class="fc" id="L188">    }</span>
     
     /**
      * Palauttaa keon pieinimmän arvon poistamatta sitä keosta.
      * @return 
      */
     public Noodi naytaPienin(){
-<span class="fc" id="L178">        return Taulu[1];    </span>
+<span class="fc" id="L195">        return Taulu[1];    </span>
     }
     
     /**
@@ -183,11 +200,11 @@ public class Keko {
      * @return 
      */
     public Noodi poistaPienin() {        
-<span class="fc" id="L186">        vaihda(1,koko);</span>
-<span class="fc" id="L187">        koko--;</span>
-<span class="fc bfc" id="L188" title="All 2 branches covered.">        if (koko != 0)</span>
-<span class="fc" id="L189">            painaAlas(1);</span>
-<span class="fc" id="L190">        return Taulu[koko+1];</span>
+<span class="fc" id="L203">        vaihda(1,koko);</span>
+<span class="fc" id="L204">        koko--;</span>
+<span class="fc bfc" id="L205" title="All 2 branches covered.">        if (koko != 0)</span>
+<span class="fc" id="L206">            painaAlas(1);</span>
+<span class="fc" id="L207">        return Taulu[koko+1];</span>
     }
     
 }
