@@ -1,0 +1,10 @@
+A* -reitinhakualgoritmin toteutus.
+
+Huomioita 03.01.2014
+--------------------
+
+- Ohjelma ajettavissa yksikkötestien kautta, varsinaista käyttöliittymää/käynnistystä ei ole vielä implementoitu.
+- Dokumentaatio (ml. javadocs) löytyy /docs -kansiosta.
+- Toteutusympäristönä Netbeans, joka lienee myös paras ajoympäristö.
+- Yksikkötestien käyttämän kuvatiedostot tallennetaan sovelluksen juurikansioon. Tätä kirjoittaessa sieltä löytyy
+  vain yksi testi.png .
