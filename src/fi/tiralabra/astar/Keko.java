@@ -100,6 +100,9 @@ public class Keko {
      * @return 
      */
     public boolean sisaltaakoSaman(Noodi noodi){
+        //TODO: tässä ei nyt verrata ihan jokaista arvoa, täytyy miettiä 
+        //riittääkö tämä tarkkuus, vai pitää laskea Noodeille
+        //yksilöivä tunniste.
         for (int i = 1; i < koko; i++) {
             if (noodi.getxPositio() == Taulu[i].getxPositio() &&
                     noodi.getyPositio() == Taulu[i].getyPositio() &&
