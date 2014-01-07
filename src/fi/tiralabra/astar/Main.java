@@ -64,6 +64,7 @@ public class Main {
         if (polku.size() == 0) {
             System.out.println("Polkua ei löytynyt!");
         } else {
+            System.out.println("Läpikuljettujen noodien määrä:" + polku.size());
             for (int i = 0; i < polku.size(); i++) {
              System.out.print("(" + polku.get(i).getxPositio() + ", " + polku.get(i).getyPositio() + ") -> ");
             }       
