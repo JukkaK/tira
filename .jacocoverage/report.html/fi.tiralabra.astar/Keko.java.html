@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Keko.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;TiraLabraAStar&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">fi.tiralabra.astar</a> &gt; <span class="el_source">Keko.java</span></div><h1>Keko.java</h1><pre class="source lang-java linenums">/*
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Keko.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;TiraLabraAStar&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.html" class="el_package">fi.tiralabra.astar</a> &gt; <span class="el_source">Keko.java</span></div><h1>Keko.java</h1><pre class="source lang-java linenums">/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -100,15 +100,18 @@ public class Keko {
      * @return 
      */
     public boolean sisaltaakoSaman(Noodi noodi){
-<span class="fc bfc" id="L103" title="All 2 branches covered.">        for (int i = 1; i &lt; koko; i++) {</span>
-<span class="pc bpc" id="L104" title="2 of 8 branches missed.">            if (noodi.getxPositio() == Taulu[i].getxPositio() &amp;&amp;</span>
+        //TODO: tässä ei nyt verrata ihan jokaista arvoa, täytyy miettiä 
+        //riittääkö tämä tarkkuus, vai pitää laskea Noodeille
+        //yksilöivä tunniste.
+<span class="fc bfc" id="L106" title="All 2 branches covered.">        for (int i = 1; i &lt; koko; i++) {</span>
+<span class="pc bpc" id="L107" title="2 of 8 branches missed.">            if (noodi.getxPositio() == Taulu[i].getxPositio() &amp;&amp;</span>
                     noodi.getyPositio() == Taulu[i].getyPositio() &amp;&amp;
                     noodi.getKuljettava() == Taulu[i].getKuljettava() &amp;&amp;
                     noodi.getMatkaaJaljella() == Taulu[i].getMatkaaJaljella()) {
-<span class="fc" id="L108">                return true;</span>
+<span class="fc" id="L111">                return true;</span>
             }
         }
-<span class="fc" id="L111">        return false;</span>
+<span class="fc" id="L114">        return false;</span>
     }    
     
     /**
@@ -117,7 +120,7 @@ public class Keko {
      * @return 
      */
     private int vanhempi(int paikka){
-<span class="fc" id="L120">        return paikka / 2;</span>
+<span class="fc" id="L123">        return paikka / 2;</span>
     }
     
     /**
@@ -126,7 +129,7 @@ public class Keko {
      * @return 
      */
     private int vasenLapsi(int paikka){
-<span class="fc" id="L129">        return 2 * paikka;</span>
+<span class="fc" id="L132">        return 2 * paikka;</span>
     }
     
     /**
@@ -135,7 +138,7 @@ public class Keko {
      * @return 
      */
     private int oikeaLapsi(int paikka){
-<span class="nc" id="L138">        return 2* paikka +1;</span>
+<span class="nc" id="L141">        return 2* paikka +1;</span>
     }    
     
     /**
@@ -145,10 +148,10 @@ public class Keko {
      * @return 
      */
     private boolean onkoLehti(int paikka){
-<span class="pc bpc" id="L148" title="1 of 4 branches missed.">        if ((paikka &gt; koko/2) &amp;&amp; (paikka &lt;= koko)) {         </span>
-<span class="fc" id="L149">            return true;</span>
+<span class="pc bpc" id="L151" title="1 of 4 branches missed.">        if ((paikka &gt; koko/2) &amp;&amp; (paikka &lt;= koko)) {         </span>
+<span class="fc" id="L152">            return true;</span>
         } else {
-<span class="fc" id="L151">            return false;</span>
+<span class="fc" id="L154">            return false;</span>
         }
     }
     
@@ -160,10 +163,10 @@ public class Keko {
      */
     private void vaihda(int eka, int toka){
         Noodi temp;
-<span class="fc" id="L163">        temp = Taulu[eka];</span>
-<span class="fc" id="L164">        Taulu[eka] = Taulu[toka];</span>
-<span class="fc" id="L165">        Taulu[toka] = temp;        </span>
-<span class="fc" id="L166">    }</span>
+<span class="fc" id="L166">        temp = Taulu[eka];</span>
+<span class="fc" id="L167">        Taulu[eka] = Taulu[toka];</span>
+<span class="fc" id="L168">        Taulu[toka] = temp;        </span>
+<span class="fc" id="L169">    }</span>
     
     /**
      * 
@@ -172,27 +175,27 @@ public class Keko {
     private void painaAlas(int paikka) {
     int pieninLapsi;
     //Käydään läpi niin kauan kun ei olla puun lehtitasolla
-<span class="fc bfc" id="L175" title="All 2 branches covered.">        while (!onkoLehti(paikka)) {</span>
+<span class="fc bfc" id="L178" title="All 2 branches covered.">        while (!onkoLehti(paikka)) {</span>
             //Vasemmalla on aina pienempi lapsi
-<span class="fc" id="L177">            pieninLapsi = vasenLapsi(paikka);</span>
+<span class="fc" id="L180">            pieninLapsi = vasenLapsi(paikka);</span>
             //
-<span class="fc bfc" id="L179" title="All 4 branches covered.">            if ((pieninLapsi &lt; koko) &amp;&amp; (Taulu[pieninLapsi].getMatkaaJaljella() &gt; Taulu[pieninLapsi+1].getMatkaaJaljella()))</span>
-<span class="fc" id="L180">                pieninLapsi = pieninLapsi + 1;</span>
+<span class="fc bfc" id="L182" title="All 4 branches covered.">            if ((pieninLapsi &lt; koko) &amp;&amp; (Taulu[pieninLapsi].getMatkaaJaljella() &gt; Taulu[pieninLapsi+1].getMatkaaJaljella()))</span>
+<span class="fc" id="L183">                pieninLapsi = pieninLapsi + 1;</span>
             //
-<span class="fc bfc" id="L182" title="All 2 branches covered.">            if (Taulu[paikka].getMatkaaJaljella() &lt;= Taulu[pieninLapsi].getMatkaaJaljella()) </span>
-<span class="fc" id="L183">                return;</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">            if (Taulu[paikka].getMatkaaJaljella() &lt;= Taulu[pieninLapsi].getMatkaaJaljella()) </span>
+<span class="fc" id="L186">                return;</span>
             //
-<span class="fc" id="L185">            vaihda(paikka,pieninLapsi);</span>
-<span class="fc" id="L186">            paikka = pieninLapsi;</span>
+<span class="fc" id="L188">            vaihda(paikka,pieninLapsi);</span>
+<span class="fc" id="L189">            paikka = pieninLapsi;</span>
         }        
-<span class="fc" id="L188">    }</span>
+<span class="fc" id="L191">    }</span>
     
     /**
      * Palauttaa keon pieinimmän arvon poistamatta sitä keosta.
      * @return 
      */
     public Noodi naytaPienin(){
-<span class="fc" id="L195">        return Taulu[1];    </span>
+<span class="fc" id="L198">        return Taulu[1];    </span>
     }
     
     /**
@@ -200,12 +203,12 @@ public class Keko {
      * @return 
      */
     public Noodi poistaPienin() {        
-<span class="fc" id="L203">        vaihda(1,koko);</span>
-<span class="fc" id="L204">        koko--;</span>
-<span class="fc bfc" id="L205" title="All 2 branches covered.">        if (koko != 0)</span>
-<span class="fc" id="L206">            painaAlas(1);</span>
-<span class="fc" id="L207">        return Taulu[koko+1];</span>
+<span class="fc" id="L206">        vaihda(1,koko);</span>
+<span class="fc" id="L207">        koko--;</span>
+<span class="fc bfc" id="L208" title="All 2 branches covered.">        if (koko != 0)</span>
+<span class="fc" id="L209">            painaAlas(1);</span>
+<span class="fc" id="L210">        return Taulu[koko+1];</span>
     }
     
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.201312101107</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.3.201306030806</span></div></body></html>

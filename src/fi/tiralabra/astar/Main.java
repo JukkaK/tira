@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author merte_000
  */
-public class Kaynnistys {    
+public class Main {    
 
     /**
      * @param args the command line arguments
