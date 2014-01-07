@@ -6,6 +6,9 @@
 
 package fi.tiralabra.astar;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 /**
@@ -18,13 +21,61 @@ public class Kaynnistys {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        /*Kartta<Noodi> testiKartta = new Kartta<Noodi>(50, 50);
-        List<Noodi> polku = Kartta.etsiPolku(0, 0, 40, 40);
+        
+        System.out.println("Tervetuloa etsimään polkuja. Haluatko syöttää "
+                + "karttatiedoston nimen (1) vai antaa kartan koon koordinaatteina (jokin muu numero)? ");
+        
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        Kartta kartta;
+        String xAlku;
+        String yAlku;
+        String xLoppu;                
+        String yLoppu;        
 
-        for (int i = 0; i < polku.size(); i++) {
-            System.out.print("(" + polku.get(i).getxPositio() + ", " + polku.get(i).getyPositio() + ") -> ");
-        }*/
+      try {
+          String arvo = br.readLine();
+          if ("1".equals(arvo)) {
+              System.out.println("Anna suoritushakemiston juuressa sijaitsevan "
+                      + "kuvatiedoston nimi tiedostopäätteineen: ");
+              kartta = new Kartta<Noodi>(br.readLine());              
+          } else {
+              System.out.println("Anna kartan x-koordinaattien määrä: ");
+              String x = br.readLine();
+              System.out.println("Anna kartan y-koordinaattien määrä: ");
+              String y = br.readLine();
+              //Lisätään annettuihin koordinaattimääriin yksi koska kartan 
+              //indeksit alkavat nollasta
+              kartta = new Kartta<Noodi>(Integer.parseInt(x)+1, Integer.parseInt(y)+1);
+          }
+          System.out.println("Anna aloituspisteen x-koordinaatti: ");
+          xAlku = br.readLine();
+          System.out.println("Anna aloituspisteen y-koordinaatti: ");
+          yAlku = br.readLine();
+          
+          System.out.println("Anna lopetuspisteen x-koordinaatti: ");
+          xLoppu = br.readLine();
+          System.out.println("Anna lopetuspisteen y-koordinaatti: ");
+          yLoppu = br.readLine();  
+          
+          List<Noodi> polku = kartta.etsiPolku(Integer.parseInt(xAlku), Integer.parseInt(yAlku),
+          Integer.parseInt(xLoppu), Integer.parseInt(yLoppu));
+                  
+          
+        if (polku.size() == 0) {
+            System.out.println("Polkua ei löytynyt!");
+        } else {
+            for (int i = 0; i < polku.size(); i++) {
+             System.out.print("(" + polku.get(i).getxPositio() + ", " + polku.get(i).getyPositio() + ") -> ");
+            }       
+        }
+        
+          
+      } catch (IOException ioe) {
+         System.out.println("IO-virhe vastauksen tulkinnassa");
+         System.exit(1);
+      } catch (Exception ex){
+          throw ex;
+      }
+                             
     }
-
-
 }
