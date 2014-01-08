@@ -149,6 +149,14 @@ private PuuSolmu vanhempi;
     
     /** AVL-puun toteutus **/
     
+    
+    /**
+     * Tarkistaa onko puu tyhjä
+     * @return boolean
+     */
+    public boolean onkoTyhja(){
+        return juuri == null;
+    }
         /**
          * Lisää noodin puuhun
          * @param noodi Lisättävä Noodi
@@ -202,9 +210,12 @@ private PuuSolmu vanhempi;
                         juuri = oikeaVasenKaannos(juuri);
             }
             else{
-                //Jos annettu solmu on tismalleen sama kuin juurisolmu,
-                //TODO: pitäisi varmaan tehdä jotain? Kait noodeilla voi olla
-                //sama jäljellä oleva matka?
+                //TODO: Jos annettu solmu on tismalleen sama kuin juurisolmu,                
+                // mitä tehdään? Tällöin siis arviotu jäljellä oleva matka on
+                // sama, vaikka koordinaatit poikkeavat toisistaan. Pitäisikö
+                // laskea jokaiselle Noodille joku yksilöivä hash? Silloin
+                // sen pitäisi olla vertailtava että saman jäljellä olevan
+                // matkan omaavat noodit voidaan laittaa järjestykseen.
                 System.out.println("Yritettiin lisätä solmua joka löytyy jo!");
             }
             
@@ -221,6 +232,14 @@ private PuuSolmu vanhempi;
             PuuSolmu pienin = etsiPienin(juuri);
             remove(pienin, juuri);
             return pienin.noodi;
+        }
+        
+        /**
+         * Palauttaa pienimmän Noodin mutta ei poista sitä.
+         * @return Noodi
+         */
+        public Noodi naytaPieninNoodi(){
+            return etsiPienin(juuri).noodi;
         }
                 
         /**

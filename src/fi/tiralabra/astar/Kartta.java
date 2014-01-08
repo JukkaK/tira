@@ -157,6 +157,7 @@ public class Kartta<T extends Noodi> {
     /** Lista jossa läpikäymättömät viereiset Noodit */
     //private PriorityQueue<Noodi> kaymattomatNoodit;
     private Keko kaymattomatNoodit;
+    //private AvlPuu kaymattomatNoodit;
     /** Läpikäydyt Noodit */
     private List<T> kaydytNoodit;
     /** Onko polku löytynyt? */
@@ -174,9 +175,11 @@ public class Kartta<T extends Noodi> {
       // TODO: Tarkistukset?      
       //kaymattomatNoodit = new PriorityQueue<Noodi>(11, noodiVertailija);
         kaymattomatNoodit = new Keko(11);
+        //kaymattomatNoodit = new AvlPuu();
       kaydytNoodit = new LinkedList<T>();
       //kaymattomatNoodit.add(noodit[alkuX][alkuY]);
       kaymattomatNoodit.lisaa(noodit[alkuX][alkuY]);
+      //kaymattomatNoodit.insert(noodit[alkuX][alkuY]);
 
       valmis = false;
       T valittu;
@@ -187,6 +190,7 @@ public class Kartta<T extends Noodi> {
           kaydytNoodit.add(valittu); 
           //kaymattomatNoodit.remove(valittu);
           kaymattomatNoodit.poistaPienin();
+          //kaymattomatNoodit.poistaPieninNoodi();
 
           /** Onko piste loppupiste? */
           if ((valittu.getxPositio() == loppuX)
@@ -208,6 +212,7 @@ public class Kartta<T extends Noodi> {
           }
 
           //if (kaymattomatNoodit.isEmpty()) { 
+          //if (kaymattomatNoodit.onkoTyhja()) { 
           if (kaymattomatNoodit.onkoTyhja()) { 
               return new LinkedList<T>(); 
           }
@@ -308,12 +313,14 @@ public class Kartta<T extends Noodi> {
 //        Noodi valittuViereinen, Noodi valittu, int loppuX, int loppuY){        
     private void asetaKaymatonNoodi(Keko kaymattomatNoodit, 
         Noodi valittuViereinen, Noodi valittu, int loppuX, int loppuY){        
-    
+ //private void asetaKaymatonNoodi(AvlPuu kaymattomatNoodit, 
+ //       Noodi valittuViereinen, Noodi valittu, int loppuX, int loppuY){            
         valittuViereinen.setEdellinenNoodi(valittu); 
         valittuViereinen.setMatkaJaljella(noodit[loppuX][loppuY]); 
         valittuViereinen.setTehtyMatka(valittu); 
         //kaymattomatNoodit.add(valittuViereinen);
         kaymattomatNoodit.lisaa(valittuViereinen);
+        //kaymattomatNoodit.insert(valittuViereinen);
     }
     
     /**
@@ -342,5 +349,6 @@ public class Kartta<T extends Noodi> {
         //keosta.
         //return kaymattomatNoodit.poll();
         return kaymattomatNoodit.naytaPienin();
+        //return kaymattomatNoodit.naytaPieninNoodi();
     }                       
 }
