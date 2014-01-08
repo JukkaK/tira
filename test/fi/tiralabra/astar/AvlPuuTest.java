@@ -90,4 +90,42 @@ public class AvlPuuTest {
         assertTrue(puu.SamaPuu(puu2));
 
     }
+    
+    @Test
+    public void testInsert(){
+        AvlPuu puu = new AvlPuu();
+        Noodi noodi = new Noodi(0,0);
+        noodi.setMatkaJaljella(10);
+        noodi.setTehtyMatka(0);
+        puu.insert(noodi);
+        Noodi noodi2 = new Noodi(1,0);
+        noodi2.setMatkaJaljella(9);
+        noodi2.setTehtyMatka(noodi);
+        puu.insert(noodi2);
+        Noodi noodi3 = new Noodi(2,0);
+        noodi3.setMatkaJaljella(12);
+        noodi3.setTehtyMatka(noodi2);
+        puu.insert(noodi3);
+        Noodi noodi4 = new Noodi(3,0);
+        noodi4.setMatkaJaljella(7);
+        noodi4.setTehtyMatka(noodi3);
+        puu.insert(noodi4);
+        Noodi noodi5 = new Noodi(4,0);
+        noodi5.setMatkaJaljella(20);
+        noodi5.setTehtyMatka(noodi4);
+        puu.insert(noodi5);
+        Noodi noodi6 = new Noodi(5,0);
+        noodi6.setMatkaJaljella(2);
+        noodi6.setTehtyMatka(noodi5);
+        puu.insert(noodi6);
+        
+        
+        puu.tulostaJarjestyksessa();
+        System.out.println("-----------------");        
+        puu.tulostaTasot();
+        
+        assertEquals(puu.laskeSolmut(), 6);
+
+        
+    }
 }

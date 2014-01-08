@@ -36,9 +36,9 @@ private PuuSolmu juuri;
     }
   }
 
-  public void insert(Noodi noodi) {
+  /*public void insert(Noodi noodi) {
     juuri = insert(juuri, noodi);
-  }
+  }*/
 
   private PuuSolmu insert(PuuSolmu solmu, Noodi noodi) {
     if (solmu==null) {
@@ -137,10 +137,157 @@ private PuuSolmu juuri;
                 SamaPuu(a.vasen, b.vasen) &&
                 SamaPuu(a.oikea, b.oikea)
             );
-  }
+    }
 
-  else return false;
+    else return false;
 
-    }    
+      }    
     
+    
+        /**
+         * Lisää noodin puuhun
+         * @param noodi Lisättävä Noodi
+         */
+        public void insert(Noodi noodi)
+        {
+            PuuSolmu solmu = new PuuSolmu(noodi);
+            juuri = insert(solmu, juuri);
+        }
+    
+        /**
+         * Uuden solmun lisäys puuhun, sekä puun tasapainoitus. Tehdään
+         * siis rekursiivinen lisäys, eli metodi kutsuu tarvittaessa itseään.
+         * @param solmu lisättävä PuuSolmu
+         * @param juuri annettu juuri PuuSolmu
+         * @return uusi juuri PuuSolmu
+         */
+        private PuuSolmu insert(PuuSolmu solmu, PuuSolmu juuri)
+        {
+            if( juuri == null )
+                juuri = new PuuSolmu(solmu.noodi);
+           else if(vertaaSolmuja(solmu, juuri) < 0)
+            {
+                //Jos annettu solmu on pienempi kuin juurisolmu,
+                //lisätään se vasemmalle puolelle
+                juuri.vasen = insert(solmu, juuri.vasen);
+                
+                //Tarkistetaan tasapaino
+                if (laskeKorkeus(juuri.vasen) - laskeKorkeus(juuri.oikea) == 2) {
+                    if (vertaaSolmuja(solmu, juuri.vasen) < 0) {
+                        //Lisätty on pienempi kuin juuren vasen solmu
+                        juuri = kaannaOikealle( juuri );
+                    } else {
+                        //Lisätty on suurempi kuin juuren vasen solmu
+                       juuri = vasenOikeaKaannos( juuri );                   
+                    }                    
+                }                                
+            }
+            else if(vertaaSolmuja(solmu, juuri) > 0 )
+            {
+                //jos annettu solmu on suurempi kuin juurisolmu,
+                //lisätään se oikealle puolelle
+                juuri.oikea = insert(solmu, juuri.oikea);
+                //Tarkistetaan tasapaino
+                if( laskeKorkeus(juuri.oikea) - laskeKorkeus(juuri.vasen) == 2 )
+                    if(vertaaSolmuja(solmu, juuri.oikea) > 0 )
+                        //Lisätty on suurempi kuin juuren oikea solmu
+                        juuri = kaannaVasemmalle(juuri);
+                    else
+                        //Lisätty on pienempi kuin juuren oikea solmu
+                        juuri = oikeaVasenKaannos(juuri);
+            }
+            else{
+                //Jos annettu solmu on tismalleen sama kuin juurisolmu,
+                //TODO: pitäisi varmaan tehdä jotain? Kait noodeilla voi olla
+                //sama jäljellä oleva matka?
+                System.out.println("Yritettiin lisätä solmua joka löytyy jo!");
+            }
+            
+            //Päivitetään juuren korkeutta
+            juuri.korkeus = max(laskeKorkeus(juuri.vasen), laskeKorkeus(juuri.oikea)) + 1;
+            return juuri;
+        }    
+
+        /**
+         * Palauta solmun korkeus, tai -1 jos korkeutta ei ole
+         */
+        private int laskeKorkeus(PuuSolmu solmu)
+        {
+            return solmu == null ? -1 : solmu.korkeus;
+        }    
+
+        /**
+        * Palauttaa suuremman annetuista parametreistä
+        */
+        private static int max( int a, int b )
+        {
+            return a > b ? a : b;
+        }
+
+        /**
+         * Kääntää annetun solmun oikealle, eli tekee annetusta solmusta
+         * sen vasemman solmun oikean lapsen, ja vasemman solmun oikeasta lapsesta
+         * annetun solmun vasemman lapsen.
+         * @param solmu
+         * @return PuuSolmu, joka ottaa annetun solmun paikan paikallisen puun
+         * ylimpänä solmuna
+         */
+        private PuuSolmu kaannaOikealle( PuuSolmu k2 )
+        {
+            PuuSolmu k1 = k2.vasen;
+            k2.vasen = k1.oikea;
+            k1.oikea = k2;
+            k2.korkeus = max(laskeKorkeus(k2.vasen), laskeKorkeus(k2.oikea)) + 1;
+            k1.korkeus = max(laskeKorkeus(k1.vasen), k1.korkeus) + 1;
+            return k1;
+        }
+
+        /**
+         * Kääntää annetun solmun vasemmalle, eli tekee annetusta solmusta
+         * sen oikean solmun vasemman lapsen, ja oikean solmun vasemmasta
+         * lapsesta annetun solmun oikean lapsen.
+         * @param k1
+         * @return PuuSolmu, joka ottaa annetun solmun paikan paikallisen puun
+         * ylimpänä solmuna
+         */
+        private PuuSolmu kaannaVasemmalle (PuuSolmu k1){
+            PuuSolmu k2 = k1.oikea;
+            k1.oikea = k2.vasen;
+            k2.vasen = k1;
+            k1.korkeus = max(laskeKorkeus(k1.vasen), laskeKorkeus(k1.oikea) ) + 1;
+            k2.korkeus = max(laskeKorkeus(k2.vasen), k2.korkeus) + 1;
+            return k2;
+        }
+    
+        /**
+         * Kääntää ensin annetun solmun vasemmalle, ja sitten oikealle,
+         * jolloin solmun vasemman lapsen oikea lapsi nousee solmun paikalle
+         * ja solmu putoaa tämän oikeaksi lapseksi
+         * @param k3
+         * @return PuuSolmu, joka ottaa annetun solmun paikan paikallisen puun
+         * ylimpänä solmuna
+         */
+        private PuuSolmu vasenOikeaKaannos(PuuSolmu k3)
+        {
+            k3.vasen = kaannaVasemmalle(k3.vasen);
+            return kaannaOikealle(k3);
+        }    
+
+        /**
+         * Kääntää ensin annetun solmun oikealle, ja sitten vasemmalle,
+         * jolloin solmun oikean lapsen vasen lapsi nousee solmun paikalle,
+         * ja solmu putoaa tämän vasemmaksi lapseksi
+         * @param k1
+         * @return PuuSolmu, joka ottaa annetun solmun paikan paikallisen puun
+         * ylimpänä solmuna
+         */
+        private PuuSolmu oikeaVasenKaannos(PuuSolmu k1){
+           k1.oikea = kaannaOikealle(k1.oikea);
+           return kaannaVasemmalle(k1);
+        }
+        
+        private int vertaaSolmuja (PuuSolmu x, PuuSolmu y){
+            return (x.noodi.getMatkaaJaljella() - y.noodi.getMatkaaJaljella());
+        }
+            
 }
