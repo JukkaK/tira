@@ -11,6 +11,9 @@ package fi.tiralabra.astar;
 public class AvlPuu {
     
 private PuuSolmu juuri;
+private PuuSolmu vanhempi;
+
+/**Binääripuun alkuperäinen toteutus */
 
   public void AvlPuu() {
     juuri = null;
@@ -144,11 +147,13 @@ private PuuSolmu juuri;
       }    
     
     
+    /** AVL-puun toteutus **/
+    
         /**
          * Lisää noodin puuhun
          * @param noodi Lisättävä Noodi
          */
-        public void insert(Noodi noodi)
+       public void insert(Noodi noodi)
         {
             PuuSolmu solmu = new PuuSolmu(noodi);
             juuri = insert(solmu, juuri);
@@ -207,6 +212,97 @@ private PuuSolmu juuri;
             juuri.korkeus = max(laskeKorkeus(juuri.vasen), laskeKorkeus(juuri.oikea)) + 1;
             return juuri;
         }    
+        
+        /**
+         * Palauttaa puun pienimmän Noodin ja poistaa sen.
+         * @return Noodi
+         */
+        public Noodi poistaPieninNoodi(){
+            PuuSolmu pienin = etsiPienin(juuri);
+            remove(pienin, juuri);
+            return pienin.noodi;
+        }
+                
+        /**
+         * Internal method to remove from a subtree.
+         * @param x the item to remove.
+         * @param t the node that roots the subtree.
+         * @return the new root of the subtree.
+         */
+        private PuuSolmu remove( PuuSolmu solmu, PuuSolmu juuri )
+        {            
+            if( juuri == null )
+                return juuri;
+
+            int vertailu = vertaaSolmuja(solmu, juuri);
+
+            //Jos poistettava on pienempi kuin juuri, poistetaan vasemmalla
+            if(vertailu < 0){                                
+                juuri.vasen = remove(solmu, juuri.vasen);                
+            }
+            //Jos poistettava on suurempi kuin juuri, poistetaan oikealta                                                
+            else if(vertailu > 0) {
+                juuri.oikea = remove(solmu, juuri.oikea);                                                        
+            }
+            // Jos vertailun tulos 0, on löydetty poistettava solmu            
+            //Jos solmulla on kaksi lasta            
+            else if( juuri.vasen != null && juuri.oikea != null )
+            {                
+                //Asetetaan löydettyyn solmuun arvoksi oikean puolen pienin
+                //arvo, ts. korvataan se pienimmällä
+                juuri.noodi = etsiPienin(juuri.oikea).noodi;
+                //Sitten poistetaan noodi jolla on korvattu, eli duplikaatti
+                juuri.oikea = remove(solmu, juuri.oikea);                
+            } else {
+              //Jos solmulla on vain yksi lapsi, asetetaan se solmun tilalle  
+              juuri = (juuri.vasen != null) ? juuri.vasen : juuri.oikea;
+            } 
+            //Lopuksi tasapainotetaan koko puu            
+            return tasapainotaPuu(juuri);
+        }  
+   
+        /**
+         * Tasapainottaa puun annetusta solmusta alaspäin.
+         * @param solmu
+         * @return Asennetun solmun korvannut solmu
+         */
+        private PuuSolmu tasapainotaPuu(PuuSolmu solmu)
+         {
+             if( solmu == null )
+                 return solmu;
+             //Jos puu on kallellaan vasemmalle
+             if( laskeKorkeus(solmu.vasen) - laskeKorkeus(solmu.oikea) > 1)
+                 if( laskeKorkeus(solmu.vasen.vasen) >= laskeKorkeus(solmu.vasen.oikea))
+                     solmu = kaannaOikealle(solmu);
+                 else
+                     solmu = vasenOikeaKaannos(solmu);
+             else
+             //Jos puu on kallellaan oikealle    
+             if( laskeKorkeus(solmu.oikea) - laskeKorkeus(solmu.vasen) > 1)
+                 if(laskeKorkeus(solmu.oikea.oikea) >= laskeKorkeus(solmu.oikea.vasen))
+                     solmu = kaannaVasemmalle(solmu);
+                 else
+                     solmu = oikeaVasenKaannos(solmu);
+             //Päivitetään solmun korkeutta
+             solmu.korkeus = Math.max(laskeKorkeus(solmu.vasen), laskeKorkeus(solmu.oikea))+1;
+             return solmu;
+         }        
+    
+        /**
+         * Etsii puun pienimmän solmun, eli vasemmanpuoleisimman lehden
+         * @param solmu
+         * @return PuuSolmu
+         */
+        private PuuSolmu etsiPienin(PuuSolmu solmu)
+        {
+            if( solmu == null )
+                return solmu;
+
+            while( solmu.vasen != null )
+                solmu = solmu.vasen;
+            return solmu;
+        }    
+    
 
         /**
          * Palauta solmun korkeus, tai -1 jos korkeutta ei ole
