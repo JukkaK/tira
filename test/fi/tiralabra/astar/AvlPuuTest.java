@@ -59,15 +59,6 @@ public class AvlPuuTest {
     }
 
     /**
-     * Test of onkoTasapainossa method, of class AvlPuu.
-     */
-    @Test
-    public void testOnkoTasapainossa() {
-        AvlPuu puu = new AvlPuu();
-        assertTrue(puu.onkoTasapainossa());
-    }
-
-    /**
      * Test of SamaPuu method, of class AvlPuu.
      */
     @Test

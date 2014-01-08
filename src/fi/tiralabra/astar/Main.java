@@ -58,7 +58,7 @@ public class Main {
           yLoppu = br.readLine();  
           
           List<Noodi> polku = kartta.etsiPolku(Integer.parseInt(xAlku), Integer.parseInt(yAlku),
-          Integer.parseInt(xLoppu), Integer.parseInt(yLoppu));
+          Integer.parseInt(xLoppu), Integer.parseInt(yLoppu), "");
                   
           
         if (polku.size() == 0) {

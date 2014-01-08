@@ -212,7 +212,7 @@ public class Noodi {
         hash = hash * 17 + this.matkaJaljella;
         hash = hash * 31 + this.xPositio;
         hash = hash * 13 + this.yPositio;
-        hash = hash * 71 + this.edellinenNoodi.hashCode();
+        hash = hash * 71 + this.matkaTehty;
         return hash;
     }
 }

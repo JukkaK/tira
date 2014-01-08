@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AvlPuu.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;TiraLabraAStar&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">fi.tiralabra.astar</a> &gt; <span class="el_source">AvlPuu.java</span></div><h1>AvlPuu.java</h1><pre class="source lang-java linenums">/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package fi.tiralabra.astar;
+
+/**
+ *
+ * @author Jukka Koskelin
+ */
+<span class="fc" id="L11">public class AvlPuu {</span>
+    
+private PuuSolmu juuri;
+private PuuSolmu vanhempi;
+
+/**Binääripuun alkuperäinen toteutus */
+
+  public void AvlPuu() {
+<span class="nc" id="L19">    juuri = null;</span>
+<span class="nc" id="L20">  }</span>
+
+  public boolean lookup(Noodi noodi) {
+<span class="fc" id="L23">    return(lookup(juuri, noodi));</span>
+  }
+
+  private boolean lookup(PuuSolmu solmu, Noodi noodi) {
+<span class="pc bpc" id="L27" title="1 of 2 branches missed.">    if (solmu==null) {</span>
+<span class="nc" id="L28">      return(false);</span>
+    }
+
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">    if (noodi==solmu.noodi) {</span>
+<span class="fc" id="L32">      return(true);</span>
+    }
+<span class="nc bnc" id="L34" title="All 2 branches missed.">    else if (noodi.getMatkaaJaljella()&lt;solmu.noodi.getMatkaaJaljella()) {</span>
+<span class="nc" id="L35">      return(lookup(solmu.vasen, noodi));</span>
+    }
+    else {
+<span class="nc" id="L38">      return(lookup(solmu.oikea, noodi));</span>
+    }
+  }
+
+    public void tulostaJarjestyksessa(){
+<span class="fc" id="L43">    tulostaJarjestyksessa( juuri );</span>
+<span class="fc" id="L44">    }</span>
+    private void tulostaJarjestyksessa(PuuSolmu solmu) {
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if ( solmu == null ) return;</span>
+<span class="fc" id="L47">        tulostaJarjestyksessa(solmu.vasen);</span>
+<span class="fc" id="L48">        System.out.println( solmu.noodi.getMatkaaJaljella() );</span>
+<span class="fc" id="L49">        tulostaJarjestyksessa(solmu.oikea);</span>
+<span class="fc" id="L50">    }</span>
+
+    public int laskeSolmut(){
+<span class="fc" id="L53">        return laskeSolmut(juuri, 0);</span>
+        
+
+    }
+    //Aikavaatimus: N, missä N on solmujen määrä
+    //Tilavaatimus: 2N
+    private int laskeSolmut(PuuSolmu solmu, int summa){
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        if (solmu == null) return summa;</span>
+<span class="fc" id="L61">        summa = laskeSolmut(solmu.vasen, summa);</span>
+<span class="fc" id="L62">        summa++;</span>
+<span class="fc" id="L63">        summa = laskeSolmut(solmu.oikea, summa);</span>
+<span class="fc" id="L64">        return summa;</span>
+    }
+
+    public void tulostaTasot(){
+<span class="fc" id="L68">        System.out.println(juuri.noodi.getMatkaaJaljella());</span>
+<span class="fc" id="L69">        tulostaTasot(juuri);</span>
+<span class="fc" id="L70">    }</span>
+
+    private void tulostaTasot(PuuSolmu solmu){
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        if (solmu == null) return;</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (solmu.vasen != null) System.out.println(solmu.vasen.noodi.getMatkaaJaljella() + &quot;, isä: &quot; + solmu.noodi.getMatkaaJaljella());</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        if (solmu.oikea != null) System.out.println(solmu.oikea.noodi.getMatkaaJaljella() + &quot;, isä: &quot; + solmu.noodi.getMatkaaJaljella());</span>
+<span class="fc" id="L76">        tulostaTasot(solmu.vasen);</span>
+<span class="fc" id="L77">        tulostaTasot(solmu.oikea);</span>
+<span class="fc" id="L78">    }</span>
+
+    public boolean SamaPuu(AvlPuu toinenPuu){
+<span class="fc" id="L81">       return SamaPuu(juuri, toinenPuu.juuri);</span>
+    }
+
+    private boolean SamaPuu(PuuSolmu a, PuuSolmu b){
+<span class="pc bpc" id="L85" title="1 of 4 branches missed.">        if (a == null &amp;&amp; b == null) return true;</span>
+
+<span class="pc bpc" id="L87" title="2 of 4 branches missed.">        else if (a!=null &amp;&amp; b!=null) {</span>
+<span class="pc bpc" id="L88" title="3 of 6 branches missed.">            return(</span>
+                a.noodi == b.noodi &amp;&amp;
+                SamaPuu(a.vasen, b.vasen) &amp;&amp;
+                SamaPuu(a.oikea, b.oikea)
+            );
+    }
+
+<span class="nc" id="L95">    else return false;</span>
+
+      }    
+    
+    
+    /** AVL-puun toteutus **/
+    
+    
+    /**
+     * Tarkistaa onko puu tyhjä
+     * @return boolean
+     */
+    public boolean onkoTyhja(){
+<span class="nc bnc" id="L108" title="All 2 branches missed.">        return juuri == null;</span>
+    }
+        /**
+         * Lisää noodin puuhun
+         * @param noodi Lisättävä Noodi
+         */
+       public void insert(Noodi noodi)
+        {
+<span class="fc" id="L116">            PuuSolmu solmu = new PuuSolmu(noodi);</span>
+<span class="fc" id="L117">            juuri = insert(solmu, juuri);</span>
+<span class="fc" id="L118">        }</span>
+    
+        /**
+         * Uuden solmun lisäys puuhun, sekä puun tasapainoitus. Tehdään
+         * siis rekursiivinen lisäys, eli metodi kutsuu tarvittaessa itseään.
+         * @param solmu lisättävä PuuSolmu
+         * @param juuri annettu juuri PuuSolmu
+         * @return uusi juuri PuuSolmu
+         */
+        private PuuSolmu insert(PuuSolmu solmu, PuuSolmu juuri)
+        {
+<span class="fc bfc" id="L129" title="All 2 branches covered.">            if( juuri == null )</span>
+<span class="fc" id="L130">                juuri = new PuuSolmu(solmu.noodi);</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">           else if(vertaaSolmuja(solmu, juuri) &lt; 0)</span>
+            {
+                //Jos annettu solmu on pienempi kuin juurisolmu,
+                //lisätään se vasemmalle puolelle
+<span class="fc" id="L135">                juuri.vasen = insert(solmu, juuri.vasen);</span>
+                
+                //Tarkistetaan tasapaino
+<span class="fc bfc" id="L138" title="All 2 branches covered.">                if (laskeKorkeus(juuri.vasen) - laskeKorkeus(juuri.oikea) == 2) {</span>
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">                    if (vertaaSolmuja(solmu, juuri.vasen) &lt; 0) {</span>
+                        //Lisätty on pienempi kuin juuren vasen solmu
+<span class="fc" id="L141">                        juuri = kaannaOikealle( juuri );</span>
+                    } else {
+                        //Lisätty on suurempi kuin juuren vasen solmu
+<span class="nc" id="L144">                       juuri = vasenOikeaKaannos( juuri );                   </span>
+                    }                    
+                }                                
+            }
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">            else if(vertaaSolmuja(solmu, juuri) &gt; 0 )</span>
+            {
+                //jos annettu solmu on suurempi kuin juurisolmu,
+                //lisätään se oikealle puolelle
+<span class="fc" id="L152">                juuri.oikea = insert(solmu, juuri.oikea);</span>
+                //Tarkistetaan tasapaino
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">                if( laskeKorkeus(juuri.oikea) - laskeKorkeus(juuri.vasen) == 2 )</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">                    if(vertaaSolmuja(solmu, juuri.oikea) &gt; 0 )</span>
+                        //Lisätty on suurempi kuin juuren oikea solmu
+<span class="nc" id="L157">                        juuri = kaannaVasemmalle(juuri);</span>
+                    else
+                        //Lisätty on pienempi kuin juuren oikea solmu
+<span class="nc" id="L160">                        juuri = oikeaVasenKaannos(juuri);</span>
+            }
+            else{
+                //TODO: Jos annettu solmu on tismalleen sama kuin juurisolmu,                
+                // mitä tehdään? Tällöin siis arviotu jäljellä oleva matka on
+                // sama, vaikka koordinaatit poikkeavat toisistaan. Pitäisikö
+                // laskea jokaiselle Noodille joku yksilöivä hash? Silloin
+                // sen pitäisi olla vertailtava että saman jäljellä olevan
+                // matkan omaavat noodit voidaan laittaa järjestykseen.
+<span class="nc" id="L169">                System.out.println(&quot;Yritettiin lisätä solmua joka löytyy jo!&quot;);</span>
+            }
+            
+            //Päivitetään juuren korkeutta
+<span class="fc" id="L173">            juuri.korkeus = max(laskeKorkeus(juuri.vasen), laskeKorkeus(juuri.oikea)) + 1;</span>
+<span class="fc" id="L174">            return juuri;</span>
+        }    
+        
+        /**
+         * Palauttaa puun pienimmän Noodin ja poistaa sen.
+         * @return Noodi
+         */
+        public Noodi poistaPieninNoodi(){
+<span class="fc" id="L182">            PuuSolmu pienin = etsiPienin(juuri);</span>
+<span class="fc" id="L183">            remove(pienin, juuri);</span>
+<span class="fc" id="L184">            return pienin.noodi;</span>
+        }
+        
+        /**
+         * Palauttaa pienimmän Noodin mutta ei poista sitä.
+         * @return Noodi
+         */
+        public Noodi naytaPieninNoodi(){
+<span class="nc" id="L192">            return etsiPienin(juuri).noodi;</span>
+        }
+                
+        /**
+         * Internal method to remove from a subtree.
+         * @param x the item to remove.
+         * @param t the node that roots the subtree.
+         * @return the new root of the subtree.
+         */
+        private PuuSolmu remove( PuuSolmu solmu, PuuSolmu juuri )
+        {            
+<span class="pc bpc" id="L203" title="1 of 2 branches missed.">            if( juuri == null )</span>
+<span class="nc" id="L204">                return juuri;</span>
+
+<span class="fc" id="L206">            int vertailu = vertaaSolmuja(solmu, juuri);</span>
+
+            //Jos poistettava on pienempi kuin juuri, poistetaan vasemmalla
+<span class="fc bfc" id="L209" title="All 2 branches covered.">            if(vertailu &lt; 0){                                </span>
+<span class="fc" id="L210">                juuri.vasen = remove(solmu, juuri.vasen);                </span>
+            }
+            //Jos poistettava on suurempi kuin juuri, poistetaan oikealta                                                
+<span class="pc bpc" id="L213" title="1 of 2 branches missed.">            else if(vertailu &gt; 0) {</span>
+<span class="nc" id="L214">                juuri.oikea = remove(solmu, juuri.oikea);                                                        </span>
+            }
+            // Jos vertailun tulos 0, on löydetty poistettava solmu            
+            //Jos solmulla on kaksi lasta            
+<span class="pc bpc" id="L218" title="3 of 4 branches missed.">            else if( juuri.vasen != null &amp;&amp; juuri.oikea != null )</span>
+            {                
+                //Asetetaan löydettyyn solmuun arvoksi oikean puolen pienin
+                //arvo, ts. korvataan se pienimmällä
+<span class="nc" id="L222">                juuri.noodi = etsiPienin(juuri.oikea).noodi;</span>
+                //Sitten poistetaan noodi jolla on korvattu, eli duplikaatti
+<span class="nc" id="L224">                juuri.oikea = remove(solmu, juuri.oikea);                </span>
+            } else {
+              //Jos solmulla on vain yksi lapsi, asetetaan se solmun tilalle  
+<span class="pc bpc" id="L227" title="1 of 2 branches missed.">              juuri = (juuri.vasen != null) ? juuri.vasen : juuri.oikea;</span>
+            } 
+            //Lopuksi tasapainotetaan koko puu            
+<span class="fc" id="L230">            return tasapainotaPuu(juuri);</span>
+        }  
+   
+        /**
+         * Tasapainottaa puun annetusta solmusta alaspäin.
+         * @param solmu
+         * @return Asennetun solmun korvannut solmu
+         */
+        private PuuSolmu tasapainotaPuu(PuuSolmu solmu)
+         {
+<span class="fc bfc" id="L240" title="All 2 branches covered.">             if( solmu == null )</span>
+<span class="fc" id="L241">                 return solmu;</span>
+             //Jos puu on kallellaan vasemmalle
+<span class="pc bpc" id="L243" title="1 of 2 branches missed.">             if( laskeKorkeus(solmu.vasen) - laskeKorkeus(solmu.oikea) &gt; 1)</span>
+<span class="nc bnc" id="L244" title="All 2 branches missed.">                 if( laskeKorkeus(solmu.vasen.vasen) &gt;= laskeKorkeus(solmu.vasen.oikea))</span>
+<span class="nc" id="L245">                     solmu = kaannaOikealle(solmu);</span>
+                 else
+<span class="nc" id="L247">                     solmu = vasenOikeaKaannos(solmu);</span>
+             else
+             //Jos puu on kallellaan oikealle    
+<span class="pc bpc" id="L250" title="1 of 2 branches missed.">             if( laskeKorkeus(solmu.oikea) - laskeKorkeus(solmu.vasen) &gt; 1)</span>
+<span class="nc bnc" id="L251" title="All 2 branches missed.">                 if(laskeKorkeus(solmu.oikea.oikea) &gt;= laskeKorkeus(solmu.oikea.vasen))</span>
+<span class="nc" id="L252">                     solmu = kaannaVasemmalle(solmu);</span>
+                 else
+<span class="nc" id="L254">                     solmu = oikeaVasenKaannos(solmu);</span>
+             //Päivitetään solmun korkeutta
+<span class="fc" id="L256">             solmu.korkeus = Math.max(laskeKorkeus(solmu.vasen), laskeKorkeus(solmu.oikea))+1;</span>
+<span class="fc" id="L257">             return solmu;</span>
+         }        
+    
+        /**
+         * Etsii puun pienimmän solmun, eli vasemmanpuoleisimman lehden
+         * @param solmu
+         * @return PuuSolmu
+         */
+        private PuuSolmu etsiPienin(PuuSolmu solmu)
+        {
+<span class="pc bpc" id="L267" title="1 of 2 branches missed.">            if( solmu == null )</span>
+<span class="nc" id="L268">                return solmu;</span>
+
+<span class="fc bfc" id="L270" title="All 2 branches covered.">            while( solmu.vasen != null )</span>
+<span class="fc" id="L271">                solmu = solmu.vasen;</span>
+<span class="fc" id="L272">            return solmu;</span>
+        }    
+    
+
+        /**
+         * Palauta solmun korkeus, tai -1 jos korkeutta ei ole
+         */
+        private int laskeKorkeus(PuuSolmu solmu)
+        {
+<span class="fc bfc" id="L281" title="All 2 branches covered.">            return solmu == null ? -1 : solmu.korkeus;</span>
+        }    
+
+        /**
+        * Palauttaa suuremman annetuista parametreistä
+        */
+        private static int max( int a, int b )
+        {
+<span class="fc bfc" id="L289" title="All 2 branches covered.">            return a &gt; b ? a : b;</span>
+        }
+
+        /**
+         * Kääntää annetun solmun oikealle, eli tekee annetusta solmusta
+         * sen vasemman solmun oikean lapsen, ja vasemman solmun oikeasta lapsesta
+         * annetun solmun vasemman lapsen.
+         * @param solmu
+         * @return PuuSolmu, joka ottaa annetun solmun paikan paikallisen puun
+         * ylimpänä solmuna
+         */
+        private PuuSolmu kaannaOikealle( PuuSolmu k2 )
+        {
+<span class="fc" id="L302">            PuuSolmu k1 = k2.vasen;</span>
+<span class="fc" id="L303">            k2.vasen = k1.oikea;</span>
+<span class="fc" id="L304">            k1.oikea = k2;</span>
+<span class="fc" id="L305">            k2.korkeus = max(laskeKorkeus(k2.vasen), laskeKorkeus(k2.oikea)) + 1;</span>
+<span class="fc" id="L306">            k1.korkeus = max(laskeKorkeus(k1.vasen), k1.korkeus) + 1;</span>
+<span class="fc" id="L307">            return k1;</span>
+        }
+
+        /**
+         * Kääntää annetun solmun vasemmalle, eli tekee annetusta solmusta
+         * sen oikean solmun vasemman lapsen, ja oikean solmun vasemmasta
+         * lapsesta annetun solmun oikean lapsen.
+         * @param k1
+         * @return PuuSolmu, joka ottaa annetun solmun paikan paikallisen puun
+         * ylimpänä solmuna
+         */
+        private PuuSolmu kaannaVasemmalle (PuuSolmu k1){
+<span class="nc" id="L319">            PuuSolmu k2 = k1.oikea;</span>
+<span class="nc" id="L320">            k1.oikea = k2.vasen;</span>
+<span class="nc" id="L321">            k2.vasen = k1;</span>
+<span class="nc" id="L322">            k1.korkeus = max(laskeKorkeus(k1.vasen), laskeKorkeus(k1.oikea) ) + 1;</span>
+<span class="nc" id="L323">            k2.korkeus = max(laskeKorkeus(k2.vasen), k2.korkeus) + 1;</span>
+<span class="nc" id="L324">            return k2;</span>
+        }
+    
+        /**
+         * Kääntää ensin annetun solmun vasemmalle, ja sitten oikealle,
+         * jolloin solmun vasemman lapsen oikea lapsi nousee solmun paikalle
+         * ja solmu putoaa tämän oikeaksi lapseksi
+         * @param k3
+         * @return PuuSolmu, joka ottaa annetun solmun paikan paikallisen puun
+         * ylimpänä solmuna
+         */
+        private PuuSolmu vasenOikeaKaannos(PuuSolmu k3)
+        {
+<span class="nc" id="L337">            k3.vasen = kaannaVasemmalle(k3.vasen);</span>
+<span class="nc" id="L338">            return kaannaOikealle(k3);</span>
+        }    
+
+        /**
+         * Kääntää ensin annetun solmun oikealle, ja sitten vasemmalle,
+         * jolloin solmun oikean lapsen vasen lapsi nousee solmun paikalle,
+         * ja solmu putoaa tämän vasemmaksi lapseksi
+         * @param k1
+         * @return PuuSolmu, joka ottaa annetun solmun paikan paikallisen puun
+         * ylimpänä solmuna
+         */
+        private PuuSolmu oikeaVasenKaannos(PuuSolmu k1){
+<span class="nc" id="L350">           k1.oikea = kaannaOikealle(k1.oikea);</span>
+<span class="nc" id="L351">           return kaannaVasemmalle(k1);</span>
+        }
+        
+        private int vertaaSolmuja (PuuSolmu x, PuuSolmu y){
+<span class="fc" id="L355">            return (x.noodi.getMatkaaJaljella() - y.noodi.getMatkaaJaljella());</span>
+        }
+            
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.201312101107</span></div></body></html>

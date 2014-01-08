@@ -39,26 +39,6 @@ private PuuSolmu vanhempi;
     }
   }
 
-  /*public void insert(Noodi noodi) {
-    juuri = insert(juuri, noodi);
-  }*/
-
-  private PuuSolmu insert(PuuSolmu solmu, Noodi noodi) {
-    if (solmu==null) {
-      solmu = new PuuSolmu(noodi);
-    }
-    else {
-      if (noodi.getMatkaaJaljella() <= solmu.noodi.getMatkaaJaljella()) {
-        solmu.vasen = insert(solmu.vasen, noodi);
-      }
-      else {
-        solmu.oikea = insert(solmu.oikea, noodi);
-      }
-    }
-
-    return(solmu);
-  }
-
     public void tulostaJarjestyksessa(){
     tulostaJarjestyksessa( juuri );
     }
@@ -82,36 +62,6 @@ private PuuSolmu vanhempi;
         summa++;
         summa = laskeSolmut(solmu.oikea, summa);
         return summa;
-    }
-
-    public boolean onkoTasapainossa(){
-
-        if (juuri == null || (juuri.oikea == null && juuri.vasen == null)) {
-            return true;
-        }
-
-        if (laskeKorkeus(juuri.oikea, 0) == laskeKorkeus(juuri.vasen, 0)) {
-            return true;
-        }
-        return false;
-    }
-
-    private int laskeKorkeus(PuuSolmu solmu, int korkeus){
-
-        if (solmu == null) {
-            return 0;
-        }
-        if (solmu.oikea == null && solmu.vasen == null) {
-            return korkeus;
-        }
-
-        int OikeanKorkeus = laskeKorkeus(solmu.oikea, korkeus+1);
-        int VasemmanKorkeus = laskeKorkeus(solmu.vasen, korkeus+1);
-        if (OikeanKorkeus > VasemmanKorkeus) {
-            return OikeanKorkeus;
-        } else {
-            return VasemmanKorkeus;
-        }
     }
 
     public void tulostaTasot(){

@@ -201,5 +201,19 @@ public class Noodi {
         }
 <span class="fc" id="L202">        return true;</span>
     }
+    
+    /**
+     * HashCoden ylikirjoitus valituilla Noodin arvoilla.
+     * @return 
+     */
+    @Override
+    public int hashCode() {
+<span class="fc" id="L211">        int hash = 1;</span>
+<span class="fc" id="L212">        hash = hash * 17 + this.matkaJaljella;</span>
+<span class="fc" id="L213">        hash = hash * 31 + this.xPositio;</span>
+<span class="fc" id="L214">        hash = hash * 13 + this.yPositio;</span>
+<span class="fc" id="L215">        hash = hash * 71 + this.matkaTehty;</span>
+<span class="fc" id="L216">        return hash;</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.3.201306030806</span></div></body></html>
