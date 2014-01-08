@@ -201,4 +201,18 @@ public class Noodi {
         }
         return true;
     }
+    
+    /**
+     * HashCoden ylikirjoitus valituilla Noodin arvoilla.
+     * @return 
+     */
+    @Override
+    public int hashCode() {
+        int hash = 1;
+        hash = hash * 17 + this.matkaJaljella;
+        hash = hash * 31 + this.xPositio;
+        hash = hash * 13 + this.yPositio;
+        hash = hash * 71 + this.edellinenNoodi.hashCode();
+        return hash;
+    }
 }
