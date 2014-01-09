@@ -50,33 +50,8 @@ public class Kartta<T extends Noodi> {
      * Luo Kartan kovakoodatusta kuvatiedostosta
      */
     public Kartta(String kuvanNimi){
-        try {
-           kuva = ImageIO.read(new File(kuvanNimi));
-           
-            int x = 10;
-            int y = 10;
-        
-            int rgb = kuva.getRGB(x, y);
-        
-            //vihreä -16711936
-            System.out.println("Kuvan leveys: " + kuva.getWidth());
-            System.out.println("Kuvan korkeus: " + kuva.getHeight());
-            System.out.println("Pikseli pisteessä [" + x + "," + y + "] RGB : " + rgb);
-            
-            x = 1;
-            y = 1;
-            rgb = kuva.getRGB(x, y);
-            //valkoinen -1
-            System.out.println("Pikseli pisteessä [" + x + "," + y + "] RGB : " + rgb);
-
-           
-       } catch (Exception ex) {
-           System.out.println("Kuvan lataaminen epäonnistui: " + ex.getMessage());
-           throw new IllegalArgumentException("Kuvaa: " + kuvanNimi + " ei löydy");
-           
-       }  
-        
-       this.kuva = kuva;
+       KuvaLataaja lataaja = new KuvaLataaja();
+       this.kuva = lataaja.lataaKuva(kuvanNimi);
        luoKartta(kuva.getWidth(), kuva.getHeight(), true);
     }
     
