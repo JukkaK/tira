@@ -30,9 +30,9 @@ public class Kartta<T extends Noodi> {
     /** Kartan korkeus (y-akseli) */
     protected int korkeus;
     
-    protected int VIHREA = -16711936;
+    protected final int VIHREA = -16711936;
     
-    protected int VALKOINEN = -1;
+    protected final int VALKOINEN = -1;
     
     protected BufferedImage kuva;
     
@@ -99,6 +99,15 @@ public class Kartta<T extends Noodi> {
     }
     
     /**
+     * Piirtää kartasta kuvan ja sen päälle annetun polun
+     * @param polku 
+     */
+    private void piirraKuva(List<T> polku){
+        KuvaLataaja lataaja = new KuvaLataaja();
+        lataaja.muodostaKuva(polku, kuva);
+    }    
+    
+    /**
      * Asettaa annettujen koordinaattien Noodille arvon Kuljettava totuusarvon mukaisesti
      * @param x
      * @param y
@@ -139,15 +148,22 @@ public class Kartta<T extends Noodi> {
     private boolean valmis = false;   
     
     public final List<T> etsiPolku(int alkuX, int alkuY, int loppuX, int loppuY, String tietorakenne) {
-                
+        List<T> polku;    
         if (tietorakenne.contains("KEKO")) {
             LaskentaKeko laskenta = new LaskentaKeko(this.noodit, this.leveys, this.korkeus);
-            return laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);                        
+            polku = laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);                                    
         } else if (tietorakenne.contains("AVL")) {
             LaskentaAvl laskenta = new LaskentaAvl(this.noodit, this.leveys, this.korkeus);
-            return laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);            
+            polku = laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);            
         } 
         LaskentaPQ laskenta = new LaskentaPQ(this.noodit, this.leveys, this.korkeus);
-        return laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);                                         
-    }                              
+        polku = laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);                                         
+        
+        if(this.kuva != null){
+            piirraKuva(polku);
+        }
+        
+        return polku;
+    }   
+        
 }

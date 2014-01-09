@@ -29,4 +29,18 @@ public class PuuSolmu {
         return this.korkeus;
     }
     
+    /**
+     * HashCoden ylikirjoitus valituilla Noodin arvoilla.
+     * @return 
+     */
+    @Override
+    public int hashCode() {
+        int hash = 1;
+        hash = hash * 17 + this.noodi.getMatkaaJaljella();
+        hash = hash * 31 + this.noodi.getxPositio();
+        hash = hash * 13 + this.noodi.getyPositio();        
+        return hash;
+    }
+    
+    
 }

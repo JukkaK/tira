@@ -239,6 +239,30 @@ public class KarttaTest {
         assertEquals(expResult, result.size());
                 
     }
+    
+    /**
+     * Testataan kartan luomista kuvatiedostosta, ja polun etsintää
+     */
+    @Test
+    public void testLuoKarttaKuvastaJaEtsiPolku2(){
+        Kartta instance = new Kartta<Noodi>("testi2.png");
+        int oldX = 0;
+        int oldY = 0;
+        int newX = 49;
+        int newY = 30;
+        int expResult = 51;
+        List<Noodi> result = instance.etsiPolku(oldX, oldY, newX, newY, "");
+
+        for (int i = 0; i < result.size(); i++) {
+            System.out.print("(" + result.get(i).getxPositio() + ", " + result.get(i).getyPositio() + ") -> ");
+        }
+        
+        System.out.println("Tuloksessa noodeja yhteensä: " + result.size());
+        
+        //assertEquals(expResult, result.size());
+        assertTrue(true);
+                
+    }    
             
 //Suorituskykytestit    
 //------------------    
