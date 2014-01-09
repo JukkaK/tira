@@ -245,19 +245,16 @@ public class KarttaTest {
      */
     @Test
     public void testLuoKarttaKuvastaJaEtsiPolku2(){
-        Kartta instance = new Kartta<Noodi>("testi2.png");
+        Kartta instance = new Kartta<Noodi>("testi3.png");
         int oldX = 0;
         int oldY = 0;
-        int newX = 49;
-        int newY = 30;
-        int expResult = 145;
+        int newX = 304;
+        int newY = 217;
+        int expResult = 1449;
         List<Noodi> result = instance.etsiPolku(oldX, oldY, newX, newY, "");
 
-        for (int i = 0; i < result.size(); i++) {
-            System.out.print("(" + result.get(i).getxPositio() + ", " + result.get(i).getyPositio() + ") -> ");
-        }
-        
         System.out.println("Tuloksessa noodeja yhteensä: " + result.size());
+        System.out.println(result.get(400).getxPositio() + ", " + result.get(400).getyPositio());
         
         assertEquals(expResult, result.size());
                 

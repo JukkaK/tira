@@ -74,7 +74,7 @@ public class KuvaLataaja<T extends Noodi> {
     public void muodostaKuva( List<Noodi> polku, BufferedImage kuva){
         Graphics2D graphics = kuva.createGraphics();
         System.out.println("polku size: " + polku.size());
-        for(int i = 1; i <= polku.size()-1; i++){
+        for(int i = 0; i <= polku.size()-1; i++){
             graphics = kuva.createGraphics();            
             graphics.setColor(Color.BLUE);
             graphics.drawOval(polku.get(i).getxPositio(), polku.get(i).getyPositio(), 0, 0);            
