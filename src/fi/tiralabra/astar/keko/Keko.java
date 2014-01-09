@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 
-package fi.tiralabra.astar;
+package fi.tiralabra.astar.keko;
+
+import fi.tiralabra.astar.Noodi;
 
 /**
  *

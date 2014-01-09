@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Keko.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;TiraLabraAStar&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">fi.tiralabra.astar.keko</a> &gt; <span class="el_source">Keko.java</span></div><h1>Keko.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package fi.tiralabra.astar.keko;
+
+import fi.tiralabra.astar.Noodi;
+
+/**
+ *
+ * @author Jukka Koskelin
+ */
+public class Keko {
+    
+    private Noodi[] Taulu;
+    private int maxKoko;
+    private int koko;
+    
+    /**
+     * Konstruktori luokalle joka toteuttaa minimikeon.
+     * @param maxKoko Keon suurin koko aloitettaessa
+     */
+<span class="fc" id="L25">    public Keko (int maxKoko){</span>
+        
+<span class="fc" id="L27">        this.maxKoko = maxKoko;</span>
+<span class="fc" id="L28">        koko = 0;</span>
+<span class="fc" id="L29">        Taulu = new Noodi[maxKoko];        </span>
+<span class="fc" id="L30">    }</span>
+    
+    /**
+     * Lisää kekoon annetun arvon ja järjestää keon
+     * @param arvo 
+     */
+    public void lisaa(Noodi arvo){
+        //Taulun maksimiarvon ylitys: luo uusi taulukko joka on
+        //tuplasti suurempi kuin alkuperäinen. Kopioi alkuperäisen taulukon
+        //sisältö uuteen taulukkoon.        
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        if (koko+1 == this.maxKoko) {</span>
+<span class="fc" id="L41">            Noodi[] tempTaulu = this.Taulu.clone();</span>
+<span class="fc" id="L42">            this.maxKoko = this.maxKoko*2;</span>
+<span class="fc" id="L43">            this.Taulu = new Noodi[this.maxKoko];</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">            for (int i = 0; i &lt; tempTaulu.length; i++) {</span>
+<span class="fc" id="L45">                this.Taulu[i] = tempTaulu[i];</span>
+            }
+        }
+        
+        //Kasvatetaan kokoa ennen lisäystä, eli käytännössä taulun iteraattori
+        //alkaa arvosta 1. Tämä pitää ottaa huomioon kaikissa metodeissa, eli
+        //unohdetaan &quot;oikea&quot; ensimmäinen alkio kokonaan, sitä ei edes alusteta.
+<span class="fc" id="L52">        koko++;</span>
+<span class="fc" id="L53">        this.Taulu[koko] = arvo;</span>
+<span class="fc" id="L54">        tyonnaYlos(koko);                </span>
+<span class="fc" id="L55">    }</span>
+    
+    /**
+     * Suorittaa keon järjestämisen alkaen annetusta pisteestä. Niin kauan kuin 
+     * lisätty arvo on pienempi kuin vanhempansa, siirretään lisättyä arvoa 
+     * kohti puun juurta (jossa on siis pienin arvo). Lopetetaan kun vanhempi 
+     * on pienempi kuin lisätty arvo, jolloin 
+     * puu toteuttaa minimikeon ehdon.
+     * @param nykyinen 
+     */
+    private void tyonnaYlos(int nykyinen){
+        
+<span class="fc bfc" id="L67" title="All 2 branches covered.">        if (nykyinen &gt; 1) {                            </span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">            while(Taulu[nykyinen].getMatkaaJaljella() &lt; Taulu[vanhempi(nykyinen)].getMatkaaJaljella()){</span>
+<span class="fc" id="L69">                vaihda(nykyinen, vanhempi(nykyinen));</span>
+<span class="fc" id="L70">                nykyinen = vanhempi(nykyinen);</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">                if (nykyinen &lt; 2) {</span>
+<span class="fc" id="L72">                    break;</span>
+                }
+            }
+        }        
+<span class="fc" id="L76">    }</span>
+    
+    /**
+     * Onko keko tyhjä?
+     * @return tosi, jos keko on tyhjä
+     */
+    public boolean onkoTyhja(){
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        return koko == 0;</span>
+    }
+    
+   /**
+     * Returns a String representation of BinaryHeap with values stored with 
+     * heap structure and order properties.
+     */
+    public String toString() {
+<span class="fc" id="L91">        StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        for (int i = 1; i &lt; koko; i++) {</span>
+<span class="fc" id="L93">            sb.append(&quot; &quot;);</span>
+<span class="fc" id="L94">            sb.append(Taulu[i]);</span>
+        }                      
+<span class="fc" id="L96">        return sb.toString();</span>
+    } 
+    
+    /**
+     * Tarkastetaan löytyykö keosta annettua Noodia vastaavaa Noodia
+     * @param noodi
+     * @return 
+     */
+    public boolean sisaltaakoSaman(Noodi noodi){
+        //TODO: tässä ei nyt verrata ihan jokaista arvoa, täytyy miettiä 
+        //riittääkö tämä tarkkuus, vai pitää laskea Noodeille
+        //yksilöivä tunniste.
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        for (int i = 1; i &lt; koko; i++) {</span>
+<span class="pc bpc" id="L109" title="2 of 8 branches missed.">            if (noodi.getxPositio() == Taulu[i].getxPositio() &amp;&amp;</span>
+                    noodi.getyPositio() == Taulu[i].getyPositio() &amp;&amp;
+                    noodi.getKuljettava() == Taulu[i].getKuljettava() &amp;&amp;
+                    noodi.getMatkaaJaljella() == Taulu[i].getMatkaaJaljella()) {
+<span class="fc" id="L113">                return true;</span>
+            }
+        }
+<span class="fc" id="L116">        return false;</span>
+    }    
+    
+    /**
+     * palauttaa annetun pointterin vanhemman paikan (i/2)
+     * @param paikka
+     * @return 
+     */
+    private int vanhempi(int paikka){
+<span class="fc" id="L125">        return paikka / 2;</span>
+    }
+    
+    /**
+     * Palauttaa annetun pointterin vasemman lapsen, eli taulukossa 2i.
+     * @param paikka
+     * @return 
+     */
+    private int vasenLapsi(int paikka){
+<span class="fc" id="L134">        return 2 * paikka;</span>
+    }
+    
+    /**
+     * Palauttaa annetun pointterin oikean lapsen, eli tauluossa 2i+1.
+     * @param paikka
+     * @return 
+     */
+    private int oikeaLapsi(int paikka){
+<span class="nc" id="L143">        return 2* paikka +1;</span>
+    }    
+    
+    /**
+     * Tutkii onko annettu paikka lehti. Palauttaa tosi, jos annettu paikka sijaitsee
+     * taulun puolen välin alapuolella.
+     * @param paikka
+     * @return 
+     */
+    private boolean onkoLehti(int paikka){
+<span class="pc bpc" id="L153" title="1 of 4 branches missed.">        if ((paikka &gt; koko/2) &amp;&amp; (paikka &lt;= koko)) {         </span>
+<span class="fc" id="L154">            return true;</span>
+        } else {
+<span class="fc" id="L156">            return false;</span>
+        }
+    }
+    
+    /**
+     * Vaihtaa kahden annetun kohdan (ts. parametrit ovat pointtereita keon 
+     * toteuttavaan taulukkoon) paikkaa.
+     * @param eka
+     * @param toka 
+     */
+    private void vaihda(int eka, int toka){
+        Noodi temp;
+<span class="fc" id="L168">        temp = Taulu[eka];</span>
+<span class="fc" id="L169">        Taulu[eka] = Taulu[toka];</span>
+<span class="fc" id="L170">        Taulu[toka] = temp;        </span>
+<span class="fc" id="L171">    }</span>
+    
+    /**
+     * 
+     * @param paikka 
+     */
+    private void painaAlas(int paikka) {
+    int pieninLapsi;
+    //Käydään läpi niin kauan kun ei olla puun lehtitasolla
+<span class="fc bfc" id="L180" title="All 2 branches covered.">        while (!onkoLehti(paikka)) {</span>
+            //Vasemmalla on aina pienempi lapsi
+<span class="fc" id="L182">            pieninLapsi = vasenLapsi(paikka);</span>
+            //
+<span class="fc bfc" id="L184" title="All 4 branches covered.">            if ((pieninLapsi &lt; koko) &amp;&amp; (Taulu[pieninLapsi].getMatkaaJaljella() &gt; Taulu[pieninLapsi+1].getMatkaaJaljella()))</span>
+<span class="fc" id="L185">                pieninLapsi = pieninLapsi + 1;</span>
+            //
+<span class="fc bfc" id="L187" title="All 2 branches covered.">            if (Taulu[paikka].getMatkaaJaljella() &lt;= Taulu[pieninLapsi].getMatkaaJaljella()) </span>
+<span class="fc" id="L188">                return;</span>
+            //
+<span class="fc" id="L190">            vaihda(paikka,pieninLapsi);</span>
+<span class="fc" id="L191">            paikka = pieninLapsi;</span>
+        }        
+<span class="fc" id="L193">    }</span>
+    
+    /**
+     * Palauttaa keon pieinimmän arvon poistamatta sitä keosta.
+     * @return 
+     */
+    public Noodi naytaPienin(){
+<span class="fc" id="L200">        return Taulu[1];    </span>
+    }
+    
+    /**
+     * Poistaa pienimmän alkion keosta
+     * @return 
+     */
+    public Noodi poistaPienin() {        
+<span class="fc" id="L208">        vaihda(1,koko);</span>
+<span class="fc" id="L209">        koko--;</span>
+<span class="fc bfc" id="L210" title="All 2 branches covered.">        if (koko != 0)</span>
+<span class="fc" id="L211">            painaAlas(1);</span>
+<span class="fc" id="L212">        return Taulu[koko+1];</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.201312101107</span></div></body></html>

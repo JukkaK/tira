@@ -4,6 +4,8 @@
  */
 package fi.tiralabra.astar;
 
+import fi.tiralabra.astar.avl.AvlPuu;
+import fi.tiralabra.astar.avl.PuuSolmu;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

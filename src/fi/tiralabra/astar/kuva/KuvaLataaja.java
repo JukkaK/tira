@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package fi.tiralabra.astar;
+package fi.tiralabra.astar.kuva;
 
+import fi.tiralabra.astar.Noodi;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;

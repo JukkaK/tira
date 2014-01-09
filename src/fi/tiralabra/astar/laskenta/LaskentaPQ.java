@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package fi.tiralabra.astar;
+package fi.tiralabra.astar.laskenta;
 
+import fi.tiralabra.astar.Noodi;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;

@@ -6,6 +6,7 @@
 
 package fi.tiralabra.astar;
 
+import fi.tiralabra.astar.keko.Keko;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;

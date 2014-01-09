@@ -6,6 +6,11 @@
 
 package fi.tiralabra.astar;
 
+import fi.tiralabra.astar.keko.Keko;
+import fi.tiralabra.astar.kuva.KuvaLataaja;
+import fi.tiralabra.astar.laskenta.LaskentaAvl;
+import fi.tiralabra.astar.laskenta.LaskentaKeko;
+import fi.tiralabra.astar.laskenta.LaskentaPQ;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;

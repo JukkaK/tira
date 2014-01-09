@@ -250,7 +250,7 @@ public class KarttaTest {
         int oldY = 0;
         int newX = 49;
         int newY = 30;
-        int expResult = 51;
+        int expResult = 145;
         List<Noodi> result = instance.etsiPolku(oldX, oldY, newX, newY, "");
 
         for (int i = 0; i < result.size(); i++) {
@@ -259,8 +259,7 @@ public class KarttaTest {
         
         System.out.println("Tuloksessa noodeja yhteensä: " + result.size());
         
-        //assertEquals(expResult, result.size());
-        assertTrue(true);
+        assertEquals(expResult, result.size());
                 
     }    
             

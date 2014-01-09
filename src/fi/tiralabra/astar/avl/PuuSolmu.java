@@ -2,7 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package fi.tiralabra.astar;
+package fi.tiralabra.astar.avl;
+
+import fi.tiralabra.astar.Noodi;
 
 /**
  * Binääripuu, josta olisi tarkoitus laajentaa avl-puu.
@@ -15,7 +17,7 @@ public class PuuSolmu {
     Noodi noodi;
     int korkeus;
 
-    PuuSolmu(Noodi noodi) {
+    public PuuSolmu(Noodi noodi) {
       vasen = null;
       oikea = null;
       this.noodi = noodi;
