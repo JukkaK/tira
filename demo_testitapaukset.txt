@@ -1,0 +1,41 @@
+Tira-demo
+
+testitapaukset
+
+1. manuaalikartta
+
+x: 40
+y: 40
+alkux: 3
+alkuy: 4
+loppux: 35
+loppuy: 34
+
+2. pieni kartta esteillä
+
+testi.png
+
+alkux: 0
+alkuy: 0
+loppux: 39
+loppuy: 2
+
+-> polkua ei löydy
+
+3. pieni kartta esteillä
+
+testi.png
+
+alkux: 0
+alkuy: 0
+loppux: 50
+loppuy: 50
+
+4. iso kartta esteillä
+
+testi3.png
+
+alkux: 0
+alkuy: 0
+loppux: 304
+loppuy: 217 
