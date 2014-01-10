@@ -74,7 +74,7 @@ import javax.imageio.ImageIO;
     public void muodostaKuva( List&lt;Noodi&gt; polku, BufferedImage kuva){
 <span class="fc" id="L75">        Graphics2D graphics = kuva.createGraphics();</span>
 <span class="fc" id="L76">        System.out.println(&quot;polku size: &quot; + polku.size());</span>
-<span class="fc bfc" id="L77" title="All 2 branches covered.">        for(int i = 1; i &lt;= polku.size()-1; i++){</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">        for(int i = 0; i &lt;= polku.size()-1; i++){</span>
 <span class="fc" id="L78">            graphics = kuva.createGraphics();            </span>
 <span class="fc" id="L79">            graphics.setColor(Color.BLUE);</span>
 <span class="fc" id="L80">            graphics.drawOval(polku.get(i).getxPositio(), polku.get(i).getyPositio(), 0, 0);            </span>

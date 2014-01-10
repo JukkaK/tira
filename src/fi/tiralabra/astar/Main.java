@@ -57,8 +57,9 @@ public class Main {
           System.out.println("Anna lopetuspisteen y-koordinaatti: ");
           yLoppu = br.readLine();  
           
+          //Loppupisteistä vähennetään yksi koska oikeasti indeksit alkavat nollasta.
           List<Noodi> polku = kartta.etsiPolku(Integer.parseInt(xAlku), Integer.parseInt(yAlku),
-          Integer.parseInt(xLoppu), Integer.parseInt(yLoppu), "");
+          Integer.parseInt(xLoppu)-1, Integer.parseInt(yLoppu)-1, "");
                   
           
         if (polku.size() == 0) {
