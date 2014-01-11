@@ -11,6 +11,7 @@ import fi.tiralabra.astar.kuva.KuvaLataaja;
 import fi.tiralabra.astar.laskenta.LaskentaAvl;
 import fi.tiralabra.astar.laskenta.LaskentaKeko;
 import fi.tiralabra.astar.laskenta.LaskentaPQ;
+import fi.tiralabra.astar.pino.Pino;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -35,9 +36,9 @@ public class Kartta&lt;T extends Noodi&gt; {
     /** Kartan korkeus (y-akseli) */
     protected int korkeus;
     
-<span class="fc" id="L38">    protected final int VIHREA = -16711936;</span>
+<span class="fc" id="L39">    protected final int VIHREA = -16711936;</span>
     
-<span class="fc" id="L40">    protected final int VALKOINEN = -1;</span>
+<span class="fc" id="L41">    protected final int VALKOINEN = -1;</span>
     
     protected BufferedImage kuva;
     
@@ -47,18 +48,18 @@ public class Kartta&lt;T extends Noodi&gt; {
      * @param leveys
      * @param pituus 
      */
-<span class="fc" id="L50">    public Kartta(int leveys, int korkeus) {</span>
-<span class="fc" id="L51">        luoKartta(leveys, korkeus, false);</span>
-<span class="fc" id="L52">    }</span>
+<span class="fc" id="L51">    public Kartta(int leveys, int korkeus) {</span>
+<span class="fc" id="L52">        luoKartta(leveys, korkeus, false);</span>
+<span class="fc" id="L53">    }</span>
     
     /**
      * Luo Kartan kovakoodatusta kuvatiedostosta
      */
-<span class="fc" id="L57">    public Kartta(String kuvanNimi){</span>
-<span class="fc" id="L58">       KuvaLataaja lataaja = new KuvaLataaja();</span>
-<span class="fc" id="L59">       this.kuva = lataaja.lataaKuva(kuvanNimi);</span>
-<span class="fc" id="L60">       luoKartta(kuva.getWidth(), kuva.getHeight(), true);</span>
-<span class="fc" id="L61">    }</span>
+<span class="fc" id="L58">    public Kartta(String kuvanNimi){</span>
+<span class="fc" id="L59">       KuvaLataaja lataaja = new KuvaLataaja();</span>
+<span class="fc" id="L60">       this.kuva = lataaja.lataaKuva(kuvanNimi);</span>
+<span class="fc" id="L61">       luoKartta(kuva.getWidth(), kuva.getHeight(), true);</span>
+<span class="fc" id="L62">    }</span>
     
     /**
      * 
@@ -66,51 +67,51 @@ public class Kartta&lt;T extends Noodi&gt; {
      * @param korkeus 
      */
     protected void luoKartta(int leveys, int korkeus, boolean onkoKuva){
-<span class="pc bpc" id="L69" title="1 of 4 branches missed.">        if (leveys &gt; 0 &amp;&amp; korkeus &gt; 0){</span>
-<span class="fc" id="L70">            noodit = (T[][]) new Noodi[leveys][korkeus];</span>
-<span class="fc" id="L71">            this.leveys = leveys - 1; //-1, koska indeksit lähtee nollasta</span>
-<span class="fc" id="L72">            this.korkeus = korkeus - 1; //-1, koska indeksit lähtee nollasta</span>
-<span class="fc" id="L73">            AlustaNoodit(onkoKuva);                    </span>
+<span class="pc bpc" id="L70" title="1 of 4 branches missed.">        if (leveys &gt; 0 &amp;&amp; korkeus &gt; 0){</span>
+<span class="fc" id="L71">            noodit = (T[][]) new Noodi[leveys][korkeus];</span>
+<span class="fc" id="L72">            this.leveys = leveys - 1; //-1, koska indeksit lähtee nollasta</span>
+<span class="fc" id="L73">            this.korkeus = korkeus - 1; //-1, koska indeksit lähtee nollasta</span>
+<span class="fc" id="L74">            AlustaNoodit(onkoKuva);                    </span>
         } else {
-<span class="fc" id="L75">            throw new IllegalArgumentException(&quot;Arvot eivät voi olla pienempiä kuin yksi&quot;);</span>
+<span class="fc" id="L76">            throw new IllegalArgumentException(&quot;Arvot eivät voi olla pienempiä kuin yksi&quot;);</span>
         }               
-<span class="fc" id="L77">    }    </span>
+<span class="fc" id="L78">    }    </span>
     
     /**
      * Alustaa Kartalle tyhjiä Noodeja
      */
     protected void AlustaNoodit(boolean onkoKuva) {
         //Kaksinkertainen looppi, eli täytetään kolumni kerrallaan
-<span class="fc bfc" id="L84" title="All 2 branches covered.">        for (int i = 0; i &lt;= leveys; i++) {</span>
-<span class="fc bfc" id="L85" title="All 2 branches covered.">            for (int j = 0; j &lt;= korkeus; j++) {</span>
-<span class="fc" id="L86">                noodit[i][j] = (T) new Noodi(i,j);</span>
-<span class="fc bfc" id="L87" title="All 2 branches covered.">                if (onkoKuva) {</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        for (int i = 0; i &lt;= leveys; i++) {</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">            for (int j = 0; j &lt;= korkeus; j++) {</span>
+<span class="fc" id="L87">                noodit[i][j] = (T) new Noodi(i,j);</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">                if (onkoKuva) {</span>
                     //Jos on annettu kuvatiedosto, tulkitaan siitä onko pisteessä (x,y)
                     //valkoista vai vihreää väriä. Jos vihreäää, asetetaan pisteessä
                     //sijaitsevaan noodiin este.
-<span class="fc" id="L91">                    int rgb = this.kuva.getRGB(i, j);</span>
+<span class="fc" id="L92">                    int rgb = this.kuva.getRGB(i, j);</span>
                     //TODO: Testausta varten, poistettava lopullisesta versiosta.
                     //if (rgb == VALKOINEN){
                         //System.out.println(&quot;x:&quot; + i + &quot; y: &quot; + j + &quot; väri on: &quot; + rgb);
                     //}
-<span class="fc bfc" id="L96" title="All 2 branches covered.">                    if (rgb == VIHREA) {</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">                    if (rgb == VIHREA) {</span>
                         //System.out.println(&quot;x:&quot; + i + &quot; y: &quot; + j + &quot; väri on: &quot; + rgb);
-<span class="fc" id="L98">                        noodit[i][j].setKuljettava(false);</span>
+<span class="fc" id="L99">                        noodit[i][j].setKuljettava(false);</span>
                     }
 
                 }
             }
         }
-<span class="fc" id="L104">    }</span>
+<span class="fc" id="L105">    }</span>
     
     /**
      * Piirtää kartasta kuvan ja sen päälle annetun polun
      * @param polku 
      */
-    private void piirraKuva(List&lt;T&gt; polku){
-<span class="fc" id="L111">        KuvaLataaja lataaja = new KuvaLataaja();</span>
-<span class="fc" id="L112">        lataaja.muodostaKuva(polku, kuva);</span>
-<span class="fc" id="L113">    }    </span>
+    private void piirraKuva(Pino polku){
+<span class="fc" id="L112">        KuvaLataaja lataaja = new KuvaLataaja();</span>
+<span class="fc" id="L113">        lataaja.muodostaKuva(polku, kuva);</span>
+<span class="fc" id="L114">    }    </span>
     
     /**
      * Asettaa annettujen koordinaattien Noodille arvon Kuljettava totuusarvon mukaisesti
@@ -120,13 +121,13 @@ public class Kartta&lt;T extends Noodi&gt; {
      */
     public void setKuljettava(int x, int y, boolean bool) {
         //TODO: varmaan pitäisi testata ettei ole nollaa pienempi arvoja
-<span class="pc bpc" id="L123" title="1 of 4 branches missed.">        if (x &lt;= this.leveys &amp;&amp; y &lt;= this.korkeus) {</span>
-<span class="fc" id="L124">            noodit[x][y].setKuljettava(bool);</span>
+<span class="pc bpc" id="L124" title="1 of 4 branches missed.">        if (x &lt;= this.leveys &amp;&amp; y &lt;= this.korkeus) {</span>
+<span class="fc" id="L125">            noodit[x][y].setKuljettava(bool);</span>
         } else {
-<span class="fc" id="L126">            throw new IllegalArgumentException(&quot;Annetut koordinaatit eivät löydy kartalta&quot;);</span>
+<span class="fc" id="L127">            throw new IllegalArgumentException(&quot;Annetut koordinaatit eivät löydy kartalta&quot;);</span>
         }       
               
-<span class="fc" id="L129">    }</span>
+<span class="fc" id="L130">    }</span>
     
     /**
      * Palauttaa Noodin annetuista koordinaateista
@@ -135,10 +136,10 @@ public class Kartta&lt;T extends Noodi&gt; {
      * @return Noodi
      */
     public final T getNoodi(int x, int y) {
-<span class="pc bpc" id="L138" title="2 of 8 branches missed.">        if (x &gt;= 0 &amp;&amp; x &lt;= this.leveys &amp;&amp; y &gt;= 0 &amp;&amp; y &lt;= this.korkeus){</span>
-<span class="fc" id="L139">            return noodit[x][y];</span>
+<span class="pc bpc" id="L139" title="2 of 8 branches missed.">        if (x &gt;= 0 &amp;&amp; x &lt;= this.leveys &amp;&amp; y &gt;= 0 &amp;&amp; y &lt;= this.korkeus){</span>
+<span class="fc" id="L140">            return noodit[x][y];</span>
         } else {
-<span class="fc" id="L141">            return null;</span>
+<span class="fc" id="L142">            return null;</span>
         }
         
     }
@@ -150,25 +151,26 @@ public class Kartta&lt;T extends Noodi&gt; {
     /** Läpikäydyt Noodit */
     private List&lt;T&gt; kaydytNoodit;
     /** Onko polku löytynyt? */
-<span class="fc" id="L153">    private boolean valmis = false;   </span>
+<span class="fc" id="L154">    private boolean valmis = false;   </span>
     
-    public final List&lt;T&gt; etsiPolku(int alkuX, int alkuY, int loppuX, int loppuY, String tietorakenne) {
-        List&lt;T&gt; polku;    
-<span class="fc bfc" id="L157" title="All 2 branches covered.">        if (tietorakenne.contains(&quot;KEKO&quot;)) {</span>
-<span class="fc" id="L158">            LaskentaKeko laskenta = new LaskentaKeko(this.noodit, this.leveys, this.korkeus);</span>
-<span class="fc" id="L159">            polku = laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);                                    </span>
-<span class="pc bpc" id="L160" title="1 of 2 branches missed.">        } else if (tietorakenne.contains(&quot;AVL&quot;)) {</span>
-<span class="nc" id="L161">            LaskentaAvl laskenta = new LaskentaAvl(this.noodit, this.leveys, this.korkeus);</span>
-<span class="nc" id="L162">            polku = laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);            </span>
+    public final Pino etsiPolku(int alkuX, int alkuY, int loppuX, int loppuY, String tietorakenne) {
+        Pino polku;    
+<span class="fc bfc" id="L158" title="All 2 branches covered.">        if (tietorakenne.contains(&quot;KEKO&quot;)) {</span>
+<span class="fc" id="L159">            LaskentaKeko laskenta = new LaskentaKeko(this.noodit, this.leveys, this.korkeus);</span>
+<span class="fc" id="L160">            polku = laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);                                    </span>
+<span class="pc bpc" id="L161" title="1 of 2 branches missed.">        } else if (tietorakenne.contains(&quot;AVL&quot;)) {</span>
+<span class="nc" id="L162">            LaskentaAvl laskenta = new LaskentaAvl(this.noodit, this.leveys, this.korkeus);</span>
+<span class="nc" id="L163">            polku = laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);            </span>
         } 
-<span class="fc" id="L164">        LaskentaPQ laskenta = new LaskentaPQ(this.noodit, this.leveys, this.korkeus);</span>
-<span class="fc" id="L165">        polku = laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);                                         </span>
+<span class="fc" id="L165">        LaskentaPQ laskenta = new LaskentaPQ(this.noodit, this.leveys, this.korkeus);</span>
+<span class="fc" id="L166">        polku = laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);                                         </span>
         
-<span class="fc bfc" id="L167" title="All 2 branches covered.">        if(this.kuva != null){</span>
-<span class="fc" id="L168">            piirraKuva(polku);</span>
+        
+<span class="fc bfc" id="L169" title="All 2 branches covered.">        if(this.kuva != null){</span>
+<span class="fc" id="L170">            piirraKuva(polku.teeKopio());</span>
         }
         
-<span class="fc" id="L171">        return polku;</span>
+<span class="fc" id="L173">        return polku;</span>
     }   
         
 }
