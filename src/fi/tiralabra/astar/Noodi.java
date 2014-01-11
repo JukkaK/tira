@@ -193,15 +193,12 @@ public class Noodi {
             return false;
         }
         final Noodi other = (Noodi) obj;
-        if (this.xPositio != other.xPositio) {
-            return false;
-        }
-        if (this.yPositio != other.yPositio) {
+        if (this.hashCode() != other.hashCode()) {
             return false;
         }
         return true;
     }
-    
+        
     /**
      * HashCoden ylikirjoitus valituilla Noodin arvoilla.
      * @return 

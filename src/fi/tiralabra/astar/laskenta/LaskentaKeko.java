@@ -16,7 +16,7 @@ import java.util.PriorityQueue;
 
 /**
  *
- * @author merte_000
+ * @author Jukka Koskelin
  */
 public class LaskentaKeko<T extends Noodi> {
     /** Lista jossa läpikäymättömät viereiset Noodit */
@@ -54,8 +54,6 @@ public class LaskentaKeko<T extends Noodi> {
       kaymattomatNoodit = new Keko(11);                
       kaydytNoodit = new LinkedList<T>();
       kaymattomatNoodit.lisaa(noodit[alkuX][alkuY]);
-      //kaymattomatNoodit.lisaa(noodit[alkuX][alkuY]);
-      //kaymattomatNoodit.insert(noodit[alkuX][alkuY]);
 
       valmis = false;
       T valittu;

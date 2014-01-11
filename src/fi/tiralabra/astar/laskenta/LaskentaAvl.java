@@ -16,7 +16,7 @@ import java.util.PriorityQueue;
 
 /**
  *
- * @author merte_000
+ * @author Jukka Koskelin
  */
 public class LaskentaAvl<T extends Noodi> {
     /** Lista jossa läpikäymättömät viereiset Noodit */

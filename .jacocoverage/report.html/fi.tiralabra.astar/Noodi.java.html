@@ -193,27 +193,24 @@ public class Noodi {
 <span class="nc" id="L193">            return false;</span>
         }
 <span class="fc" id="L195">        final Noodi other = (Noodi) obj;</span>
-<span class="fc bfc" id="L196" title="All 2 branches covered.">        if (this.xPositio != other.xPositio) {</span>
+<span class="fc bfc" id="L196" title="All 2 branches covered.">        if (this.hashCode() != other.hashCode()) {</span>
 <span class="fc" id="L197">            return false;</span>
         }
-<span class="fc bfc" id="L199" title="All 2 branches covered.">        if (this.yPositio != other.yPositio) {</span>
-<span class="fc" id="L200">            return false;</span>
-        }
-<span class="fc" id="L202">        return true;</span>
+<span class="fc" id="L199">        return true;</span>
     }
-    
+        
     /**
      * HashCoden ylikirjoitus valituilla Noodin arvoilla.
      * @return 
      */
     @Override
     public int hashCode() {
-<span class="fc" id="L211">        int hash = 1;</span>
-<span class="fc" id="L212">        hash = hash * 17 + this.matkaJaljella;</span>
-<span class="fc" id="L213">        hash = hash * 31 + this.xPositio;</span>
-<span class="fc" id="L214">        hash = hash * 13 + this.yPositio;</span>
-<span class="fc" id="L215">        hash = hash * 71 + this.matkaTehty;</span>
-<span class="fc" id="L216">        return hash;</span>
+<span class="fc" id="L208">        int hash = 1;</span>
+<span class="fc" id="L209">        hash = hash * 17 + this.matkaJaljella;</span>
+<span class="fc" id="L210">        hash = hash * 31 + this.xPositio;</span>
+<span class="fc" id="L211">        hash = hash * 13 + this.yPositio;</span>
+<span class="fc" id="L212">        hash = hash * 71 + this.matkaTehty;</span>
+<span class="fc" id="L213">        return hash;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.201312101107</span></div></body></html>

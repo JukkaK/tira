@@ -229,9 +229,9 @@ public class KarttaTest {
         int oldY = 0;
         int newX = 7;
         int newY = 49;
-        int expResult = 51;
+        int expResult = 52;
         Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "");
-        int koko = result.size()+1;
+        int koko = result.size();
         assertEquals(expResult, koko);
         System.out.println("Tuloksessa noodeja yhteensä: " + result.size()+1);           
                        

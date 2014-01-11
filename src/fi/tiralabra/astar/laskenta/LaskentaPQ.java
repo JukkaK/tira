@@ -7,6 +7,7 @@
 package fi.tiralabra.astar.laskenta;
 
 import fi.tiralabra.astar.Noodi;
+import fi.tiralabra.astar.keko.Keko;
 import fi.tiralabra.astar.pino.Pino;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -15,16 +16,14 @@ import java.util.PriorityQueue;
 
 /**
  *
- * @author merte_000
+ * @author Jukka Koskelin
  */
 public class LaskentaPQ<T extends Noodi> {
     /** Lista jossa läpikäymättömät viereiset Noodit */
     private PriorityQueue<Noodi> kaymattomatNoodit;
     
-    //private Keko kaymattomatNooditKeko = new Keko(11);
-    //private AvlPuu kaymattomatNooditAvl = new AvlPuu();
     /** Läpikäydyt Noodit */
-    private List<T> kaydytNoodit;
+    private LinkedList<T> kaydytNoodit;
     /** Onko polku löytynyt? */
     private boolean valmis = false;
     
@@ -56,8 +55,6 @@ public class LaskentaPQ<T extends Noodi> {
       kaymattomatNoodit = new PriorityQueue<Noodi>(11, noodiVertailija);                
       kaydytNoodit = new LinkedList<T>();
       kaymattomatNoodit.add(noodit[alkuX][alkuY]);
-      //kaymattomatNoodit.lisaa(noodit[alkuX][alkuY]);
-      //kaymattomatNoodit.insert(noodit[alkuX][alkuY]);
 
       valmis = false;
       T valittu;
@@ -66,9 +63,7 @@ public class LaskentaPQ<T extends Noodi> {
           valittu = (T)lyhinMatkaLapikaymattomissa(); 
           /** Lisätään noodi läpikäytyihin ja poistetaan -käymättömistä */
           kaydytNoodit.add(valittu); 
-          kaymattomatNoodit.remove(valittu);
-          //kaymattomatNoodit.poistaPienin();
-          //kaymattomatNoodit.poistaPieninNoodi();
+          kaymattomatNoodit.remove(valittu);          
 
           /** Onko piste loppupiste? */
           if ((valittu.getxPositio() == loppuX)
@@ -90,9 +85,6 @@ public class LaskentaPQ<T extends Noodi> {
           }
 
           if (kaymattomatNoodit.isEmpty()) { 
-          //if (kaymattomatNoodit.onkoTyhja()) { 
-          //if (kaymattomatNoodit.onkoTyhja()) { 
-              //return new LinkedList<T>(); 
               return new Pino(10);
           }
       }
@@ -122,7 +114,6 @@ public class LaskentaPQ<T extends Noodi> {
      */
     protected Pino laskePolku(T alku, T maali) {
 
-        //LinkedList<T> polku = new LinkedList<T>();
         Pino polku = new Pino(10);
 
         T valittu = maali;
@@ -191,16 +182,10 @@ public class LaskentaPQ<T extends Noodi> {
      */
     private void asetaKaymatonNoodi(PriorityQueue<Noodi> kaymattomatNoodit, 
         Noodi valittuViereinen, Noodi valittu, int loppuX, int loppuY){        
-    //private void asetaKaymatonNoodi(Keko kaymattomatNoodit, 
-    //    Noodi valittuViereinen, Noodi valittu, int loppuX, int loppuY){        
- //private void asetaKaymatonNoodi(AvlPuu kaymattomatNoodit, 
- //       Noodi valittuViereinen, Noodi valittu, int loppuX, int loppuY){            
         valittuViereinen.setEdellinenNoodi(valittu); 
         valittuViereinen.setMatkaJaljella(noodit[loppuX][loppuY]); 
         valittuViereinen.setTehtyMatka(valittu); 
         kaymattomatNoodit.add(valittuViereinen);
-        //kaymattomatNoodit.lisaa(valittuViereinen);
-        //kaymattomatNoodit.insert(valittuViereinen);
     }
     
     /**
@@ -228,8 +213,6 @@ public class LaskentaPQ<T extends Noodi> {
         //joka vertailee Noodien MatkaJaljella -arvoja), mutta ei poista sitä
         //keosta.
         return kaymattomatNoodit.poll();
-        //return kaymattomatNoodit.naytaPienin();
-        //return kaymattomatNoodit.naytaPieninNoodi();
     }  
     
     /**

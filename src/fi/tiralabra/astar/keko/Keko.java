@@ -105,15 +105,17 @@ public class Keko {
         //TODO: tässä ei nyt verrata ihan jokaista arvoa, täytyy miettiä 
         //riittääkö tämä tarkkuus, vai pitää laskea Noodeille
         //yksilöivä tunniste.
-        for (int i = 1; i < koko; i++) {
-            if (noodi.getxPositio() == Taulu[i].getxPositio() &&
-                    noodi.getyPositio() == Taulu[i].getyPositio() &&
-                    noodi.getKuljettava() == Taulu[i].getKuljettava() &&
-                    noodi.getMatkaaJaljella() == Taulu[i].getMatkaaJaljella()) {
+       System.out.println("Nyt vertaillaan keossa!");
+       for (int i = 1; i < koko+1; i++) {
+           System.out.println("Hashien erotus noodeilla (" + 
+                   this.Taulu[i].getxPositio() + "," + this.Taulu[i].getyPositio() + 
+                   ") ja (" + noodi.getxPositio() + "," + noodi.getyPositio() + 
+                           "): "  +(this.Taulu[i].hashCode()-noodi.hashCode()));
+           if (this.Taulu[i].hashCode() == noodi.hashCode()) {
                 return true;
-            }
+            }            
         }
-        return false;
+        return false;        
     }    
     
     /**

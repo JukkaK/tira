@@ -10,7 +10,7 @@ import fi.tiralabra.astar.Noodi;
 
 /**
  *
- * @author merte_000
+ * @author Jukka Koskelin
  */
 public class Pino {
     
@@ -78,5 +78,14 @@ public class Pino {
         uusiPino.Taulu = this.Taulu.clone();
         uusiPino.korkeus = this.korkeus;        
         return uusiPino;
+    }
+    
+    public boolean sisaltaakoSaman(Noodi noodi){
+        for (int i = 0; i < korkeus; i++) {
+            if (this.Taulu[i].equals(noodi)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

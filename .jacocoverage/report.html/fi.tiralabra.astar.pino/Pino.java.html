@@ -10,7 +10,7 @@ import fi.tiralabra.astar.Noodi;
 
 /**
  *
- * @author merte_000
+ * @author Jukka Koskelin
  */
 public class Pino {
     
@@ -78,6 +78,15 @@ public class Pino {
 <span class="fc" id="L78">        uusiPino.Taulu = this.Taulu.clone();</span>
 <span class="fc" id="L79">        uusiPino.korkeus = this.korkeus;        </span>
 <span class="fc" id="L80">        return uusiPino;</span>
+    }
+    
+    public boolean sisaltaakoSaman(Noodi noodi){
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        for (int i = 0; i &lt; korkeus; i++) {</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">            if (this.Taulu[i].equals(noodi)) {</span>
+<span class="nc" id="L86">                return true;</span>
+            }
+        }
+<span class="nc" id="L89">        return false;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.201312101107</span></div></body></html>

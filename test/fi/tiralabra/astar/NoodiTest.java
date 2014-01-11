@@ -135,5 +135,25 @@ public class NoodiTest {
         Noodi noodi = new Noodi(10, 10);
         Noodi noodi2 = new Noodi(10, 11);
         assertEquals(noodi.equals(noodi2), false);
-    }        
+    }   
+    
+    @Test
+    public void testHash(){
+        Noodi noodi = new Noodi(0,1);
+        noodi.setMatkaJaljella(10);
+        noodi.setTehtyMatka(5);
+        
+        Noodi noodi2 = new Noodi(0,1);
+        noodi2.setMatkaJaljella(10);
+        noodi2.setTehtyMatka(5);
+        
+        assertTrue(noodi.equals(noodi2));
+        
+        Noodi noodi3 = new Noodi(0,1);
+        noodi3.setMatkaJaljella(10);
+        noodi3.setTehtyMatka(4);
+        
+        assertFalse(noodi.equals(noodi3));
+
+    }
 }
