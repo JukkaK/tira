@@ -6,6 +6,7 @@
 
 package fi.tiralabra.astar;
 
+import fi.tiralabra.astar.pino.Pino;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -58,7 +59,7 @@ public class Main {
           yLoppu = br.readLine();  
           
           //Loppupisteistä vähennetään yksi koska oikeasti indeksit alkavat nollasta.
-          List<Noodi> polku = kartta.etsiPolku(Integer.parseInt(xAlku), Integer.parseInt(yAlku),
+          Pino polku = kartta.etsiPolku(Integer.parseInt(xAlku), Integer.parseInt(yAlku),
           Integer.parseInt(xLoppu)-1, Integer.parseInt(yLoppu)-1, "");
                   
           
@@ -67,7 +68,7 @@ public class Main {
         } else {
             System.out.println("Läpikuljettujen noodien määrä:" + polku.size());
             for (int i = 0; i < polku.size(); i++) {
-             System.out.print("(" + polku.get(i).getxPositio() + ", " + polku.get(i).getyPositio() + ") -> ");
+             System.out.print("(" + polku.poista().getxPositio() + ", " + polku.poista().getyPositio() + ") -> ");
             }       
         }
         

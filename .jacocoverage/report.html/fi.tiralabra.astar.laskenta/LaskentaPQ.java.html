@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>LaskentaPQ.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;TiraLabraAStar&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">fi.tiralabra.astar.laskenta</a> &gt; <span class="el_source">LaskentaPQ.java</span></div><h1>LaskentaPQ.java</h1><pre class="source lang-java linenums">/*
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>LaskentaPQ.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;TiraLabraAStar&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">fi.tiralabra.astar.laskenta</a> &gt; <span class="el_source">LaskentaPQ.java</span></div><h1>LaskentaPQ.java</h1><pre class="source lang-java linenums">/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -7,6 +7,8 @@
 package fi.tiralabra.astar.laskenta;
 
 import fi.tiralabra.astar.Noodi;
+import fi.tiralabra.astar.keko.Keko;
+import fi.tiralabra.astar.pino.Pino;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,16 +16,14 @@ import java.util.PriorityQueue;
 
 /**
  *
- * @author merte_000
+ * @author Jukka Koskelin
  */
 public class LaskentaPQ&lt;T extends Noodi&gt; {
     /** Lista jossa läpikäymättömät viereiset Noodit */
     private PriorityQueue&lt;Noodi&gt; kaymattomatNoodit;
     
-    //private Keko kaymattomatNooditKeko = new Keko(11);
-    //private AvlPuu kaymattomatNooditAvl = new AvlPuu();
     /** Läpikäydyt Noodit */
-    private List&lt;T&gt; kaydytNoodit;
+    private LinkedList&lt;T&gt; kaydytNoodit;
     /** Onko polku löytynyt? */
 <span class="fc" id="L28">    private boolean valmis = false;</span>
     
@@ -50,64 +50,58 @@ public class LaskentaPQ&lt;T extends Noodi&gt; {
      * @param loppuY
      * @return 
      */
-    public final List&lt;T&gt; etsiPolku(int alkuX, int alkuY, int loppuX, int loppuY) {      
+    public final Pino etsiPolku(int alkuX, int alkuY, int loppuX, int loppuY) {      
       
 <span class="fc" id="L55">      kaymattomatNoodit = new PriorityQueue&lt;Noodi&gt;(11, noodiVertailija);                </span>
 <span class="fc" id="L56">      kaydytNoodit = new LinkedList&lt;T&gt;();</span>
 <span class="fc" id="L57">      kaymattomatNoodit.add(noodit[alkuX][alkuY]);</span>
-      //kaymattomatNoodit.lisaa(noodit[alkuX][alkuY]);
-      //kaymattomatNoodit.insert(noodit[alkuX][alkuY]);
 
-<span class="fc" id="L61">      valmis = false;</span>
+<span class="fc" id="L59">      valmis = false;</span>
       T valittu;
-<span class="pc bpc" id="L63" title="1 of 2 branches missed.">      while (!valmis) {</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">      while (!valmis) {</span>
           /** Haetaan läpikäymättömistä noodeista lyhimmän matka-arvion omaava */
-<span class="fc" id="L65">          valittu = (T)lyhinMatkaLapikaymattomissa(); </span>
+<span class="fc" id="L63">          valittu = (T)lyhinMatkaLapikaymattomissa(); </span>
           /** Lisätään noodi läpikäytyihin ja poistetaan -käymättömistä */
-<span class="fc" id="L67">          kaydytNoodit.add(valittu); </span>
-<span class="fc" id="L68">          kaymattomatNoodit.remove(valittu);</span>
-          //kaymattomatNoodit.poistaPienin();
-          //kaymattomatNoodit.poistaPieninNoodi();
+<span class="fc" id="L65">          kaydytNoodit.add(valittu); </span>
+<span class="fc" id="L66">          kaymattomatNoodit.remove(valittu);          </span>
 
           /** Onko piste loppupiste? */
-<span class="fc bfc" id="L73" title="All 4 branches covered.">          if ((valittu.getxPositio() == loppuX)</span>
+<span class="fc bfc" id="L69" title="All 4 branches covered.">          if ((valittu.getxPositio() == loppuX)</span>
                   &amp;&amp; (valittu.getyPositio() == loppuY)) { 
-<span class="fc" id="L75">              return laskePolku(noodit[alkuX][alkuY], valittu);</span>
+<span class="fc" id="L71">              return laskePolku(noodit[alkuX][alkuY], valittu);</span>
           }
 
           // Käytään läpi kaikki viereiset Noodit
-<span class="fc" id="L79">          List&lt;T&gt; viereisetNoodit = getViereinen(valittu);</span>
-<span class="fc bfc" id="L80" title="All 2 branches covered.">          for (int i = 0; i &lt; viereisetNoodit.size(); i++) {</span>
-<span class="fc" id="L81">              T valittuViereinen = viereisetNoodit.get(i);</span>
-<span class="fc bfc" id="L82" title="All 2 branches covered.">              if (!kaymattomatNoodit.contains(valittuViereinen)) {</span>
-<span class="fc" id="L83">                  asetaKaymatonNoodi(kaymattomatNoodit, valittuViereinen, valittu, loppuX, loppuY);</span>
+<span class="fc" id="L75">          List&lt;T&gt; viereisetNoodit = getViereinen(valittu);</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">          for (int i = 0; i &lt; viereisetNoodit.size(); i++) {</span>
+<span class="fc" id="L77">              T valittuViereinen = viereisetNoodit.get(i);</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">              if (!kaymattomatNoodit.contains(valittuViereinen)) {</span>
+<span class="fc" id="L79">                  asetaKaymatonNoodi(kaymattomatNoodit, valittuViereinen, valittu, loppuX, loppuY);</span>
               } else {
                   /** Jos matka käsittelyssä olevan Noodin kautta on lyhyempi kuin Noodiin aiemmin tallennettu matka,
                    aseta käsittelyssä oleva Noodi edeltäjäksi ja päivitä matkaa */                  
-<span class="fc" id="L87">                  asetaUusiLyhinMatka(valittuViereinen, valittu);</span>
+<span class="fc" id="L83">                  asetaUusiLyhinMatka(valittuViereinen, valittu);</span>
               }
           }
 
-<span class="pc bpc" id="L91" title="1 of 2 branches missed.">          if (kaymattomatNoodit.isEmpty()) { </span>
-          //if (kaymattomatNoodit.onkoTyhja()) { 
-          //if (kaymattomatNoodit.onkoTyhja()) { 
-<span class="nc" id="L94">              return new LinkedList&lt;T&gt;(); </span>
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">          if (kaymattomatNoodit.isEmpty()) { </span>
+<span class="nc" id="L88">              return new Pino(10);</span>
           }
-<span class="fc" id="L96">      }</span>
-<span class="nc" id="L97">      return null;</span>
+<span class="fc" id="L90">      }</span>
+<span class="nc" id="L91">      return null;</span>
   }
     
     /**
      * Vertailija Noodi -luokalle. 
      */
-<span class="fc" id="L103">    public static Comparator&lt;Noodi&gt; noodiVertailija = new Comparator&lt;Noodi&gt;(){</span>
+<span class="fc" id="L97">    public static Comparator&lt;Noodi&gt; noodiVertailija = new Comparator&lt;Noodi&gt;(){</span>
  
         @Override
         /**
          * Vertailee annettuja Noodeja, palauttaa n1:n ja n2:n erotuksen
          */
         public int compare(Noodi n1, Noodi n2) {
-<span class="fc" id="L110">            return (int) (n1.getMatkaaJaljella() - n2.getMatkaaJaljella());</span>
+<span class="fc" id="L104">            return (int) (n1.getMatkaaJaljella() - n2.getMatkaaJaljella());</span>
         }
     };    
     
@@ -118,21 +112,21 @@ public class LaskentaPQ&lt;T extends Noodi&gt; {
      * @param maali
      * @return
      */
-    protected List&lt;T&gt; laskePolku(T alku, T maali) {
+    protected Pino laskePolku(T alku, T maali) {
 
-<span class="fc" id="L123">        LinkedList&lt;T&gt; polku = new LinkedList&lt;T&gt;();</span>
+<span class="fc" id="L117">        Pino polku = new Pino(10);</span>
 
-<span class="fc" id="L125">        T valittu = maali;</span>
-<span class="fc" id="L126">        boolean valmis = false;</span>
-<span class="fc bfc" id="L127" title="All 2 branches covered.">        while (!valmis) {</span>
-<span class="fc" id="L128">            polku.addFirst(valittu);</span>
-<span class="fc" id="L129">            valittu = (T) valittu.getEdellinenNoodi();</span>
+<span class="fc" id="L119">        T valittu = maali;</span>
+<span class="fc" id="L120">        boolean valmis = false;</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">        while (!valmis) {            </span>
+<span class="fc" id="L122">            polku.tyonna(valittu);</span>
+<span class="fc" id="L123">            valittu = (T) valittu.getEdellinenNoodi();</span>
 
-<span class="fc bfc" id="L131" title="All 2 branches covered.">            if (valittu.equals(alku)) {</span>
-<span class="fc" id="L132">                valmis = true;</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">            if (valittu.equals(alku)) {</span>
+<span class="fc" id="L126">                valmis = true;</span>
             }
         }
-<span class="fc" id="L135">        return polku;</span>
+<span class="fc" id="L129">        return polku;</span>
     }        
     
    /**
@@ -141,40 +135,40 @@ public class LaskentaPQ&lt;T extends Noodi&gt; {
      */
     private List&lt;T&gt; getViereinen(T noodi) {
 
-<span class="fc" id="L144">        int x = noodi.getxPositio();</span>
-<span class="fc" id="L145">        int y = noodi.getyPositio();</span>
-<span class="fc" id="L146">        List&lt;T&gt; viereinen = new LinkedList&lt;T&gt;();</span>
+<span class="fc" id="L138">        int x = noodi.getxPositio();</span>
+<span class="fc" id="L139">        int y = noodi.getyPositio();</span>
+<span class="fc" id="L140">        List&lt;T&gt; viereinen = new LinkedList&lt;T&gt;();</span>
 
         T temp;
-<span class="fc bfc" id="L149" title="All 2 branches covered.">        if (x &gt; 0) {</span>
-<span class="fc" id="L150">            temp = this.getNoodi((x - 1), y);</span>
-<span class="fc bfc" id="L151" title="All 4 branches covered.">            if (temp.getKuljettava()&amp;&amp; !kaydytNoodit.contains(temp)) {</span>
-<span class="fc" id="L152">                viereinen.add(temp);</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">        if (x &gt; 0) {</span>
+<span class="fc" id="L144">            temp = this.getNoodi((x - 1), y);</span>
+<span class="fc bfc" id="L145" title="All 4 branches covered.">            if (temp.getKuljettava()&amp;&amp; !kaydytNoodit.contains(temp)) {</span>
+<span class="fc" id="L146">                viereinen.add(temp);</span>
             }
         }
 
-<span class="fc bfc" id="L156" title="All 2 branches covered.">        if (x &lt; leveys) {</span>
-<span class="fc" id="L157">            temp = this.getNoodi((x + 1), y);</span>
-<span class="fc bfc" id="L158" title="All 4 branches covered.">            if (temp.getKuljettava()&amp;&amp; !kaydytNoodit.contains(temp)) {</span>
-<span class="fc" id="L159">                viereinen.add(temp);</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">        if (x &lt; leveys) {</span>
+<span class="fc" id="L151">            temp = this.getNoodi((x + 1), y);</span>
+<span class="fc bfc" id="L152" title="All 4 branches covered.">            if (temp.getKuljettava()&amp;&amp; !kaydytNoodit.contains(temp)) {</span>
+<span class="fc" id="L153">                viereinen.add(temp);</span>
             }
         }
 
-<span class="fc bfc" id="L163" title="All 2 branches covered.">        if (y &gt; 0) {</span>
-<span class="fc" id="L164">            temp = this.getNoodi(x, (y - 1));</span>
-<span class="fc bfc" id="L165" title="All 4 branches covered.">            if (temp.getKuljettava() &amp;&amp; !kaydytNoodit.contains(temp)) {</span>
-<span class="fc" id="L166">                viereinen.add(temp);</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">        if (y &gt; 0) {</span>
+<span class="fc" id="L158">            temp = this.getNoodi(x, (y - 1));</span>
+<span class="fc bfc" id="L159" title="All 4 branches covered.">            if (temp.getKuljettava() &amp;&amp; !kaydytNoodit.contains(temp)) {</span>
+<span class="fc" id="L160">                viereinen.add(temp);</span>
             }
         }
 
-<span class="fc bfc" id="L170" title="All 2 branches covered.">        if (y &lt; korkeus) {</span>
-<span class="fc" id="L171">            temp = this.getNoodi(x, (y + 1));</span>
-<span class="fc bfc" id="L172" title="All 4 branches covered.">            if (temp.getKuljettava() &amp;&amp; !kaydytNoodit.contains(temp)) {                </span>
-<span class="fc" id="L173">                viereinen.add(temp);</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">        if (y &lt; korkeus) {</span>
+<span class="fc" id="L165">            temp = this.getNoodi(x, (y + 1));</span>
+<span class="fc bfc" id="L166" title="All 4 branches covered.">            if (temp.getKuljettava() &amp;&amp; !kaydytNoodit.contains(temp)) {                </span>
+<span class="fc" id="L167">                viereinen.add(temp);</span>
             }
         }
 
-<span class="fc" id="L177">        return viereinen;</span>
+<span class="fc" id="L171">        return viereinen;</span>
     }            
     
     /**
@@ -188,17 +182,11 @@ public class LaskentaPQ&lt;T extends Noodi&gt; {
      */
     private void asetaKaymatonNoodi(PriorityQueue&lt;Noodi&gt; kaymattomatNoodit, 
         Noodi valittuViereinen, Noodi valittu, int loppuX, int loppuY){        
-    //private void asetaKaymatonNoodi(Keko kaymattomatNoodit, 
-    //    Noodi valittuViereinen, Noodi valittu, int loppuX, int loppuY){        
- //private void asetaKaymatonNoodi(AvlPuu kaymattomatNoodit, 
- //       Noodi valittuViereinen, Noodi valittu, int loppuX, int loppuY){            
-<span class="fc" id="L195">        valittuViereinen.setEdellinenNoodi(valittu); </span>
-<span class="fc" id="L196">        valittuViereinen.setMatkaJaljella(noodit[loppuX][loppuY]); </span>
-<span class="fc" id="L197">        valittuViereinen.setTehtyMatka(valittu); </span>
-<span class="fc" id="L198">        kaymattomatNoodit.add(valittuViereinen);</span>
-        //kaymattomatNoodit.lisaa(valittuViereinen);
-        //kaymattomatNoodit.insert(valittuViereinen);
-<span class="fc" id="L201">    }</span>
+<span class="fc" id="L185">        valittuViereinen.setEdellinenNoodi(valittu); </span>
+<span class="fc" id="L186">        valittuViereinen.setMatkaJaljella(noodit[loppuX][loppuY]); </span>
+<span class="fc" id="L187">        valittuViereinen.setTehtyMatka(valittu); </span>
+<span class="fc" id="L188">        kaymattomatNoodit.add(valittuViereinen);</span>
+<span class="fc" id="L189">    }</span>
     
     /**
      * Jos matka käsittelyssä olevan Noodin kautta on lyhyempi kuin 
@@ -208,11 +196,11 @@ public class LaskentaPQ&lt;T extends Noodi&gt; {
      * @param valittu 
      */
     private void asetaUusiLyhinMatka(Noodi valittuViereinen, Noodi valittu){
-<span class="fc bfc" id="L211" title="All 2 branches covered.">        if (valittuViereinen.getTehtyMatka()&gt; valittuViereinen.laskeTehtyMatka(valittu)) { </span>
-<span class="fc" id="L212">            valittuViereinen.setEdellinenNoodi(valittu); </span>
-<span class="fc" id="L213">            valittuViereinen.setTehtyMatka(valittu);</span>
+<span class="fc bfc" id="L199" title="All 2 branches covered.">        if (valittuViereinen.getTehtyMatka()&gt; valittuViereinen.laskeTehtyMatka(valittu)) { </span>
+<span class="fc" id="L200">            valittuViereinen.setEdellinenNoodi(valittu); </span>
+<span class="fc" id="L201">            valittuViereinen.setTehtyMatka(valittu);</span>
         }
-<span class="fc" id="L215">    }                </span>
+<span class="fc" id="L203">    }                </span>
     
     /**
      * palauttaa läpikäymättömistä noodeista sen jolla on pienin arvo
@@ -224,9 +212,7 @@ public class LaskentaPQ&lt;T extends Noodi&gt; {
         //Palauttaa PriorityQueuen pienemmimmän arvon (haetaan vertailijalla,
         //joka vertailee Noodien MatkaJaljella -arvoja), mutta ei poista sitä
         //keosta.
-<span class="fc" id="L227">        return kaymattomatNoodit.poll();</span>
-        //return kaymattomatNoodit.naytaPienin();
-        //return kaymattomatNoodit.naytaPieninNoodi();
+<span class="fc" id="L215">        return kaymattomatNoodit.poll();</span>
     }  
     
     /**
@@ -236,10 +222,10 @@ public class LaskentaPQ&lt;T extends Noodi&gt; {
      * @return Noodi
      */
     public final T getNoodi(int x, int y) {
-<span class="pc bpc" id="L239" title="4 of 8 branches missed.">        if (x &gt;= 0 &amp;&amp; x &lt;= this.leveys &amp;&amp; y &gt;= 0 &amp;&amp; y &lt;= this.korkeus){</span>
-<span class="fc" id="L240">            return noodit[x][y];</span>
+<span class="pc bpc" id="L225" title="4 of 8 branches missed.">        if (x &gt;= 0 &amp;&amp; x &lt;= this.leveys &amp;&amp; y &gt;= 0 &amp;&amp; y &lt;= this.korkeus){</span>
+<span class="fc" id="L226">            return noodit[x][y];</span>
         } else {
-<span class="nc" id="L242">            return null;</span>
+<span class="nc" id="L228">            return null;</span>
         }
         
     }    
