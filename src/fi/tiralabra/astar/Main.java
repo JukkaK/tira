@@ -67,16 +67,19 @@ public class Main {
             System.out.println("Polkua ei löytynyt!");
         } else {
             System.out.println("Läpikuljettujen noodien määrä:" + polku.size());
-            for (int i = 0; i < polku.size(); i++) {
-             System.out.print("(" + polku.poista().getxPositio() + ", " + polku.poista().getyPositio() + ") -> ");
-            }       
-        }
-        
+            while(!polku.onkoTyhja()){
+                Noodi noodi = polku.poista();
+                System.out.print("(" + noodi.getxPositio() + ", " + noodi.getyPositio() + ") -> ");
+            }                              
+        }        
           
       } catch (IOException ioe) {
          System.out.println("IO-virhe vastauksen tulkinnassa");
          System.exit(1);
-      } catch (Exception ex){
+      } catch (IllegalArgumentException iae){
+          System.out.println("Annoit koordinaatin joka ei ole kartalla!");
+      } 
+      catch (Exception ex){
           throw ex;
       }
                              

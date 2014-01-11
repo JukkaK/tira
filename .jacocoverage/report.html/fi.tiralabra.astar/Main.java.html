@@ -67,19 +67,22 @@ import java.util.List;
 <span class="nc" id="L67">            System.out.println(&quot;Polkua ei löytynyt!&quot;);</span>
         } else {
 <span class="nc" id="L69">            System.out.println(&quot;Läpikuljettujen noodien määrä:&quot; + polku.size());</span>
-<span class="nc bnc" id="L70" title="All 2 branches missed.">            for (int i = 0; i &lt; polku.size(); i++) {</span>
-<span class="nc" id="L71">             System.out.print(&quot;(&quot; + polku.poista().getxPositio() + &quot;, &quot; + polku.poista().getyPositio() + &quot;) -&gt; &quot;);</span>
-            }       
-        }
-        
+<span class="nc bnc" id="L70" title="All 2 branches missed.">            while(!polku.onkoTyhja()){</span>
+<span class="nc" id="L71">                Noodi noodi = polku.poista();</span>
+<span class="nc" id="L72">                System.out.print(&quot;(&quot; + noodi.getxPositio() + &quot;, &quot; + noodi.getyPositio() + &quot;) -&gt; &quot;);</span>
+<span class="nc" id="L73">            }                              </span>
+        }        
           
 <span class="nc" id="L76">      } catch (IOException ioe) {</span>
 <span class="nc" id="L77">         System.out.println(&quot;IO-virhe vastauksen tulkinnassa&quot;);</span>
 <span class="nc" id="L78">         System.exit(1);</span>
-<span class="nc" id="L79">      } catch (Exception ex){</span>
-<span class="nc" id="L80">          throw ex;</span>
-<span class="nc" id="L81">      }</span>
+<span class="nc" id="L79">      } catch (IllegalArgumentException iae){</span>
+<span class="nc" id="L80">          System.out.println(&quot;Annoit koordinaatin joka ei ole kartalla!&quot;);</span>
+      } 
+<span class="nc" id="L82">      catch (Exception ex){</span>
+<span class="nc" id="L83">          throw ex;</span>
+<span class="nc" id="L84">      }</span>
                              
-<span class="nc" id="L83">    }</span>
+<span class="nc" id="L86">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.201312101107</span></div></body></html>

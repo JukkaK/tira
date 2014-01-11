@@ -84,15 +84,15 @@ public class KarttaTest {
         int newX = 40;
         int newY = 40;
         Kartta instance = new Kartta<Noodi>(50, 50);
-        int expResult = 80;
+        int expResult = 79;
         Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "");
                 
-        assertEquals(expResult, result.size()+1);
+        assertEquals(expResult, result.size());
+        System.out.println("Tuloksessa noodeja yhteensä: " + result.size()); 
         while(!result.onkoTyhja()){
-            System.out.print("(" + result.poista().getxPositio() + ", " + result.poista().getyPositio() + ") -> ");
-        }
-                
-        System.out.println("Tuloksessa noodeja yhteensä: " + result.size());        
+            Noodi noodi = result.poista();
+            System.out.print("(" + noodi.getxPositio() + ", " + noodi.getyPositio() + ") -> ");
+        }                       
     }    
     
     /**
@@ -107,15 +107,14 @@ public class KarttaTest {
         int newX = 40;
         int newY = 40;
         Kartta instance = new Kartta<Noodi>(50, 50);
-        int expResult = 80;        
+        int expResult = 79;        
         Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "KEKO");
-        
-        assertEquals(expResult, result.size()+1);        
-        while(!result.onkoTyhja()){
-            System.out.print("(" + result.poista().getxPositio() + ", " + result.poista().getyPositio() + ") -> ");
-        }
-                
         System.out.println("Tuloksessa noodeja yhteensä: " + result.size());                
+        assertEquals(expResult, result.size());        
+        while(!result.onkoTyhja()){
+            Noodi noodi = result.poista();
+            System.out.print("(" + noodi.getxPositio() + ", " + noodi.getyPositio() + ") -> ");
+        }                                               
     }
     
     /**
@@ -357,6 +356,50 @@ public class KarttaTest {
         assertEquals(expResult, result.size()+1);        
     }    
     
-
+    /**
+     * Tarkistetaan että väärillä koordinaateilla nousee virhe.
+     */
+    @Test
+    public void testVaaratKoordinaatitVirhe(){
+        System.out.println("vaaratKordinaatit");
+        int oldX = -1;
+        int oldY = 0;
+        int newX = 40;
+        int newY = 40;
+        Kartta instance = new Kartta<Noodi>(50, 50);
+        String virhe = "";
+        try {
+            Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "");
+        } catch (IllegalArgumentException ex) {
+            virhe = ex.getMessage();
+            assertTrue(true);
+        } catch (Exception x){
+            assertTrue(false);
+        }        
+        assertEquals("Annetun koordinaatin täytyy olla kartalla.", virhe);
+    }
+    
+    /**
+     * Tarkistetaan että väärillä koordinaateilla nousee virhe.
+     */
+    @Test
+    public void testVaaratKoordinaatitVirhe2(){
+        System.out.println("vaaratKordinaatit2");
+        int oldX = 0;
+        int oldY = 0;
+        int newX = 100;
+        int newY = 100;
+        Kartta instance = new Kartta<Noodi>(50, 50);
+        String virhe = "";
+        try {
+            Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "");
+        } catch (IllegalArgumentException ex) {
+            virhe = ex.getMessage();
+            assertTrue(true);
+        } catch (Exception x){
+            assertTrue(false);
+        }        
+        assertEquals("Annetun koordinaatin täytyy olla kartalla.", virhe);
+    }    
     
 }

@@ -12,13 +12,8 @@ import fi.tiralabra.astar.laskenta.LaskentaAvl;
 import fi.tiralabra.astar.laskenta.LaskentaKeko;
 import fi.tiralabra.astar.laskenta.LaskentaPQ;
 import fi.tiralabra.astar.pino.Pino;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Comparator;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import javax.imageio.ImageIO;
 
 
 /**
@@ -69,8 +64,8 @@ public class Kartta<T extends Noodi> {
     protected void luoKartta(int leveys, int korkeus, boolean onkoKuva){
         if (leveys > 0 && korkeus > 0){
             noodit = (T[][]) new Noodi[leveys][korkeus];
-            this.leveys = leveys - 1; //-1, koska indeksit lähtee nollasta
-            this.korkeus = korkeus - 1; //-1, koska indeksit lähtee nollasta
+            this.leveys = leveys-1; //-1, koska indeksit lähtee nollasta
+            this.korkeus = korkeus-1; //-1, koska indeksit lähtee nollasta
             AlustaNoodit(onkoKuva);                    
         } else {
             throw new IllegalArgumentException("Arvot eivät voi olla pienempiä kuin yksi");
@@ -154,6 +149,9 @@ public class Kartta<T extends Noodi> {
     private boolean valmis = false;   
     
     public final Pino etsiPolku(int alkuX, int alkuY, int loppuX, int loppuY, String tietorakenne) {
+        if (!tarkistaX(alkuX) || !tarkistaY(alkuY) || !tarkistaX(loppuX) || !tarkistaY(loppuY)) {
+            throw new IllegalArgumentException("Annetun koordinaatin täytyy olla kartalla.");
+        }
         Pino polku;    
         if (tietorakenne.contains("KEKO")) {
             LaskentaKeko laskenta = new LaskentaKeko(this.noodit, this.leveys, this.korkeus);
@@ -172,5 +170,29 @@ public class Kartta<T extends Noodi> {
         
         return polku;
     }   
+    
+    /**
+     * Tarkistaa onko annettu leveyskoordinaatti kartalla.
+     * @param x
+     * @return boolean
+     */
+    private boolean tarkistaX(int x){
+        if (x < 0 || x > this.leveys) {
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+     * Tarkistaa onko annettu korkeuskoordinaatti kartalla.
+     * @param y
+     * @return boolean
+     */
+    private boolean tarkistaY(int y){
+        if (y < 0 || y > this.korkeus) {
+            return false;
+        }
+        return true;
+    }
         
 }
