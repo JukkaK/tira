@@ -6,6 +6,7 @@
 
 package fi.tiralabra.astar;
 
+import fi.tiralabra.astar.pino.Pino;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.junit.After;
@@ -84,15 +85,14 @@ public class KarttaTest {
         int newY = 40;
         Kartta instance = new Kartta<Noodi>(50, 50);
         int expResult = 80;
-        List<Noodi> result = instance.etsiPolku(oldX, oldY, newX, newY, "");
-
-        for (int i = 0; i < result.size(); i++) {
-            System.out.print("(" + result.get(i).getxPositio() + ", " + result.get(i).getyPositio() + ") -> ");
+        Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "");
+                
+        assertEquals(expResult, result.size()+1);
+        while(!result.onkoTyhja()){
+            System.out.print("(" + result.poista().getxPositio() + ", " + result.poista().getyPositio() + ") -> ");
         }
-        
-        System.out.println("Tuloksessa noodeja yhteensä: " + result.size());
-        
-        assertEquals(expResult, result.size());
+                
+        System.out.println("Tuloksessa noodeja yhteensä: " + result.size());        
     }    
     
     /**
@@ -107,17 +107,16 @@ public class KarttaTest {
         int newX = 40;
         int newY = 40;
         Kartta instance = new Kartta<Noodi>(50, 50);
-        int expResult = 80;
-        List<Noodi> result = instance.etsiPolku(oldX, oldY, newX, newY, "KEKO");
-
-        for (int i = 0; i < result.size(); i++) {
-            System.out.print("(" + result.get(i).getxPositio() + ", " + result.get(i).getyPositio() + ") -> ");
+        int expResult = 80;        
+        Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "KEKO");
+        
+        assertEquals(expResult, result.size()+1);        
+        while(!result.onkoTyhja()){
+            System.out.print("(" + result.poista().getxPositio() + ", " + result.poista().getyPositio() + ") -> ");
         }
-        
-        System.out.println("Tuloksessa noodeja yhteensä: " + result.size());
-        
-        assertEquals(expResult, result.size());
-    }      
+                
+        System.out.println("Tuloksessa noodeja yhteensä: " + result.size());                
+    }
     
     /**
      * Testataan etsiPolku -metodia. Oletetaan että palauttaa 80:n askeleen pituisen polun, 
@@ -137,14 +136,17 @@ public class KarttaTest {
         Kartta instance = new Kartta<Noodi>(50, 50);
         int expResult = 80;
         List<Noodi> result = instance.etsiPolku(oldX, oldY, newX, newY, "AVL");
-
-        for (int i = 0; i < result.size(); i++) {
-            System.out.print("(" + result.get(i).getxPositio() + ", " + result.get(i).getyPositio() + ") -> ");
+        Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "KEKO");
+        Pino polku = result;
+                
+        while(!result.onkoTyhja()){
+            System.out.print("(" + result.poista().getxPositio() + ", " + result.poista().getyPositio() + ") -> ");
         }
-        
+                
         System.out.println("Tuloksessa noodeja yhteensä: " + result.size());
         
-        assertEquals(expResult, result.size());*/
+        assertEquals(expResult, polku.size());    
+*/
     }
 
     
@@ -228,16 +230,21 @@ public class KarttaTest {
         int newX = 7;
         int newY = 49;
         int expResult = 51;
-        List<Noodi> result = instance.etsiPolku(oldX, oldY, newX, newY, "");
-
-        for (int i = 0; i < result.size(); i++) {
-            System.out.print("(" + result.get(i).getxPositio() + ", " + result.get(i).getyPositio() + ") -> ");
+        Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "");
+        int koko = result.size()+1;
+        assertEquals(expResult, koko);
+        System.out.println("Tuloksessa noodeja yhteensä: " + result.size()+1);           
+                       
+        Noodi noodi = new Noodi(0,0);
+        int pinonKoko = result.size();
+        for (int i = 0; i < pinonKoko+1; i++) {
+            noodi = result.poista();
+            int x = noodi.getxPositio();
+            int y = noodi.getyPositio();
+            System.out.print("(" + x + ", " + y + ") -> ");
         }
-        
-        System.out.println("Tuloksessa noodeja yhteensä: " + result.size());
-        
-        assertEquals(expResult, result.size());
-                
+        assertEquals(7, noodi.getxPositio());
+        assertEquals(49, noodi.getyPositio());
     }
     
     /**
@@ -250,11 +257,10 @@ public class KarttaTest {
         int oldY = 0;
         int newX = 304;
         int newY = 217;
-        int expResult = 1449;
-        List<Noodi> result = instance.etsiPolku(oldX, oldY, newX, newY, "");
+        int expResult = 1448;
+        Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "");
 
-        System.out.println("Tuloksessa noodeja yhteensä: " + result.size());
-        System.out.println(result.get(400).getxPositio() + ", " + result.get(400).getyPositio());
+        System.out.println("Tuloksessa noodeja yhteensä: " + result.size());        
         
         assertEquals(expResult, result.size());
                 
@@ -273,13 +279,13 @@ public class KarttaTest {
         Kartta instance = new Kartta<Noodi>(500, 500);
         int expResult = 998;
         long alkuAika = System.nanoTime();
-        List<Noodi> result = instance.etsiPolku(oldX, oldY, newX, newY, "");
+        Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "");
         long loppuAika = System.nanoTime();
         long suoritusAika = TimeUnit.NANOSECONDS.toMillis(loppuAika - alkuAika);
                 
         System.out.println("Suoritusaika PQ: " + suoritusAika + " ms");
         
-        assertEquals(expResult, result.size());
+        assertEquals(expResult, result.size()+1);
         
         alkuAika = System.nanoTime();
         result = instance.etsiPolku(oldX, oldY, newX, newY, "Keko");
@@ -288,7 +294,7 @@ public class KarttaTest {
                 
         System.out.println("Suoritusaika Keko: " + suoritusAika + " ms");
         
-        assertEquals(expResult, result.size());
+        assertEquals(expResult, result.size()+1);
         
         
     }
@@ -303,14 +309,14 @@ public class KarttaTest {
         Kartta instance = new Kartta<Noodi>(1000, 1000);
         int expResult = 1998;
         long alkuAika = System.nanoTime();
-        List<Noodi> result = instance.etsiPolku(oldX, oldY, newX, newY, "");
+        Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "");
         long loppuAika = System.nanoTime();
         long suoritusAika = TimeUnit.NANOSECONDS.toMillis(loppuAika - alkuAika);
                 
         //System.out.println("Suoritusaika: " + TimeUnit.MILLISECONDS.toSeconds(loppuAika - alkuAika));
         System.out.println("Suoritusaika PQ: " + suoritusAika + " ms");
         
-        assertEquals(expResult, result.size());
+        assertEquals(expResult, result.size()+1);
         
         alkuAika = System.nanoTime();
         result = instance.etsiPolku(oldX, oldY, newX, newY, "Keko");
@@ -319,7 +325,7 @@ public class KarttaTest {
                 
         System.out.println("Suoritusaika Keko: " + suoritusAika + " ms");
         
-        assertEquals(expResult, result.size());        
+        assertEquals(expResult, result.size()+1);        
     }
     
     @Test
@@ -332,14 +338,14 @@ public class KarttaTest {
         Kartta instance = new Kartta<Noodi>(2000, 2000);
         int expResult = 3998;
         long alkuAika = System.nanoTime();
-        List<Noodi> result = instance.etsiPolku(oldX, oldY, newX, newY, "");
+        Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "");
         long loppuAika = System.nanoTime();
         long suoritusAika = TimeUnit.NANOSECONDS.toMillis(loppuAika - alkuAika);
                 
         //System.out.println("Suoritusaika: " + TimeUnit.MILLISECONDS.toSeconds(loppuAika - alkuAika));
         System.out.println("Suoritusaika PQ: " + suoritusAika + " ms");
         
-        assertEquals(expResult, result.size());
+        assertEquals(expResult, result.size()+1);
         
         alkuAika = System.nanoTime();
         result = instance.etsiPolku(oldX, oldY, newX, newY, "Keko");
@@ -348,7 +354,7 @@ public class KarttaTest {
                 
         System.out.println("Suoritusaika Keko: " + suoritusAika + " ms");
         
-        assertEquals(expResult, result.size());        
+        assertEquals(expResult, result.size()+1);        
     }    
     
 

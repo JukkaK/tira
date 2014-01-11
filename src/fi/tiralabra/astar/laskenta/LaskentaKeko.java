@@ -8,6 +8,7 @@ package fi.tiralabra.astar.laskenta;
 
 import fi.tiralabra.astar.keko.Keko;
 import fi.tiralabra.astar.Noodi;
+import fi.tiralabra.astar.pino.Pino;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,7 +49,7 @@ public class LaskentaKeko<T extends Noodi> {
      * @param loppuY
      * @return 
      */
-    public final List<T> etsiPolku(int alkuX, int alkuY, int loppuX, int loppuY) {      
+    public final Pino etsiPolku(int alkuX, int alkuY, int loppuX, int loppuY) {      
       
       kaymattomatNoodit = new Keko(11);                
       kaydytNoodit = new LinkedList<T>();
@@ -85,7 +86,7 @@ public class LaskentaKeko<T extends Noodi> {
           }
 
           if (kaymattomatNoodit.onkoTyhja()) { 
-              return new LinkedList<T>(); 
+              return new Pino(10); 
           }
       }
       return null;
@@ -112,14 +113,14 @@ public class LaskentaKeko<T extends Noodi> {
      * @param maali
      * @return
      */
-    protected List<T> laskePolku(T alku, T maali) {
+    protected Pino laskePolku(T alku, T maali) {
 
-        LinkedList<T> polku = new LinkedList<T>();
+        Pino polku = new Pino(10);
 
         T valittu = maali;
         boolean valmis = false;
         while (!valmis) {
-            polku.addFirst(valittu);
+            polku.tyonna(maali);
             valittu = (T) valittu.getEdellinenNoodi();
 
             if (valittu.equals(alku)) {

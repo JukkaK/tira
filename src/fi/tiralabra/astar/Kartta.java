@@ -11,6 +11,7 @@ import fi.tiralabra.astar.kuva.KuvaLataaja;
 import fi.tiralabra.astar.laskenta.LaskentaAvl;
 import fi.tiralabra.astar.laskenta.LaskentaKeko;
 import fi.tiralabra.astar.laskenta.LaskentaPQ;
+import fi.tiralabra.astar.pino.Pino;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -107,7 +108,7 @@ public class Kartta<T extends Noodi> {
      * Piirtää kartasta kuvan ja sen päälle annetun polun
      * @param polku 
      */
-    private void piirraKuva(List<T> polku){
+    private void piirraKuva(Pino polku){
         KuvaLataaja lataaja = new KuvaLataaja();
         lataaja.muodostaKuva(polku, kuva);
     }    
@@ -152,8 +153,8 @@ public class Kartta<T extends Noodi> {
     /** Onko polku löytynyt? */
     private boolean valmis = false;   
     
-    public final List<T> etsiPolku(int alkuX, int alkuY, int loppuX, int loppuY, String tietorakenne) {
-        List<T> polku;    
+    public final Pino etsiPolku(int alkuX, int alkuY, int loppuX, int loppuY, String tietorakenne) {
+        Pino polku;    
         if (tietorakenne.contains("KEKO")) {
             LaskentaKeko laskenta = new LaskentaKeko(this.noodit, this.leveys, this.korkeus);
             polku = laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);                                    
@@ -164,8 +165,9 @@ public class Kartta<T extends Noodi> {
         LaskentaPQ laskenta = new LaskentaPQ(this.noodit, this.leveys, this.korkeus);
         polku = laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);                                         
         
+        
         if(this.kuva != null){
-            piirraKuva(polku);
+            piirraKuva(polku.teeKopio());
         }
         
         return polku;

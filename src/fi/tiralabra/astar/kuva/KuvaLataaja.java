@@ -5,6 +5,7 @@
 package fi.tiralabra.astar.kuva;
 
 import fi.tiralabra.astar.Noodi;
+import fi.tiralabra.astar.pino.Pino;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -71,13 +72,13 @@ public class KuvaLataaja<T extends Noodi> {
      * @param leveys kuvan leveys
      * @param korkeus  kuvan korkeus
      */
-    public void muodostaKuva( List<Noodi> polku, BufferedImage kuva){
+    public void muodostaKuva(Pino polku, BufferedImage kuva){
         Graphics2D graphics = kuva.createGraphics();
         System.out.println("polku size: " + polku.size());
         for(int i = 0; i <= polku.size()-1; i++){
             graphics = kuva.createGraphics();            
             graphics.setColor(Color.BLUE);
-            graphics.drawOval(polku.get(i).getxPositio(), polku.get(i).getyPositio(), 0, 0);            
+            graphics.drawOval(polku.poista().getxPositio(), polku.poista().getyPositio(), 0, 0);            
         }
         
         File outputfile = new File("tulos.png");
