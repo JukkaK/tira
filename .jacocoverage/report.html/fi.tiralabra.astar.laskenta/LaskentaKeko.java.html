@@ -83,8 +83,8 @@ public class LaskentaKeko&lt;T extends Noodi&gt; {
               }
           }
 
-<span class="pc bpc" id="L86" title="1 of 2 branches missed.">          if (kaymattomatNoodit.onkoTyhja()) { </span>
-<span class="nc" id="L87">              return new Pino(10); </span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">          if (kaymattomatNoodit.onkoTyhja()) { </span>
+<span class="fc" id="L87">              return new Pino(10); </span>
           }
 <span class="fc" id="L89">      }</span>
 <span class="nc" id="L90">      return null;</span>
@@ -118,7 +118,7 @@ public class LaskentaKeko&lt;T extends Noodi&gt; {
 <span class="fc" id="L118">        T valittu = maali;</span>
 <span class="fc" id="L119">        boolean valmis = false;</span>
 <span class="fc bfc" id="L120" title="All 2 branches covered.">        while (!valmis) {</span>
-<span class="fc" id="L121">            polku.tyonna(maali);</span>
+<span class="fc" id="L121">            polku.tyonna(valittu);</span>
 <span class="fc" id="L122">            valittu = (T) valittu.getEdellinenNoodi();</span>
 
 <span class="fc bfc" id="L124" title="All 2 branches covered.">            if (valittu.equals(alku)) {</span>
@@ -141,28 +141,28 @@ public class LaskentaKeko&lt;T extends Noodi&gt; {
         T temp;
 <span class="fc bfc" id="L142" title="All 2 branches covered.">        if (x &gt; 0) {</span>
 <span class="fc" id="L143">            temp = this.getNoodi((x - 1), y);</span>
-<span class="pc bpc" id="L144" title="1 of 4 branches missed.">            if (temp.getKuljettava()&amp;&amp; !kaydytNoodit.contains(temp)) {</span>
+<span class="fc bfc" id="L144" title="All 4 branches covered.">            if (temp.getKuljettava()&amp;&amp; !kaydytNoodit.contains(temp)) {</span>
 <span class="fc" id="L145">                viereinen.add(temp);</span>
             }
         }
 
-<span class="pc bpc" id="L149" title="1 of 2 branches missed.">        if (x &lt; leveys) {</span>
+<span class="fc bfc" id="L149" title="All 2 branches covered.">        if (x &lt; leveys) {</span>
 <span class="fc" id="L150">            temp = this.getNoodi((x + 1), y);</span>
-<span class="pc bpc" id="L151" title="2 of 4 branches missed.">            if (temp.getKuljettava()&amp;&amp; !kaydytNoodit.contains(temp)) {</span>
+<span class="fc bfc" id="L151" title="All 4 branches covered.">            if (temp.getKuljettava()&amp;&amp; !kaydytNoodit.contains(temp)) {</span>
 <span class="fc" id="L152">                viereinen.add(temp);</span>
             }
         }
 
 <span class="fc bfc" id="L156" title="All 2 branches covered.">        if (y &gt; 0) {</span>
 <span class="fc" id="L157">            temp = this.getNoodi(x, (y - 1));</span>
-<span class="pc bpc" id="L158" title="2 of 4 branches missed.">            if (temp.getKuljettava() &amp;&amp; !kaydytNoodit.contains(temp)) {</span>
-<span class="nc" id="L159">                viereinen.add(temp);</span>
+<span class="fc bfc" id="L158" title="All 4 branches covered.">            if (temp.getKuljettava() &amp;&amp; !kaydytNoodit.contains(temp)) {</span>
+<span class="fc" id="L159">                viereinen.add(temp);</span>
             }
         }
 
-<span class="pc bpc" id="L163" title="1 of 2 branches missed.">        if (y &lt; korkeus) {</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">        if (y &lt; korkeus) {</span>
 <span class="fc" id="L164">            temp = this.getNoodi(x, (y + 1));</span>
-<span class="pc bpc" id="L165" title="2 of 4 branches missed.">            if (temp.getKuljettava() &amp;&amp; !kaydytNoodit.contains(temp)) {                </span>
+<span class="fc bfc" id="L165" title="All 4 branches covered.">            if (temp.getKuljettava() &amp;&amp; !kaydytNoodit.contains(temp)) {                </span>
 <span class="fc" id="L166">                viereinen.add(temp);</span>
             }
         }
@@ -195,9 +195,9 @@ public class LaskentaKeko&lt;T extends Noodi&gt; {
      * @param valittu 
      */
     private void asetaUusiLyhinMatka(Noodi valittuViereinen, Noodi valittu){
-<span class="pc bpc" id="L198" title="1 of 2 branches missed.">        if (valittuViereinen.getTehtyMatka()&gt; valittuViereinen.laskeTehtyMatka(valittu)) { </span>
-<span class="nc" id="L199">            valittuViereinen.setEdellinenNoodi(valittu); </span>
-<span class="nc" id="L200">            valittuViereinen.setTehtyMatka(valittu);</span>
+<span class="fc bfc" id="L198" title="All 2 branches covered.">        if (valittuViereinen.getTehtyMatka()&gt; valittuViereinen.laskeTehtyMatka(valittu)) { </span>
+<span class="fc" id="L199">            valittuViereinen.setEdellinenNoodi(valittu); </span>
+<span class="fc" id="L200">            valittuViereinen.setTehtyMatka(valittu);</span>
         }
 <span class="fc" id="L202">    }                </span>
     

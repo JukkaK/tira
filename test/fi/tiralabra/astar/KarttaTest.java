@@ -126,8 +126,9 @@ public class KarttaTest {
         
         assertTrue(true);
         
-        //AVL ei toimi vielä
-        /*System.out.println("etsiPolku");
+        //Tämä AVL-testi kaatuu kun puuhun yritetään lisätä solmua joka
+        //siellä jo on.
+       /* System.out.println("etsiPolku");
         int oldX = 0;
         int oldY = 0;
         int newX = 40;
@@ -143,8 +144,7 @@ public class KarttaTest {
                 
         System.out.println("Tuloksessa noodeja yhteensä: " + result.size());
         
-        assertEquals(expResult, polku.size());    
-*/
+        assertEquals(expResult, polku.size());    */
     }
 
     
@@ -267,7 +267,7 @@ public class KarttaTest {
 //Suorituskykytestit    
 //------------------    
     
-    @Test
+        @Test
     public void testEtsiPolkuTimer500(){
         System.out.println("etsiPolkuTimer500");
         int oldX = 0;
@@ -280,7 +280,7 @@ public class KarttaTest {
         Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "");
         long loppuAika = System.nanoTime();
         long suoritusAika = TimeUnit.NANOSECONDS.toMillis(loppuAika - alkuAika);
-                
+                  
         System.out.println("Suoritusaika PQ: " + suoritusAika + " ms");
         
         assertEquals(expResult, result.size()+1);
@@ -292,7 +292,85 @@ public class KarttaTest {
                 
         System.out.println("Suoritusaika Keko: " + suoritusAika + " ms");
         
+        result = instance.etsiPolku(oldX, oldY, newX, newY, "Avl");
+        loppuAika = System.nanoTime();
+        suoritusAika = TimeUnit.NANOSECONDS.toMillis(loppuAika - alkuAika);
+                
+        System.out.println("Suoritusaika Avl: " + suoritusAika + " ms");
+                
         assertEquals(expResult, result.size()+1);
+        
+        
+    }
+    
+@Test
+    public void testEtsiPolkuTimerKuvaIso(){                
+        System.out.println("etsiPolkuTimerKuva");
+        int oldX = 0;
+        int oldY = 0;
+        int newX = 304;
+        int newY = 217;
+        int expResult = 1448;
+        Kartta instance = new Kartta<Noodi>("testi3.png");
+        long alkuAika = System.nanoTime();
+        Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "");
+        long loppuAika = System.nanoTime();
+        long suoritusAika = TimeUnit.NANOSECONDS.toMillis(loppuAika - alkuAika);
+                  
+        System.out.println("Suoritusaika PQ: " + suoritusAika + " ms");
+        
+        assertEquals(expResult, result.size());
+        
+        alkuAika = System.nanoTime();
+        result = instance.etsiPolku(oldX, oldY, newX, newY, "Keko");
+        loppuAika = System.nanoTime();
+        suoritusAika = TimeUnit.NANOSECONDS.toMillis(loppuAika - alkuAika);
+                
+        System.out.println("Suoritusaika Keko: " + suoritusAika + " ms");
+        
+        result = instance.etsiPolku(oldX, oldY, newX, newY, "Avl");
+        loppuAika = System.nanoTime();
+        suoritusAika = TimeUnit.NANOSECONDS.toMillis(loppuAika - alkuAika);
+                
+        System.out.println("Suoritusaika Avl: " + suoritusAika + " ms");
+                
+        //assertEquals(expResult, result.size());
+        
+        
+    }    
+    
+    @Test
+    public void testEtsiPolkuTimerKuvaPieni(){                
+        System.out.println("etsiPolkuTimerKuva");
+        int oldX = 0;
+        int oldY = 0;
+        int newX = 49;
+        int newY = 49;
+        int expResult = 155;
+        Kartta instance = new Kartta<Noodi>("testi2.png");
+        long alkuAika = System.nanoTime();
+        Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "");
+        long loppuAika = System.nanoTime();
+        long suoritusAika = TimeUnit.NANOSECONDS.toMillis(loppuAika - alkuAika);
+                  
+        System.out.println("Suoritusaika PQ: " + suoritusAika + " ms");
+        
+        assertEquals(expResult, result.size());
+        
+        alkuAika = System.nanoTime();
+        result = instance.etsiPolku(oldX, oldY, newX, newY, "Keko");
+        loppuAika = System.nanoTime();
+        suoritusAika = TimeUnit.NANOSECONDS.toMillis(loppuAika - alkuAika);
+                
+        System.out.println("Suoritusaika Keko: " + suoritusAika + " ms");
+        
+        result = instance.etsiPolku(oldX, oldY, newX, newY, "Avl");
+        loppuAika = System.nanoTime();
+        suoritusAika = TimeUnit.NANOSECONDS.toMillis(loppuAika - alkuAika);
+                
+        System.out.println("Suoritusaika Avl: " + suoritusAika + " ms");
+                
+        //assertEquals(expResult, result.size());
         
         
     }
@@ -305,7 +383,7 @@ public class KarttaTest {
         int newX = 999;
         int newY = 999;
         Kartta instance = new Kartta<Noodi>(1000, 1000);
-        int expResult = 1998;
+        int expResult = 1997;
         long alkuAika = System.nanoTime();
         Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "");
         long loppuAika = System.nanoTime();
@@ -314,7 +392,7 @@ public class KarttaTest {
         //System.out.println("Suoritusaika: " + TimeUnit.MILLISECONDS.toSeconds(loppuAika - alkuAika));
         System.out.println("Suoritusaika PQ: " + suoritusAika + " ms");
         
-        assertEquals(expResult, result.size()+1);
+        assertEquals(expResult, result.size());
         
         alkuAika = System.nanoTime();
         result = instance.etsiPolku(oldX, oldY, newX, newY, "Keko");
@@ -323,7 +401,13 @@ public class KarttaTest {
                 
         System.out.println("Suoritusaika Keko: " + suoritusAika + " ms");
         
-        assertEquals(expResult, result.size()+1);        
+        result = instance.etsiPolku(oldX, oldY, newX, newY, "Avl");
+        loppuAika = System.nanoTime();
+        suoritusAika = TimeUnit.NANOSECONDS.toMillis(loppuAika - alkuAika);
+                
+        System.out.println("Suoritusaika Avl: " + suoritusAika + " ms");
+        
+        assertEquals(expResult, result.size());        
     }
     
     @Test
@@ -334,7 +418,7 @@ public class KarttaTest {
         int newX = 1999;
         int newY = 1999;
         Kartta instance = new Kartta<Noodi>(2000, 2000);
-        int expResult = 3998;
+        int expResult = 3997;
         long alkuAika = System.nanoTime();
         Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "");
         long loppuAika = System.nanoTime();
@@ -343,7 +427,7 @@ public class KarttaTest {
         //System.out.println("Suoritusaika: " + TimeUnit.MILLISECONDS.toSeconds(loppuAika - alkuAika));
         System.out.println("Suoritusaika PQ: " + suoritusAika + " ms");
         
-        assertEquals(expResult, result.size()+1);
+        assertEquals(expResult, result.size());
         
         alkuAika = System.nanoTime();
         result = instance.etsiPolku(oldX, oldY, newX, newY, "Keko");
@@ -352,7 +436,13 @@ public class KarttaTest {
                 
         System.out.println("Suoritusaika Keko: " + suoritusAika + " ms");
         
-        assertEquals(expResult, result.size()+1);        
+        result = instance.etsiPolku(oldX, oldY, newX, newY, "Avl");
+        loppuAika = System.nanoTime();
+        suoritusAika = TimeUnit.NANOSECONDS.toMillis(loppuAika - alkuAika);
+                
+        System.out.println("Suoritusaika Avl: " + suoritusAika + " ms");
+        
+        assertEquals(expResult, result.size());        
     }    
     
     /**

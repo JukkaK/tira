@@ -75,20 +75,24 @@ import javax.imageio.ImageIO;
     public void muodostaKuva(Pino polku, BufferedImage kuva){
 <span class="fc" id="L76">        Graphics2D graphics = kuva.createGraphics();</span>
 <span class="fc" id="L77">        System.out.println(&quot;polku size: &quot; + polku.size());</span>
-<span class="fc bfc" id="L78" title="All 2 branches covered.">        for(int i = 0; i &lt;= polku.size()-1; i++){</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        for(int i = 0; i &lt;= polku.size(); i++){</span>
 <span class="fc" id="L79">            graphics = kuva.createGraphics();            </span>
 <span class="fc" id="L80">            graphics.setColor(Color.BLUE);</span>
-<span class="fc" id="L81">            graphics.drawOval(polku.poista().getxPositio(), polku.poista().getyPositio(), 0, 0);            </span>
+<span class="fc" id="L81">            Noodi noodi = polku.poista();</span>
+<span class="fc" id="L82">            int x = noodi.getxPositio();</span>
+<span class="fc" id="L83">            int y = noodi.getyPositio();</span>
+<span class="fc" id="L84">            graphics.drawOval(x, y, 0, 0);</span>
+            //System.out.println(&quot;Piirretty koordinaatteihin: &quot; + x + &quot;,&quot; + y + &quot; laskuri: &quot; + i);
         }
         
-<span class="fc" id="L84">        File outputfile = new File(&quot;tulos.png&quot;);</span>
+<span class="fc" id="L88">        File outputfile = new File(&quot;tulos.png&quot;);</span>
         try {
-<span class="fc" id="L86">            ImageIO.write(kuva, &quot;png&quot;, outputfile);</span>
-<span class="nc" id="L87">        } catch (IOException ex) {</span>
-<span class="nc" id="L88">            System.out.println(&quot;Kuvan kirjoittaminen epäonnistui: &quot; + ex.getMessage());</span>
-<span class="fc" id="L89">        }</span>
+<span class="fc" id="L90">            ImageIO.write(kuva, &quot;png&quot;, outputfile);</span>
+<span class="nc" id="L91">        } catch (IOException ex) {</span>
+<span class="nc" id="L92">            System.out.println(&quot;Kuvan kirjoittaminen epäonnistui: &quot; + ex.getMessage());</span>
+<span class="fc" id="L93">        }</span>
         
-<span class="fc" id="L91">    }</span>
+<span class="fc" id="L95">    }</span>
     
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.201312101107</span></div></body></html>

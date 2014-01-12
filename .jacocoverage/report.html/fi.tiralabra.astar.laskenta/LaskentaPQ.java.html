@@ -142,28 +142,28 @@ public class LaskentaPQ&lt;T extends Noodi&gt; {
         T temp;
 <span class="fc bfc" id="L143" title="All 2 branches covered.">        if (x &gt; 0) {</span>
 <span class="fc" id="L144">            temp = this.getNoodi((x - 1), y);</span>
-<span class="fc bfc" id="L145" title="All 4 branches covered.">            if (temp.getKuljettava()&amp;&amp; !kaydytNoodit.contains(temp)) {</span>
+<span class="pc bpc" id="L145" title="1 of 4 branches missed.">            if (temp.getKuljettava()&amp;&amp; !kaydytNoodit.contains(temp)) {</span>
 <span class="fc" id="L146">                viereinen.add(temp);</span>
             }
         }
 
-<span class="fc bfc" id="L150" title="All 2 branches covered.">        if (x &lt; leveys) {</span>
+<span class="pc bpc" id="L150" title="1 of 2 branches missed.">        if (x &lt; leveys) {</span>
 <span class="fc" id="L151">            temp = this.getNoodi((x + 1), y);</span>
-<span class="fc bfc" id="L152" title="All 4 branches covered.">            if (temp.getKuljettava()&amp;&amp; !kaydytNoodit.contains(temp)) {</span>
+<span class="pc bpc" id="L152" title="2 of 4 branches missed.">            if (temp.getKuljettava()&amp;&amp; !kaydytNoodit.contains(temp)) {</span>
 <span class="fc" id="L153">                viereinen.add(temp);</span>
             }
         }
 
 <span class="fc bfc" id="L157" title="All 2 branches covered.">        if (y &gt; 0) {</span>
 <span class="fc" id="L158">            temp = this.getNoodi(x, (y - 1));</span>
-<span class="fc bfc" id="L159" title="All 4 branches covered.">            if (temp.getKuljettava() &amp;&amp; !kaydytNoodit.contains(temp)) {</span>
-<span class="fc" id="L160">                viereinen.add(temp);</span>
+<span class="pc bpc" id="L159" title="2 of 4 branches missed.">            if (temp.getKuljettava() &amp;&amp; !kaydytNoodit.contains(temp)) {</span>
+<span class="nc" id="L160">                viereinen.add(temp);</span>
             }
         }
 
-<span class="fc bfc" id="L164" title="All 2 branches covered.">        if (y &lt; korkeus) {</span>
+<span class="pc bpc" id="L164" title="1 of 2 branches missed.">        if (y &lt; korkeus) {</span>
 <span class="fc" id="L165">            temp = this.getNoodi(x, (y + 1));</span>
-<span class="fc bfc" id="L166" title="All 4 branches covered.">            if (temp.getKuljettava() &amp;&amp; !kaydytNoodit.contains(temp)) {                </span>
+<span class="pc bpc" id="L166" title="2 of 4 branches missed.">            if (temp.getKuljettava() &amp;&amp; !kaydytNoodit.contains(temp)) {                </span>
 <span class="fc" id="L167">                viereinen.add(temp);</span>
             }
         }
@@ -196,9 +196,9 @@ public class LaskentaPQ&lt;T extends Noodi&gt; {
      * @param valittu 
      */
     private void asetaUusiLyhinMatka(Noodi valittuViereinen, Noodi valittu){
-<span class="fc bfc" id="L199" title="All 2 branches covered.">        if (valittuViereinen.getTehtyMatka()&gt; valittuViereinen.laskeTehtyMatka(valittu)) { </span>
-<span class="fc" id="L200">            valittuViereinen.setEdellinenNoodi(valittu); </span>
-<span class="fc" id="L201">            valittuViereinen.setTehtyMatka(valittu);</span>
+<span class="pc bpc" id="L199" title="1 of 2 branches missed.">        if (valittuViereinen.getTehtyMatka()&gt; valittuViereinen.laskeTehtyMatka(valittu)) { </span>
+<span class="nc" id="L200">            valittuViereinen.setEdellinenNoodi(valittu); </span>
+<span class="nc" id="L201">            valittuViereinen.setTehtyMatka(valittu);</span>
         }
 <span class="fc" id="L203">    }                </span>
     

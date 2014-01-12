@@ -140,35 +140,36 @@ public class Kartta&lt;T extends Noodi&gt; {
     }
     
     /** Lista jossa läpikäymättömät viereiset Noodit */
-    //private PriorityQueue&lt;Noodi&gt; kaymattomatNoodit;
     private Keko kaymattomatNoodit;
-    //private AvlPuu kaymattomatNoodit;
     /** Läpikäydyt Noodit */
     private List&lt;T&gt; kaydytNoodit;
     /** Onko polku löytynyt? */
-<span class="fc" id="L149">    private boolean valmis = false;   </span>
+<span class="fc" id="L147">    private boolean valmis = false;   </span>
     
     public final Pino etsiPolku(int alkuX, int alkuY, int loppuX, int loppuY, String tietorakenne) {
-<span class="pc bpc" id="L152" title="2 of 8 branches missed.">        if (!tarkistaX(alkuX) || !tarkistaY(alkuY) || !tarkistaX(loppuX) || !tarkistaY(loppuY)) {</span>
-<span class="fc" id="L153">            throw new IllegalArgumentException(&quot;Annetun koordinaatin täytyy olla kartalla.&quot;);</span>
+<span class="pc bpc" id="L150" title="2 of 8 branches missed.">        if (!tarkistaX(alkuX) || !tarkistaY(alkuY) || !tarkistaX(loppuX) || !tarkistaY(loppuY)) {</span>
+<span class="fc" id="L151">            throw new IllegalArgumentException(&quot;Annetun koordinaatin täytyy olla kartalla.&quot;);</span>
         }
         Pino polku;    
-<span class="fc bfc" id="L156" title="All 2 branches covered.">        if (tietorakenne.contains(&quot;KEKO&quot;)) {</span>
-<span class="fc" id="L157">            LaskentaKeko laskenta = new LaskentaKeko(this.noodit, this.leveys, this.korkeus);</span>
-<span class="fc" id="L158">            polku = laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);                                    </span>
+        //Ohjelmaa voidaan ajaa kolmella eri tietorakenteella joka tallentaa 
+        //käymättömät noodit. Keko-toteutus on oletusarvona.
+<span class="fc bfc" id="L156" title="All 2 branches covered.">        if (tietorakenne.contains(&quot;PQ&quot;)) {</span>
+<span class="fc" id="L157">            LaskentaPQ laskenta = new LaskentaPQ(this.noodit, this.leveys, this.korkeus);</span>
+<span class="fc" id="L158">            polku = laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);       </span>
 <span class="pc bpc" id="L159" title="1 of 2 branches missed.">        } else if (tietorakenne.contains(&quot;AVL&quot;)) {</span>
 <span class="nc" id="L160">            LaskentaAvl laskenta = new LaskentaAvl(this.noodit, this.leveys, this.korkeus);</span>
 <span class="nc" id="L161">            polku = laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);            </span>
-        } 
-<span class="fc" id="L163">        LaskentaPQ laskenta = new LaskentaPQ(this.noodit, this.leveys, this.korkeus);</span>
-<span class="fc" id="L164">        polku = laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);                                         </span>
+        }         
+<span class="fc" id="L163">            LaskentaKeko laskenta = new LaskentaKeko(this.noodit, this.leveys, this.korkeus);</span>
+<span class="fc" id="L164">            polku = laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);                                    </span>
         
         
-<span class="fc bfc" id="L167" title="All 2 branches covered.">        if(this.kuva != null){</span>
-<span class="fc" id="L168">            piirraKuva(polku.teeKopio());</span>
+        
+<span class="fc bfc" id="L168" title="All 2 branches covered.">        if(this.kuva != null){</span>
+<span class="fc" id="L169">            piirraKuva(polku.teeKopio());</span>
         }
         
-<span class="fc" id="L171">        return polku;</span>
+<span class="fc" id="L172">        return polku;</span>
     }   
     
     /**
@@ -177,10 +178,10 @@ public class Kartta&lt;T extends Noodi&gt; {
      * @return boolean
      */
     private boolean tarkistaX(int x){
-<span class="fc bfc" id="L180" title="All 4 branches covered.">        if (x &lt; 0 || x &gt; this.leveys) {</span>
-<span class="fc" id="L181">            return false;</span>
+<span class="fc bfc" id="L181" title="All 4 branches covered.">        if (x &lt; 0 || x &gt; this.leveys) {</span>
+<span class="fc" id="L182">            return false;</span>
         }
-<span class="fc" id="L183">        return true;</span>
+<span class="fc" id="L184">        return true;</span>
     }
     
     /**
@@ -189,10 +190,10 @@ public class Kartta&lt;T extends Noodi&gt; {
      * @return boolean
      */
     private boolean tarkistaY(int y){
-<span class="pc bpc" id="L192" title="2 of 4 branches missed.">        if (y &lt; 0 || y &gt; this.korkeus) {</span>
-<span class="nc" id="L193">            return false;</span>
+<span class="pc bpc" id="L193" title="2 of 4 branches missed.">        if (y &lt; 0 || y &gt; this.korkeus) {</span>
+<span class="nc" id="L194">            return false;</span>
         }
-<span class="fc" id="L195">        return true;</span>
+<span class="fc" id="L196">        return true;</span>
     }
         
 }
