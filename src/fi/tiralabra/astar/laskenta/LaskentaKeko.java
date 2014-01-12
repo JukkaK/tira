@@ -118,7 +118,7 @@ public class LaskentaKeko<T extends Noodi> {
         T valittu = maali;
         boolean valmis = false;
         while (!valmis) {
-            polku.tyonna(maali);
+            polku.tyonna(valittu);
             valittu = (T) valittu.getEdellinenNoodi();
 
             if (valittu.equals(alku)) {

@@ -75,10 +75,14 @@ public class KuvaLataaja<T extends Noodi> {
     public void muodostaKuva(Pino polku, BufferedImage kuva){
         Graphics2D graphics = kuva.createGraphics();
         System.out.println("polku size: " + polku.size());
-        for(int i = 0; i <= polku.size()-1; i++){
+        for(int i = 0; i <= polku.size(); i++){
             graphics = kuva.createGraphics();            
             graphics.setColor(Color.BLUE);
-            graphics.drawOval(polku.poista().getxPositio(), polku.poista().getyPositio(), 0, 0);            
+            Noodi noodi = polku.poista();
+            int x = noodi.getxPositio();
+            int y = noodi.getyPositio();
+            graphics.drawOval(x, y, 0, 0);
+            System.out.println("Piirretty koordinaatteihin: " + x + "," + y + " laskuri: " + i);
         }
         
         File outputfile = new File("tulos.png");

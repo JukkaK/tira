@@ -140,9 +140,7 @@ public class Kartta<T extends Noodi> {
     }
     
     /** Lista jossa läpikäymättömät viereiset Noodit */
-    //private PriorityQueue<Noodi> kaymattomatNoodit;
     private Keko kaymattomatNoodit;
-    //private AvlPuu kaymattomatNoodit;
     /** Läpikäydyt Noodit */
     private List<T> kaydytNoodit;
     /** Onko polku löytynyt? */
@@ -153,15 +151,18 @@ public class Kartta<T extends Noodi> {
             throw new IllegalArgumentException("Annetun koordinaatin täytyy olla kartalla.");
         }
         Pino polku;    
-        if (tietorakenne.contains("KEKO")) {
-            LaskentaKeko laskenta = new LaskentaKeko(this.noodit, this.leveys, this.korkeus);
-            polku = laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);                                    
+        //Ohjelmaa voidaan ajaa kolmella eri tietorakenteella joka tallentaa 
+        //käymättömät noodit. Keko-toteutus on oletusarvona.
+        if (tietorakenne.contains("PQ")) {
+            LaskentaPQ laskenta = new LaskentaPQ(this.noodit, this.leveys, this.korkeus);
+            polku = laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);       
         } else if (tietorakenne.contains("AVL")) {
             LaskentaAvl laskenta = new LaskentaAvl(this.noodit, this.leveys, this.korkeus);
             polku = laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);            
-        } 
-        LaskentaPQ laskenta = new LaskentaPQ(this.noodit, this.leveys, this.korkeus);
-        polku = laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);                                         
+        }         
+            LaskentaKeko laskenta = new LaskentaKeko(this.noodit, this.leveys, this.korkeus);
+            polku = laskenta.etsiPolku(alkuX, alkuY, loppuX, loppuY);                                    
+        
         
         
         if(this.kuva != null){

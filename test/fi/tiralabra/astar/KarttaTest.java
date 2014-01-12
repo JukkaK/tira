@@ -85,7 +85,7 @@ public class KarttaTest {
         int newY = 40;
         Kartta instance = new Kartta<Noodi>(50, 50);
         int expResult = 79;
-        Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "");
+        Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "PQ");
                 
         assertEquals(expResult, result.size());
         System.out.println("Tuloksessa noodeja yhteensä: " + result.size()); 
@@ -108,7 +108,7 @@ public class KarttaTest {
         int newY = 40;
         Kartta instance = new Kartta<Noodi>(50, 50);
         int expResult = 79;        
-        Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "KEKO");
+        Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "");
         System.out.println("Tuloksessa noodeja yhteensä: " + result.size());                
         assertEquals(expResult, result.size());        
         while(!result.onkoTyhja()){
@@ -133,9 +133,8 @@ public class KarttaTest {
         int newX = 40;
         int newY = 40;
         Kartta instance = new Kartta<Noodi>(50, 50);
-        int expResult = 80;
-        List<Noodi> result = instance.etsiPolku(oldX, oldY, newX, newY, "AVL");
-        Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "KEKO");
+        int expResult = 80;        
+        Pino result = instance.etsiPolku(oldX, oldY, newX, newY, "AVL");
         Pino polku = result;
                 
         while(!result.onkoTyhja()){

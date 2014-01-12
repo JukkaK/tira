@@ -60,10 +60,10 @@ public class Main {
           
           //Loppupisteistä vähennetään yksi koska oikeasti indeksit alkavat nollasta.
           Pino polku = kartta.etsiPolku(Integer.parseInt(xAlku), Integer.parseInt(yAlku),
-          Integer.parseInt(xLoppu)-1, Integer.parseInt(yLoppu)-1, "");
+          Integer.parseInt(xLoppu), Integer.parseInt(yLoppu), "");
                   
           
-        if (polku.size() == 0) {
+        if (polku.size() == -1) {
             System.out.println("Polkua ei löytynyt!");
         } else {
             System.out.println("Läpikuljettujen noodien määrä:" + polku.size());
