@@ -1,6 +1,6 @@
 A* -reitinhakualgoritmin toteutus.
 
-Huomioita 12.01.2014
+Käyttöohje ja huomioita 12.01.2014
 --------------------
 
 - Dokumentaatio (ml. javadocs) löytyy /docs -kansiosta.
@@ -8,3 +8,20 @@ Huomioita 12.01.2014
   output-ikkunassa esimerkin ohjelman kääntämisestä ja ajamisesta komentoriviltä.
 - Yksikkötestien käyttämän kuvatiedostot tallennetaan sovelluksen juurikansioon. demo_testitapaukset.txt -tiedostosta
   tämän kansion juuressa löytyvät kuvien nimet ja esimerkkikoordinaatteja.
+- Ajettava .jar -tiedosto /docs -kansiossa.
+
+Ohjelman käyttö:
+----------------
+
+Käynnistä ohjelma. 
+
+- Mikäli haluat käyttää kuvatiedostoa, syötä 1. 
+ - Tämän jälkeen syötä ajokansion juuressa olevan kuvan nimi.
+ - Tämän jälkeen syötä: aloituspisteen x-koordinaatti, aloituspisteen y-koordinaatti,
+   lopetuspisteen x-koordinaatti, lopetuspisteen y-koordinaatti.
+ - Ohjelma suorittuu ja lopettaa toimintansa.
+- Mikäli haluat käyttää luoda tyhjän kartan kokoa X x Y. 
+ - Syötä korkeus (x) ja leveys(y).
+ - Tämän jälkeen syötä: aloituspisteen x-koordinaatti, aloituspisteen y-koordinaatti,
+   lopetuspisteen x-koordinaatti, lopetuspisteen y-koordinaatti.
+ - Ohjelma suorittuu ja lopettaa toimintansa.
